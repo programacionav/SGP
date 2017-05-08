@@ -8,5 +8,10 @@ PRIMARY KEY(idCursado),
 FOREIGN KEY(idMateria) REFERENCES materia(idMateria)
 )
 CREATE TABLE designado(
-funcion
+funcion varChar(100) NOT NULL,
+idCursado int(11)NOT NULL,
+idDocente int(11)NOT NULL,
+PRIMARY KEY(idDocente, idCursado),
+FOREIGN KEY(idCursado)REFERENCES cursado(idCursado),
+FOREIGN KEY(idDocente) REFERENCES docente(idDocente)
 )
