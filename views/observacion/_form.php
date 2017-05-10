@@ -2,7 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
+use yii\helpers\ArrayHelper;
+use app\models\Estadoobservacion;
 /* @var $this yii\web\View */
 /* @var $model app\models\Observacion */
 /* @var $form yii\widgets\ActiveForm */
@@ -14,7 +15,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'observacion')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'idEstadoO')->textInput() ?>
+    <?php $estadoO = ArrayHelper::map(Estadoobservacion::find()->all(), 'idEstadoO', 'descripcion');?>
+    <?= $form->field($model, 'idEstadoO')->dropDownList($estadoO,['prompt'=>'Por favor elija un estado']) ?>
+
 
     <?= $form->field($model, 'idUsuario')->textInput() ?>
 

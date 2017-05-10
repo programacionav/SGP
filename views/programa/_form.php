@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'orientacion')->textInput(['maxlength' => true]) ?>
 
-    <!-- $form->field($model, 'añoActual')->textInput(['maxlength' => true]) -->
+    <?= $form->field($model, 'anioActual')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'programaAnalitico')->textarea(['rows' => 6]) ?>
 
@@ -27,6 +27,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'horariosConsulta')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'bibliografia')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'cuatrimestre')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

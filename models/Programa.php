@@ -10,12 +10,13 @@ use Yii;
  * @property integer $idPrograma
  * @property integer $idCursado
  * @property string $orientacion
- * @property string $añoActual
+ * @property string $anioActual
  * @property string $programaAnalitico
  * @property string $propuestaMetodologica
  * @property string $condicionesAcredEvalu
  * @property string $horariosConsulta
  * @property string $bibliografia
+ * @property string $cuatrimestre
  *
  * @property Cambioestado[] $cambioestados
  * @property Observacion[] $observacions
@@ -37,11 +38,12 @@ class Programa extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idCursado', 'orientacion', 'añoActual', 'programaAnalitico', 'propuestaMetodologica', 'condicionesAcredEvalu', 'horariosConsulta', 'bibliografia'], 'required'],
+            [['idCursado', 'orientacion', 'anioActual', 'programaAnalitico', 'propuestaMetodologica', 'condicionesAcredEvalu', 'horariosConsulta', 'bibliografia', 'cuatrimestre'], 'required'],
             [['idCursado'], 'integer'],
-            [['añoActual'], 'safe'],
+            [['anioActual'], 'safe'],
             [['programaAnalitico'], 'string'],
             [['orientacion', 'propuestaMetodologica', 'condicionesAcredEvalu', 'horariosConsulta', 'bibliografia'], 'string', 'max' => 200],
+            [['cuatrimestre'], 'string', 'max' => 50],
             [['idCursado'], 'exist', 'skipOnError' => true, 'targetClass' => Cursado::className(), 'targetAttribute' => ['idCursado' => 'idCursado']],
         ];
     }
@@ -52,15 +54,16 @@ class Programa extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idPrograma' => Yii::t('app', 'Id Programa'),
-            'idCursado' => Yii::t('app', 'Id Cursado'),
-            'orientacion' => Yii::t('app', 'Orientacion'),
-            'añoActual' => Yii::t('app', 'Año Actual'),
-            'programaAnalitico' => Yii::t('app', 'Programa Analitico'),
-            'propuestaMetodologica' => Yii::t('app', 'Propuesta Metodologica'),
-            'condicionesAcredEvalu' => Yii::t('app', 'Condiciones Acred Evalu'),
-            'horariosConsulta' => Yii::t('app', 'Horarios Consulta'),
-            'bibliografia' => Yii::t('app', 'Bibliografia'),
+            'idPrograma' => 'Id Programa',
+            'idCursado' => 'Id Cursado',
+            'orientacion' => 'Orientacion',
+            'anioActual' => 'Anio Actual',
+            'programaAnalitico' => 'Programa Analitico',
+            'propuestaMetodologica' => 'Propuesta Metodologica',
+            'condicionesAcredEvalu' => 'Condiciones Acred Evalu',
+            'horariosConsulta' => 'Horarios Consulta',
+            'bibliografia' => 'Bibliografia',
+            'cuatrimestre' => 'Cuatrimestre',
         ];
     }
 

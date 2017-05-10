@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'orientacion') ?>
 
-    <?= $form->field($model, 'añoActual') ?>
+    <?= $form->field($model, 'anioActual') ?>
 
     <?= $form->field($model, 'programaAnalitico') ?>
 
@@ -32,6 +32,8 @@ use yii\widgets\ActiveForm;
     <?php // echo $form->field($model, 'horariosConsulta') ?>
 
     <?php // echo $form->field($model, 'bibliografia') ?>
+
+    <?php // echo $form->field($model, 'cuatrimestre') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

@@ -19,7 +19,7 @@ class ProgramaSearch extends Programa
     {
         return [
             [['idPrograma', 'idCursado'], 'integer'],
-            [['orientacion', 'añoActual', 'programaAnalitico', 'propuestaMetodologica', 'condicionesAcredEvalu', 'horariosConsulta', 'bibliografia'], 'safe'],
+            [['orientacion', 'anioActual', 'programaAnalitico', 'propuestaMetodologica', 'condicionesAcredEvalu', 'horariosConsulta', 'bibliografia', 'cuatrimestre'], 'safe'],
         ];
     }
 
@@ -61,7 +61,7 @@ class ProgramaSearch extends Programa
         $query->andFilterWhere([
             'idPrograma' => $this->idPrograma,
             'idCursado' => $this->idCursado,
-            'añoActual' => $this->añoActual,
+            'anioActual' => $this->anioActual,
         ]);
 
         $query->andFilterWhere(['like', 'orientacion', $this->orientacion])
@@ -69,7 +69,8 @@ class ProgramaSearch extends Programa
             ->andFilterWhere(['like', 'propuestaMetodologica', $this->propuestaMetodologica])
             ->andFilterWhere(['like', 'condicionesAcredEvalu', $this->condicionesAcredEvalu])
             ->andFilterWhere(['like', 'horariosConsulta', $this->horariosConsulta])
-            ->andFilterWhere(['like', 'bibliografia', $this->bibliografia]);
+            ->andFilterWhere(['like', 'bibliografia', $this->bibliografia])
+            ->andFilterWhere(['like', 'cuatrimestre', $this->cuatrimestre]);
 
         return $dataProvider;
     }
