@@ -52,14 +52,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'condicionesAcredEvalu',
             'horariosConsulta',
             'bibliografia',
-            'cuatrimestre',
         ],
     ])
 -->
     <table class="table table-bordered">
     <tbody>
       <tr>
-        <td colspan="3"><strong>ASIGNATURA:</strong></td>
+        <td colspan="3"><strong>ASIGNATURA:</strong><?=$model->idCursado0->idMateria0->nombre?></td>
       </tr>
       <tr>
         <td colspan="3"><strong>DEPARTAMENTO:</strong></td>
@@ -69,12 +68,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <td colspan="2"><strong>ORIENTACION:</strong><?=$model->orientacion;?></td>
       </tr>
       <tr>
-        <td><strong>CARRERA:</strong></td>
-        <td><strong>PLAN:</strong></td>
+        <td><strong>CARRERA:</strong><?=$model->idCursado0->idMateria0->idPlan0->idCarrera0->nombre?></td>
+        <td><strong>PLAN:</strong><?=$model->idCursado0->idMateria0->idPlan0->numOrd?></td>
         <td><strong>AÑO:</strong></td>
       </tr>
       <tr>
-        <td colspan="1"><strong>CUATRIMESTRE:</strong><?=$model->cuatrimestre;?></td>
+        <td colspan="1"><strong>CUATRIMESTRE:</strong><?=$model->idCursado0->cuatrimestre;?></td>
         <td colspan="2"><strong>AÑO:</strong><?=$model->anioActual;?></td>
       </tr>
       <tr>

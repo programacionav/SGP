@@ -16,7 +16,6 @@ use Yii;
  * @property string $condicionesAcredEvalu
  * @property string $horariosConsulta
  * @property string $bibliografia
- * @property string $cuatrimestre
  *
  * @property Cambioestado[] $cambioestados
  * @property Observacion[] $observacions
@@ -38,12 +37,11 @@ class Programa extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idCursado', 'orientacion', 'anioActual', 'programaAnalitico', 'propuestaMetodologica', 'condicionesAcredEvalu', 'horariosConsulta', 'bibliografia', 'cuatrimestre'], 'required'],
+            [['idCursado', 'orientacion', 'anioActual', 'programaAnalitico', 'propuestaMetodologica', 'condicionesAcredEvalu', 'horariosConsulta', 'bibliografia'], 'required'],
             [['idCursado'], 'integer'],
             [['anioActual'], 'safe'],
             [['programaAnalitico'], 'string'],
             [['orientacion', 'propuestaMetodologica', 'condicionesAcredEvalu', 'horariosConsulta', 'bibliografia'], 'string', 'max' => 200],
-            [['cuatrimestre'], 'string', 'max' => 50],
             [['idCursado'], 'exist', 'skipOnError' => true, 'targetClass' => Cursado::className(), 'targetAttribute' => ['idCursado' => 'idCursado']],
         ];
     }
@@ -63,7 +61,6 @@ class Programa extends \yii\db\ActiveRecord
             'condicionesAcredEvalu' => 'Condiciones Acred Evalu',
             'horariosConsulta' => 'Horarios Consulta',
             'bibliografia' => 'Bibliografia',
-            'cuatrimestre' => 'Cuatrimestre',
         ];
     }
 

@@ -33,7 +33,6 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'condicionesAcredEvalu',
             // 'horariosConsulta',
             // 'bibliografia',
-            // 'cuatrimestre',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
