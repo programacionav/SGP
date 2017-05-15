@@ -18,6 +18,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'apellido')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'mail')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'idDedicacion')->textInput() ?>
 
     <div class="form-group">

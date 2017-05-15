@@ -11,6 +11,7 @@ use Yii;
  * @property string $cuil
  * @property string $nombre
  * @property string $apellido
+ * @property string $mail
  * @property integer $idDedicacion
  *
  * @property Cargodocente[] $cargodocentes
@@ -39,10 +40,11 @@ class Docente extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['cuil', 'nombre', 'apellido', 'idDedicacion'], 'required'],
+            [['cuil', 'nombre', 'apellido', 'mail', 'idDedicacion'], 'required'],
             [['idDedicacion'], 'integer'],
             [['cuil'], 'string', 'max' => 20],
             [['nombre', 'apellido'], 'string', 'max' => 50],
+            [['mail'], 'string', 'max' => 100],
             [['idDedicacion'], 'exist', 'skipOnError' => true, 'targetClass' => Dedicacion::className(), 'targetAttribute' => ['idDedicacion' => 'idDedicacion']],
         ];
     }
@@ -57,6 +59,7 @@ class Docente extends \yii\db\ActiveRecord
             'cuil' => 'Cuil',
             'nombre' => 'Nombre',
             'apellido' => 'Apellido',
+            'mail' => 'Mail',
             'idDedicacion' => 'Id Dedicacion',
         ];
     }

@@ -19,7 +19,7 @@ class DocenteSearch extends Docente
     {
         return [
             [['idDocente', 'idDedicacion'], 'integer'],
-            [['cuil', 'nombre', 'apellido'], 'safe'],
+            [['cuil', 'nombre', 'apellido', 'mail'], 'safe'],
         ];
     }
 
@@ -65,7 +65,8 @@ class DocenteSearch extends Docente
 
         $query->andFilterWhere(['like', 'cuil', $this->cuil])
             ->andFilterWhere(['like', 'nombre', $this->nombre])
-            ->andFilterWhere(['like', 'apellido', $this->apellido]);
+            ->andFilterWhere(['like', 'apellido', $this->apellido])
+            ->andFilterWhere(['like', 'mail', $this->mail]);
 
         return $dataProvider;
     }
