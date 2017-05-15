@@ -4,10 +4,14 @@
 # netbeans project files
 nbproject
 
+#Base de datos
+config/db.php
+
 # zend studio for eclipse project files
 .buildpath
 .project
 .settings
+.metadata
 
 # windows thumbnail cache
 Thumbs.db
