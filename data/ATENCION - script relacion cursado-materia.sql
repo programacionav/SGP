@@ -1,0 +1,1 @@
+ALTER TABLE `cursado` ADD FOREIGN KEY (`idMateria`) REFERENCES `materia`(`idMateria`) ON DELETE RESTRICT ON UPDATE RESTRICT;
