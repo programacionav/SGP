@@ -23,6 +23,10 @@ use Yii;
  */
 class Programa extends \yii\db\ActiveRecord
 {
+    const ABIERTO = 1;
+    const VALIDADO = 2 ;
+    const PUBLICADO = 3;
+
     /**
      * @inheritdoc
      */
@@ -87,4 +91,54 @@ class Programa extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Cursado::className(), ['idCursado' => 'idCursado']);
     }
+
+    //Verifica estado de el programa. 
+    public function getIsabierto()
+    {
+        return 
+        Cambioestado::find()
+            ->joinWith('cambioestados')
+            ->where(['idPrograma' => $this->idPrograma,'idEstadoP' => CambioEstado::find()->where(['idPrograma'=>$this->idPrograma])->max('idEstadoP')])
+            ->one()->idEstadoP == self::ABIERTO ? true : false;
+
+            
+    }
+
+    public function afterSave($insert, $changedAttributes) {
+        parent::afterSave($insert, $changedAttributes);
+        
+            $cambioEstado = new Cambioestado;
+
+            $aData['Cambioestado']['idUsuario'] = 1;//Cambiar por usuario logueado 
+            $aData['Cambioestado']['fecha'] = date('Y-m-d');
+            $aData['Cambioestado']['idEstadoP'] = self::ABIERTO;
+            $aData['Cambioestado']['idPrograma'] = $this->idPrograma;
+            
+            if($cambioEstado->load($aData) && $cambioEstado->save())
+            {
+                return true;
+            }else{
+                false;
+            }
+        
+        
+    }
+
+    //Retorna ultimo programa de un cursado especifico
+    public static function Lastprograma($idCursado)
+    {
+        if(Programa::find()->where(['idCursado'=>$idCursado])->count() > 0)
+        {
+            return Programa::find()
+            ->where(['idPrograma' => Programa::find()->where(['idCursado'=>$idCursado])->max('idPrograma')])
+            ->one();
+        }
+        else{
+            $p = new Programa;
+            $p->idCursado = $idCursado;
+            $p->anioActual = date('Y');
+            return $p;
+        }
+    }
+
 }

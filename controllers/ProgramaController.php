@@ -65,11 +65,22 @@ class ProgramaController extends Controller
     {
         $model = new Programa();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idPrograma]);
+        //$model->idCursado = $_GET['idCursado']; Descomentar esto cuando este listo 
+        $model->idCursado = 1;
+        $model->anioActual = date('Y');
+        
+        if(isset(Yii::$app->request->post()['Programa'])){
+            if($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->idPrograma]);
+            }
+            else{
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
         } else {
             return $this->render('create', [
-                'model' => $model,
+                'model' => isset($_GET['bLastPrograma']) ? Programa::lastprograma($model->idCursado) : $model,
             ]);
         }
     }
@@ -101,7 +112,11 @@ class ProgramaController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if($this->findModel($id)->isabierto())
+        {
+            //Si el programa se encuentra abierto puede borrarse
+            $this->findModel($id)->delete();
+        }
 
         return $this->redirect(['index']);
     }
