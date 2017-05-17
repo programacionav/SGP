@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
            
             'numOrd',
-           
+           'idCarrera0.nombre', 
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
