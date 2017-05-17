@@ -8,6 +8,8 @@ use app\models\ProgramaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use kartik\mpdf\Pdf;
+
 
 /**
  * ProgramaController implements the CRUD actions for Programa model.
@@ -65,10 +67,10 @@ class ProgramaController extends Controller
     {
         $model = new Programa();
 
-        //$model->idCursado = $_GET['idCursado']; Descomentar esto cuando este listo 
-        $model->idCursado = 1;
+        //$model->idCursado = $_GET['idCursado']; Descomentar esto cuando este listo
+        $model->idCursado = 3;
         $model->anioActual = date('Y');
-        
+
         if(isset(Yii::$app->request->post()['Programa'])){
             if($model->load(Yii::$app->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->idPrograma]);
@@ -136,4 +138,25 @@ class ProgramaController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+
+public function actionReport($id) {
+    // get your HTML raw content without any layouts or scripts
+    $pdf = new Pdf([
+        'mode' => Pdf::MODE_BLANK, // leaner size using standard fonts
+        'content' => $this->renderPartial('pdf',[
+            'model' => $this->findModel($id),
+        ]),
+        'options' => [
+            'title' => 'Programa',
+            'subject' => ''
+        ],
+        'methods' => [
+            'SetHeader' => [],
+            'SetFooter' => [],
+        ]
+    ]);
+    return $pdf->render();
+}
+
 }

@@ -36,6 +36,8 @@ $this->params['breadcrumbs'][] = $this->title;
           'data' => [
                   'confirm' => 'Esta seguro que desea aprobar este programa?'],
                   ]) ?>
+        <?= Html::a('Crear pdf',Url::toRoute(['programa/report','id' => $model->idPrograma]), ['class' => 'btn btn-primary pull-right','target'=>'_blank']) ?>
+
 
 
     </p>
@@ -118,8 +120,11 @@ $this->params['breadcrumbs'][] = $this->title;
     </tbody>
   </table>
 <!-- en teoria va a traer las obersaciones,falta hacerle muchas cosas a esto-->
-  <?php foreach ( $model->observacions as $recorre) {
-    echo $recorre->observacion;
+<?php foreach ( $model->observacions as $recorre) {
+if ( empty($recorre) == false ){
+  echo "<strong>observaciones</strong><br>";
+}
+echo  $recorre->observacion;
   }?>
 
 </div>
