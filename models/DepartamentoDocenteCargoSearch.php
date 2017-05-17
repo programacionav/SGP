@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Departamentodocente;
+use app\models\DepartamentoDocenteCargo;
 
 /**
- * DepartamentodocenteSearch represents the model behind the search form about `app\models\Departamentodocente`.
+ * DepartamentoDocenteCargoSearch represents the model behind the search form about `app\models\DepartamentoDocenteCargo`.
  */
-class DepartamentodocenteSearch extends Departamentodocente
+class DepartamentoDocenteCargoSearch extends DepartamentoDocenteCargo
 {
     /**
      * @inheritdoc
@@ -18,7 +18,7 @@ class DepartamentodocenteSearch extends Departamentodocente
     public function rules()
     {
         return [
-            [['idDocente', 'idDepartamento'], 'integer'],
+            [['idDocente', 'idDepartamento', 'idCargo'], 'integer'],
         ];
     }
 
@@ -40,7 +40,7 @@ class DepartamentodocenteSearch extends Departamentodocente
      */
     public function search($params)
     {
-        $query = Departamentodocente::find();
+        $query = DepartamentoDocenteCargo::find();
 
         // add conditions that should always apply here
 
@@ -60,6 +60,7 @@ class DepartamentodocenteSearch extends Departamentodocente
         $query->andFilterWhere([
             'idDocente' => $this->idDocente,
             'idDepartamento' => $this->idDepartamento,
+            'idCargo' => $this->idCargo,
         ]);
 
         return $dataProvider;

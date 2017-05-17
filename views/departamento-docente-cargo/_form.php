@@ -4,15 +4,17 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\CargoDocente */
+/* @var $model app\models\DepartamentoDocenteCargo */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="cargo-docente-form">
+<div class="departamento-docente-cargo-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'idDocente')->textInput() ?>
+
+    <?= $form->field($model, 'idDepartamento')->textInput() ?>
 
     <?= $form->field($model, 'idCargo')->textInput() ?>
 

@@ -5,22 +5,24 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "departamentodocente".
+ * This is the model class for table "departamentodocentecargo".
  *
  * @property integer $idDocente
  * @property integer $idDepartamento
+ * @property integer $idCargo
  *
  * @property Docente $idDocente0
  * @property Departamento $idDepartamento0
+ * @property Cargo $idCargo0
  */
-class Departamentodocente extends \yii\db\ActiveRecord
+class DepartamentoDocenteCargo extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'departamentodocente';
+        return 'departamentodocentecargo';
     }
 
     /**
@@ -29,10 +31,11 @@ class Departamentodocente extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idDocente', 'idDepartamento'], 'required'],
-            [['idDocente', 'idDepartamento'], 'integer'],
+            [['idDocente', 'idDepartamento', 'idCargo'], 'required'],
+            [['idDocente', 'idDepartamento', 'idCargo'], 'integer'],
             [['idDocente'], 'exist', 'skipOnError' => true, 'targetClass' => Docente::className(), 'targetAttribute' => ['idDocente' => 'idDocente']],
             [['idDepartamento'], 'exist', 'skipOnError' => true, 'targetClass' => Departamento::className(), 'targetAttribute' => ['idDepartamento' => 'idDepartamento']],
+            [['idCargo'], 'exist', 'skipOnError' => true, 'targetClass' => Cargo::className(), 'targetAttribute' => ['idCargo' => 'idCargo']],
         ];
     }
 
@@ -44,6 +47,7 @@ class Departamentodocente extends \yii\db\ActiveRecord
         return [
             'idDocente' => 'Id Docente',
             'idDepartamento' => 'Id Departamento',
+            'idCargo' => 'Id Cargo',
         ];
     }
 
@@ -61,5 +65,13 @@ class Departamentodocente extends \yii\db\ActiveRecord
     public function getIdDepartamento0()
     {
         return $this->hasOne(Departamento::className(), ['idDepartamento' => 'idDepartamento']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdCargo0()
+    {
+        return $this->hasOne(Cargo::className(), ['idCargo' => 'idCargo']);
     }
 }
