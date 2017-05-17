@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\PlanSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Plans';
+$this->title = 'Plan';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="plan-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Plan', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear Plan', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -24,9 +24,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'idPlan',
+           
             'numOrd',
-            'idCarrera',
+           'idCarrera0.nombre', 
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

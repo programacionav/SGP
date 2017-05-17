@@ -25,13 +25,9 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'idPlan',
-            'numOrd',
-            'idCarrera',
-        ],
-    ]) ?>
+    <?= ListView::widget([ 
+        'dataProvider' => $dataProvider,
+       'itemView'=>'_view',
+    ]); ?>
 
 </div>
