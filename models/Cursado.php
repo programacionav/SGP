@@ -13,6 +13,7 @@ use Yii;
  * @property integer $idMateria
  * @property integer $cuatrimestre
  *
+ * @property Materia $idMateria0
  * @property Designado[] $designados
  * @property Docente[] $idDocentes
  * @property Programa[] $programas
@@ -36,6 +37,7 @@ class Cursado extends \yii\db\ActiveRecord
             [['fechaInicio', 'fechaFin'], 'required'],
             [['fechaInicio', 'fechaFin'], 'safe'],
             [['idMateria', 'cuatrimestre'], 'integer'],
+            [['idMateria'], 'exist', 'skipOnError' => true, 'targetClass' => Materia::className(), 'targetAttribute' => ['idMateria' => 'idMateria']],
         ];
     }
 
@@ -51,6 +53,14 @@ class Cursado extends \yii\db\ActiveRecord
             'idMateria' => 'Id Materia',
             'cuatrimestre' => 'Cuatrimestre',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdMateria0()
+    {
+        return $this->hasOne(Materia::className(), ['idMateria' => 'idMateria']);
     }
 
     /**
