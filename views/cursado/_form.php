@@ -20,13 +20,11 @@ use app\models\Materia;
      ?>
      <?= $form->field($model, 'idMateria')->dropdownList(
         $item,
-    ['prompt'=>'Elija la noticia']
-    ); ?>
+        ['prompt'=>'Elija la noticia']
+      ); ?>
     <?= $form->field($model, 'fechaInicio')->textInput() ?>
 
     <?= $form->field($model, 'fechaFin')->textInput() ?>
-
-    <?= $form->field($model, 'idMateria')->textInput() ?>
 
     <?= $form->field($model, 'cuatrimestre')->textInput() ?>
 
