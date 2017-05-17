@@ -19,7 +19,7 @@ class MateriaSearch extends Materia
     {
         return [
             [['codigo', 'idMateria', 'idDepartamento', 'idPlan'], 'integer'],
-            [['nombre', 'año', 'hora', 'objetivo', 'contenidoMinimo'], 'safe'],
+            [['nombre', 'anio', 'hora', 'objetivo', 'contenidoMinimo'], 'safe'],
         ];
     }
 
@@ -66,7 +66,7 @@ class MateriaSearch extends Materia
         ]);
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre])
-            ->andFilterWhere(['like', 'año', $this->año])
+            ->andFilterWhere(['like', 'anio', $this->anio])
             ->andFilterWhere(['like', 'hora', $this->hora])
             ->andFilterWhere(['like', 'objetivo', $this->objetivo])
             ->andFilterWhere(['like', 'contenidoMinimo', $this->contenidoMinimo]);

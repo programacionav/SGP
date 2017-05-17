@@ -51,7 +51,7 @@ class PlanController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        return $this->render('viewPlan', [
             'model' => $this->findModel($id),
         ]);
     }

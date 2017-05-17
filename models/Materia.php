@@ -39,10 +39,10 @@ class Materia extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['codigo', 'nombre', 'año', 'hora', 'objetivo', 'contenidoMinimo', 'idDepartamento', 'idPlan'], 'required'],
+            [['codigo', 'nombre', 'anio', 'hora', 'objetivo', 'contenidoMinimo', 'idDepartamento', 'idPlan'], 'required'],
             [['codigo', 'idDepartamento', 'idPlan'], 'integer'],
             [['nombre'], 'string', 'max' => 40],
-            [['año', 'hora'], 'string', 'max' => 20],
+            [['anio', 'hora'], 'string', 'max' => 20],
             [['objetivo'], 'string', 'max' => 700],
             [['contenidoMinimo'], 'string', 'max' => 1500],
             [['idPlan'], 'exist', 'skipOnError' => true, 'targetClass' => Plan::className(), 'targetAttribute' => ['idPlan' => 'idPlan']],
@@ -57,7 +57,7 @@ class Materia extends \yii\db\ActiveRecord
         return [
             'codigo' => 'Codigo',
             'nombre' => 'Nombre',
-            'año' => 'A�o',
+            'anio' => 'Anio',
             'hora' => 'Hora',
             'objetivo' => 'Objetivo',
             'contenidoMinimo' => 'Contenido Minimo',
