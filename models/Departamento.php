@@ -31,7 +31,8 @@ class Departamento extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'idDocente'], 'required'],
+            [['nombre'], 'required'],
+			[['idDocente'], 'required', 'message'=>'Ingrese el Director'],
             [['idDocente'], 'integer'],
             [['nombre'], 'string', 'max' => 50],
             [['idDocente'], 'exist', 'skipOnError' => true, 'targetClass' => Docente::className(), 'targetAttribute' => ['idDocente' => 'idDocente']],
