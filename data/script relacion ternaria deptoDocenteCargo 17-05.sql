@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS cargoDocente;
-DROP TABLE IF EXISTS departamentoDocente;
+DROP TABLE IF EXISTS departamentodocente;
 CREATE TABLE IF NOT EXISTS departamentoDocenteCargo(
 idDocente int(11) NOT NULL,
 idDepartamento int(11) NOT NULL,
