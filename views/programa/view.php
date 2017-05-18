@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'data' => [
                     'confirm' => 'Esta seguro que desea aprobar este programa?'],
                     ]) ?>
-        <?= Html::a('Aprobar(jefe departamento)', ['index'], [
+        <?= Html::a('Aprobar(jefe departamento)', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma,'idEstado'=>2]), [
           'class' => 'btn btn-primary',
           'data' => [
                   'confirm' => 'Esta seguro que desea aprobar este programa?'],
