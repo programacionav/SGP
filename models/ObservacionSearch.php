@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Departamentodocente;
+use app\models\Observacion;
 
 /**
- * DepartamentodocenteSearch represents the model behind the search form about `app\models\Departamentodocente`.
+ * ObservacionSearch represents the model behind the search form about `app\models\Observacion`.
  */
-class DepartamentodocenteSearch extends Departamentodocente
+class ObservacionSearch extends Observacion
 {
     /**
      * @inheritdoc
@@ -18,7 +18,8 @@ class DepartamentodocenteSearch extends Departamentodocente
     public function rules()
     {
         return [
-            [['idDocente', 'idDepartamento'], 'integer'],
+            [['idObservacion', 'idEstadoO', 'idUsuario', 'idPrograma'], 'integer'],
+            [['observacion'], 'safe'],
         ];
     }
 
@@ -40,7 +41,7 @@ class DepartamentodocenteSearch extends Departamentodocente
      */
     public function search($params)
     {
-        $query = Departamentodocente::find();
+        $query = Observacion::find();
 
         // add conditions that should always apply here
 
@@ -58,9 +59,13 @@ class DepartamentodocenteSearch extends Departamentodocente
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'idDocente' => $this->idDocente,
-            'idDepartamento' => $this->idDepartamento,
+            'idObservacion' => $this->idObservacion,
+            'idEstadoO' => $this->idEstadoO,
+            'idUsuario' => $this->idUsuario,
+            'idPrograma' => $this->idPrograma,
         ]);
+
+        $query->andFilterWhere(['like', 'observacion', $this->observacion]);
 
         return $dataProvider;
     }

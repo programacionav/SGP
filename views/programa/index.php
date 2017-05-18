@@ -4,19 +4,19 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\CargoDocenteSearch */
+/* @var $searchModel app\models\ProgramaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Cargo Docentes';
+$this->title = 'Programas';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cargo-docente-index">
+<div class="programa-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Cargo Docente', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Programa', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -24,8 +24,15 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'idDocente',
-            'idCargo',
+            'idPrograma',
+            'idCursado',
+            'orientacion',
+            'anioActual',
+            'programaAnalitico:ntext',
+            // 'propuestaMetodologica',
+            // 'condicionesAcredEvalu',
+            // 'horariosConsulta',
+            // 'bibliografia',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

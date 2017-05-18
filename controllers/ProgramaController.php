@@ -3,16 +3,18 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Plan;
-use app\models\PlanSearch;
+use app\models\Programa;
+use app\models\ProgramaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use kartik\mpdf\Pdf;
+
 
 /**
- * PlanController implements the CRUD actions for Plan model.
+ * ProgramaController implements the CRUD actions for Programa model.
  */
-class PlanController extends Controller
+class ProgramaController extends Controller
 {
     /**
      * @inheritdoc
@@ -30,12 +32,12 @@ class PlanController extends Controller
     }
 
     /**
-     * Lists all Plan models.
+     * Lists all Programa models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new PlanSearch();
+        $searchModel = new ProgramaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,37 +47,48 @@ class PlanController extends Controller
     }
 
     /**
-     * Displays a single Plan model.
+     * Displays a single Programa model.
      * @param integer $id
      * @return mixed
      */
     public function actionView($id)
     {
-        return $this->render('viewPlan', [
+        return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new Plan model.
+     * Creates a new Programa model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Plan();
+        $model = new Programa();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idPlan]);
+        //$model->idCursado = $_GET['idCursado']; Descomentar esto cuando este listo
+        $model->idCursado = 3;
+        $model->anioActual = date('Y');
+
+        if(isset(Yii::$app->request->post()['Programa'])){
+            if($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->idPrograma]);
+            }
+            else{
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
         } else {
             return $this->render('create', [
-                'model' => $model,
+                'model' => isset($_GET['bLastPrograma']) ? Programa::lastprograma($model->idCursado) : $model,
             ]);
         }
     }
 
     /**
-     * Updates an existing Plan model.
+     * Updates an existing Programa model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -85,7 +98,7 @@ class PlanController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idPlan]);
+            return $this->redirect(['view', 'id' => $model->idPrograma]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -94,31 +107,56 @@ class PlanController extends Controller
     }
 
     /**
-     * Deletes an existing Plan model.
+     * Deletes an existing Programa model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if($this->findModel($id)->isabierto())
+        {
+            //Si el programa se encuentra abierto puede borrarse
+            $this->findModel($id)->delete();
+        }
 
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the Plan model based on its primary key value.
+     * Finds the Programa model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Plan the loaded model
+     * @return Programa the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Plan::findOne($id)) !== null) {
+        if (($model = Programa::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+
+public function actionReport($id) {
+    // get your HTML raw content without any layouts or scripts
+    $pdf = new Pdf([
+        'mode' => Pdf::MODE_BLANK, // leaner size using standard fonts
+        'content' => $this->renderPartial('pdf',[
+            'model' => $this->findModel($id),
+        ]),
+        'options' => [
+            'title' => 'Programa',
+            'subject' => ''
+        ],
+        'methods' => [
+            'SetHeader' => [],
+            'SetFooter' => [],
+        ]
+    ]);
+    return $pdf->render();
+}
+
 }

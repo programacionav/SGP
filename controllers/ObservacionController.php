@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Departamentodocente;
-use app\models\DepartamentodocenteSearch;
+use app\models\Observacion;
+use app\models\ObservacionSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * DepartamentodocenteController implements the CRUD actions for Departamentodocente model.
+ * ObservacionController implements the CRUD actions for Observacion model.
  */
-class DepartamentodocenteController extends Controller
+class ObservacionController extends Controller
 {
     /**
      * @inheritdoc
@@ -30,12 +30,12 @@ class DepartamentodocenteController extends Controller
     }
 
     /**
-     * Lists all Departamentodocente models.
+     * Lists all Observacion models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new DepartamentodocenteSearch();
+        $searchModel = new ObservacionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,29 +45,29 @@ class DepartamentodocenteController extends Controller
     }
 
     /**
-     * Displays a single Departamentodocente model.
-     * @param integer $idDocente
-     * @param integer $idDepartamento
+     * Displays a single Observacion model.
+     * @param integer $id
      * @return mixed
      */
-    public function actionView($idDocente, $idDepartamento)
+    public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($idDocente, $idDepartamento),
+            'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new Departamentodocente model.
+     * Creates a new Observacion model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id = null)
     {
-        $model = new Departamentodocente();
+        $model = new Observacion();
+        $model->idPrograma = $id;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'idDocente' => $model->idDocente, 'idDepartamento' => $model->idDepartamento]);
+            return $this->redirect(['view', 'id' => $model->idObservacion]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -76,18 +76,17 @@ class DepartamentodocenteController extends Controller
     }
 
     /**
-     * Updates an existing Departamentodocente model.
+     * Updates an existing Observacion model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $idDocente
-     * @param integer $idDepartamento
+     * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($idDocente, $idDepartamento)
+    public function actionUpdate($id)
     {
-        $model = $this->findModel($idDocente, $idDepartamento);
+        $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'idDocente' => $model->idDocente, 'idDepartamento' => $model->idDepartamento]);
+            return $this->redirect(['view', 'id' => $model->idObservacion]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -96,30 +95,28 @@ class DepartamentodocenteController extends Controller
     }
 
     /**
-     * Deletes an existing Departamentodocente model.
+     * Deletes an existing Observacion model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $idDocente
-     * @param integer $idDepartamento
+     * @param integer $id
      * @return mixed
      */
-    public function actionDelete($idDocente, $idDepartamento)
+    public function actionDelete($id)
     {
-        $this->findModel($idDocente, $idDepartamento)->delete();
+        $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the Departamentodocente model based on its primary key value.
+     * Finds the Observacion model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $idDocente
-     * @param integer $idDepartamento
-     * @return Departamentodocente the loaded model
+     * @param integer $id
+     * @return Observacion the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($idDocente, $idDepartamento)
+    protected function findModel($id)
     {
-        if (($model = Departamentodocente::findOne(['idDocente' => $idDocente, 'idDepartamento' => $idDepartamento])) !== null) {
+        if (($model = Observacion::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

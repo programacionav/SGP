@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Materia;
+use app\models\DepartamentoDocenteCargo;
 
 /**
- * MateriaSearch represents the model behind the search form about `app\models\Materia`.
+ * DepartamentoDocenteCargoSearch represents the model behind the search form about `app\models\DepartamentoDocenteCargo`.
  */
-class MateriaSearch extends Materia
+class DepartamentoDocenteCargoSearch extends DepartamentoDocenteCargo
 {
     /**
      * @inheritdoc
@@ -18,8 +18,7 @@ class MateriaSearch extends Materia
     public function rules()
     {
         return [
-            [['codigo', 'idMateria', 'idDepartamento', 'idPlan'], 'integer'],
-            [['nombre', 'anio', 'hora', 'objetivo', 'contenidoMinimo'], 'safe'],
+            [['idDocente', 'idDepartamento', 'idCargo'], 'integer'],
         ];
     }
 
@@ -41,7 +40,7 @@ class MateriaSearch extends Materia
      */
     public function search($params)
     {
-        $query = Materia::find();
+        $query = DepartamentoDocenteCargo::find();
 
         // add conditions that should always apply here
 
@@ -59,17 +58,10 @@ class MateriaSearch extends Materia
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'codigo' => $this->codigo,
-            'idMateria' => $this->idMateria,
+            'idDocente' => $this->idDocente,
             'idDepartamento' => $this->idDepartamento,
-            'idPlan' => $this->idPlan,
+            'idCargo' => $this->idCargo,
         ]);
-
-        $query->andFilterWhere(['like', 'nombre', $this->nombre])
-            ->andFilterWhere(['like', 'anio', $this->anio])
-            ->andFilterWhere(['like', 'hora', $this->hora])
-            ->andFilterWhere(['like', 'objetivo', $this->objetivo])
-            ->andFilterWhere(['like', 'contenidoMinimo', $this->contenidoMinimo]);
 
         return $dataProvider;
     }

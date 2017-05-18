@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\CargoDocente;
-use app\models\CargoDocenteSearch;
+use app\models\DepartamentoDocenteCargo;
+use app\models\DepartamentoDocenteCargoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * CargoDocenteController implements the CRUD actions for CargoDocente model.
+ * DepartamentoDocenteCargoController implements the CRUD actions for DepartamentoDocenteCargo model.
  */
-class CargoDocenteController extends Controller
+class DepartamentoDocenteCargoController extends Controller
 {
     /**
      * @inheritdoc
@@ -30,12 +30,12 @@ class CargoDocenteController extends Controller
     }
 
     /**
-     * Lists all CargoDocente models.
+     * Lists all DepartamentoDocenteCargo models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new CargoDocenteSearch();
+        $searchModel = new DepartamentoDocenteCargoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,29 +45,30 @@ class CargoDocenteController extends Controller
     }
 
     /**
-     * Displays a single CargoDocente model.
+     * Displays a single DepartamentoDocenteCargo model.
      * @param integer $idDocente
+     * @param integer $idDepartamento
      * @param integer $idCargo
      * @return mixed
      */
-    public function actionView($idDocente, $idCargo)
+    public function actionView($idDocente, $idDepartamento, $idCargo)
     {
         return $this->render('view', [
-            'model' => $this->findModel($idDocente, $idCargo),
+            'model' => $this->findModel($idDocente, $idDepartamento, $idCargo),
         ]);
     }
 
     /**
-     * Creates a new CargoDocente model.
+     * Creates a new DepartamentoDocenteCargo model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new CargoDocente();
+        $model = new DepartamentoDocenteCargo();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'idDocente' => $model->idDocente, 'idCargo' => $model->idCargo]);
+            return $this->redirect(['view', 'idDocente' => $model->idDocente, 'idDepartamento' => $model->idDepartamento, 'idCargo' => $model->idCargo]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -76,18 +77,19 @@ class CargoDocenteController extends Controller
     }
 
     /**
-     * Updates an existing CargoDocente model.
+     * Updates an existing DepartamentoDocenteCargo model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $idDocente
+     * @param integer $idDepartamento
      * @param integer $idCargo
      * @return mixed
      */
-    public function actionUpdate($idDocente, $idCargo)
+    public function actionUpdate($idDocente, $idDepartamento, $idCargo)
     {
-        $model = $this->findModel($idDocente, $idCargo);
+        $model = $this->findModel($idDocente, $idDepartamento, $idCargo);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'idDocente' => $model->idDocente, 'idCargo' => $model->idCargo]);
+            return $this->redirect(['view', 'idDocente' => $model->idDocente, 'idDepartamento' => $model->idDepartamento, 'idCargo' => $model->idCargo]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -96,30 +98,32 @@ class CargoDocenteController extends Controller
     }
 
     /**
-     * Deletes an existing CargoDocente model.
+     * Deletes an existing DepartamentoDocenteCargo model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $idDocente
+     * @param integer $idDepartamento
      * @param integer $idCargo
      * @return mixed
      */
-    public function actionDelete($idDocente, $idCargo)
+    public function actionDelete($idDocente, $idDepartamento, $idCargo)
     {
-        $this->findModel($idDocente, $idCargo)->delete();
+        $this->findModel($idDocente, $idDepartamento, $idCargo)->delete();
 
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the CargoDocente model based on its primary key value.
+     * Finds the DepartamentoDocenteCargo model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $idDocente
+     * @param integer $idDepartamento
      * @param integer $idCargo
-     * @return CargoDocente the loaded model
+     * @return DepartamentoDocenteCargo the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($idDocente, $idCargo)
+    protected function findModel($idDocente, $idDepartamento, $idCargo)
     {
-        if (($model = CargoDocente::findOne(['idDocente' => $idDocente, 'idCargo' => $idCargo])) !== null) {
+        if (($model = DepartamentoDocenteCargo::findOne(['idDocente' => $idDocente, 'idDepartamento' => $idDepartamento, 'idCargo' => $idCargo])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

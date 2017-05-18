@@ -20,8 +20,9 @@ use Yii;
  */
 class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
-    const ROLE_ADMIN= 1;//cambiar por los roles correspondientes a docente a cargo,jefe dpto y secretario academico
-    const ROLE_USER= 2;
+    const ROLE_DOCENTE_A_CARGO= 1;//cambiar por los roles correspondientes a docente a cargo,jefe dpto y secretario academico
+    const ROLE_JEFE_DEPARTAMENTO= 2;
+    const ROLE_SECRETARIO_ACADEMICO=3;
 
 //funciones necesarias para la interface
 public static function findIdentity($id){
