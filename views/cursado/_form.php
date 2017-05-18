@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\Materia;
-
+use yii\jui\DatePicker;
 /* @var $this yii\web\View */
 /* @var $model app\models\Cursado */
 /* @var $form yii\widgets\ActiveForm */
@@ -27,6 +27,8 @@ use app\models\Materia;
     <?= $form->field($model, 'fechaFin')->textInput() ?>
 
     <?= $form->field($model, 'cuatrimestre')->textInput() ?>
+
+    <?= DatePicker::widget(['name' => 'date']) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
