@@ -17,6 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Crear Plan', ['create'], ['class' => 'btn btn-success']) ?>
+       
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -26,7 +27,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
            
             'numOrd',
-           'idCarrera0.nombre', 
+         [ 'attribute'=> 'idCarrera0.nombre', 
+         		'label'=>'Carrera',],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

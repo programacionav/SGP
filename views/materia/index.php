@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'objetivo',
             'contenidoMinimo',
             // 'idMateria',
-            'idDepartamento',
+            //'idDepartamento',
             // 'idPlan',
 
             ['class' => 'yii\grid\ActionColumn'],
