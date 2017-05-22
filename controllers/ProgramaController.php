@@ -47,16 +47,7 @@ class ProgramaController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
-     public function actionJefe()
-    {
-        $searchModel = new ProgramaSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('Jefe', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
+    
 
     /**
      * Displays a single Programa model.
@@ -79,6 +70,7 @@ class ProgramaController extends Controller
          $model = new Programa();
         //$model->idCursado = $_GET['idCursado']; Descomentar esto cuando este listo 
         $model->anioActual = date('Y');
+        $model->idCursado = 5;
         
         if(isset(Yii::$app->request->post()['Programa'])){
             if($model->load(Yii::$app->request->post()) && $model->save()) {

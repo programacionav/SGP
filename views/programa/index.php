@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\models\Cambioestado;
+
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ProgramaSearch */
@@ -28,6 +30,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'idCursado',
             'orientacion',
             'anioActual',
+            [
+                'attribute' => 'status_dosen',
+                'value' => function ($data){
+ return Cambioestado::find()->where(['idCambioEstado'=> Cambioestado::find()->where(['idPrograma'=> $data->idPrograma])->max('idCambioEstado')])->one()->idEstadoP0->descripcion ;
+}
+            ],
             'programaAnalitico:ntext',
             // 'propuestaMetodologica',
             // 'condicionesAcredEvalu',

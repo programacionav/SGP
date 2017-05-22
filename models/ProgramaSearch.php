@@ -12,6 +12,8 @@ use app\models\Programa;
  */
 class ProgramaSearch extends Programa
 {
+
+    //$idEstado = 
     /**
      * @inheritdoc
      */
@@ -43,6 +45,10 @@ class ProgramaSearch extends Programa
     {
         $query = Programa::find();
 
+        
+            $query->joinWith('cambioestados');
+        
+
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -69,7 +75,10 @@ class ProgramaSearch extends Programa
             ->andFilterWhere(['like', 'propuestaMetodologica', $this->propuestaMetodologica])
             ->andFilterWhere(['like', 'condicionesAcredEvalu', $this->condicionesAcredEvalu])
             ->andFilterWhere(['like', 'horariosConsulta', $this->horariosConsulta])
+            ->andFilterWhere(['like', 'bibliografia', $this->bibliografia])
             ->andFilterWhere(['like', 'bibliografia', $this->bibliografia]);
+
+
 
         return $dataProvider;
     }
