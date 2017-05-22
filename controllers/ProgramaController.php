@@ -4,8 +4,9 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Programa;
-use app\models\ProgramaSearch;
+use app\models\Observacion;
 use app\models\Cambioestado;
+use app\models\ProgramaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -75,47 +76,23 @@ class ProgramaController extends Controller
      * @return mixed
      */
     public function actionCreate(){
-        $exito = false;
-        $queryParams = Yii::$app->request->queryParams;
-        $idCursado = isset($queryParams['idCursado'])?$queryParams['idCursado']:5;//hardcode
-        if(isset($queryParams['bLastPrograma'])){
-          $model = Programa::lastprograma($idCursado);
-          $model->idPrograma = null;
-          $model->isNewRecord = true;
-        }else{
-          $model = new Programa();
-          $model->idCursado = $idCursado;
-        }
+         $model = new Programa();
+        //$model->idCursado = $_GET['idCursado']; Descomentar esto cuando este listo 
         $model->anioActual = date('Y');
-        $postData = Yii::$app->request->post();
-        if(count($postData) > 0){
-          try{
-            $transaction = Yii::$app->db->beginTransaction();
-            if($model->load($postData) && $model->save()){
-              $modelCambioEstado = new Cambioestado();
-              $modelCambioEstado->idPrograma = $model->idPrograma;
-              $modelCambioEstado->idUsuario = 2; //hardcode
-              $modelCambioEstado->fecha = date("Y-m-d");
-              $modelCambioEstado->idEstadoP = 1;//hardcode
-              if($modelCambioEstado->save()){
-                $exito = true;
-                $transaction->commit();
-              }else{
-                throw new \Exception("Error al loguear el cambio de estado");
-              }
-            }else{
-              throw new \Exception("Error al guardar el programa");
+        
+        if(isset(Yii::$app->request->post()['Programa'])){
+            if($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->idPrograma]);
             }
-          }catch(Exception $e){
-            $transaction->rollBack();
-          }
-        }
-        if($exito){
-          return $this->redirect(['view', 'id' => $model->idPrograma]);
-        }else{
-          return $this->render('create', [
-              'model' => $model,
-          ]);
+            else{
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
+        } else {
+            return $this->render('create', [
+                'model' => isset($_GET['bLastPrograma']) ? Programa::lastprograma($model->idCursado) : $model,
+            ]);
         }
     }
 
@@ -149,6 +126,22 @@ class ProgramaController extends Controller
     {
         if($this->findModel($id)->isabierto())
         {
+            //boorrar observaciones de programa
+            $oObservaciones = Observacion::find()->where(['idPrograma'=>$id])->all();
+            foreach($oObservaciones as $obser)
+            {
+              $obser->delete();
+            }
+
+              
+            //borrar estados de programa
+            $oCambiosEstados = Cambioestado::find()->where(['idPrograma'=>$id])->all();
+            foreach($oCambiosEstados as $est)
+            {
+              $est->delete();
+            }
+            
+
             //Si el programa se encuentra abierto puede borrarse
             $this->findModel($id)->delete();
         }

@@ -93,17 +93,20 @@ class Programa extends \yii\db\ActiveRecord
     }
 
     //Verifica estado de el programa. 
-    public function getIsabierto()
+    public function isabierto()
     {
-        return 
-        Cambioestado::find()
-            ->joinWith('cambioestados')
-            ->where(['idPrograma' => $this->idPrograma,'idEstadoP' => CambioEstado::find()->where(['idPrograma'=>$this->idPrograma])->max('idEstadoP')])
-            ->one()->idEstadoP == self::ABIERTO ? true : false;
-
-            
+        if(Cambioestado::find()->where(['idPrograma'=>$this->idPrograma])->count()>0){
+            return 
+            $this::find()
+                ->joinWith('cambioestados')
+                ->where(['cambioestado.idPrograma' => $this->idPrograma,'idEstadoP' => CambioEstado::find()->where(['cambioestado.idPrograma'=>$this->idPrograma])->max('idEstadoP')])
+                ->one()->cambioestados[0]->idEstadoP == self::ABIERTO ? true : false;
+        }
+        else{
+            return true;
+        }            
     }
-/*
+
     public function afterSave($insert, $changedAttributes) {
         parent::afterSave($insert, $changedAttributes);
         
@@ -122,7 +125,7 @@ class Programa extends \yii\db\ActiveRecord
             }
         
         
-    }*/
+    }
 
     //Retorna ultimo programa de un cursado especifico
     public static function Lastprograma($idCursado)
