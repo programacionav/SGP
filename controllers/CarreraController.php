@@ -66,8 +66,9 @@ class CarreraController extends Controller
         $model = new Carrera();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idCarrera]);
+            return $this->redirect(['plan/create', 'id' => $model->idCarrera]);
         } else {
+        	
             return $this->render('create', [
                 'model' => $model,
             ]);
