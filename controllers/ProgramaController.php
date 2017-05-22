@@ -46,6 +46,16 @@ class ProgramaController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+     public function actionJefe()
+    {
+        $searchModel = new ProgramaSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('Jefe', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
 
     /**
      * Displays a single Programa model.
@@ -67,7 +77,7 @@ class ProgramaController extends Controller
     public function actionCreate(){
         $exito = false;
         $queryParams = Yii::$app->request->queryParams;
-        $idCursado = isset($queryParams['idCursado'])?$queryParams['idCursado']:3;//hardcode
+        $idCursado = isset($queryParams['idCursado'])?$queryParams['idCursado']:5;//hardcode
         if(isset($queryParams['bLastPrograma'])){
           $model = Programa::lastprograma($idCursado);
           $model->idPrograma = null;
@@ -84,7 +94,7 @@ class ProgramaController extends Controller
             if($model->load($postData) && $model->save()){
               $modelCambioEstado = new Cambioestado();
               $modelCambioEstado->idPrograma = $model->idPrograma;
-              $modelCambioEstado->idUsuario = 1; //hardcode
+              $modelCambioEstado->idUsuario = 2; //hardcode
               $modelCambioEstado->fecha = date("Y-m-d");
               $modelCambioEstado->idEstadoP = 1;//hardcode
               if($modelCambioEstado->save()){

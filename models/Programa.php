@@ -103,7 +103,7 @@ class Programa extends \yii\db\ActiveRecord
 
             
     }
-
+/*
     public function afterSave($insert, $changedAttributes) {
         parent::afterSave($insert, $changedAttributes);
         
@@ -122,7 +122,7 @@ class Programa extends \yii\db\ActiveRecord
             }
         
         
-    }
+    }*/
 
     //Retorna ultimo programa de un cursado especifico
     public static function Lastprograma($idCursado)

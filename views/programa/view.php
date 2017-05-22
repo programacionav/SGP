@@ -57,13 +57,41 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ])
 -->
+<!-- en teoria va a traer las obersaciones,falta hacerle muchas cosas a esto-->
+<?php
+$alert = null;
+if ( empty($model->observacions) == false ){
+$alert = "<div class='alert alert-danger'>";
+$alert.= "<strong>observaciones</strong><br>";
+
+
+
+   foreach ( $model->observacions as $recorre) {
+$cantidad = $recorre->find()
+    ->where(['idEstadoO' => 1])
+     ->andWhere(['idPrograma' => $model->idPrograma])
+    ->count();
+  
+  $alert.="<strong>- </strong>".$recorre->observacion."<br>";
+  
+
+ 
+}
+
+  
+  
+
+ 
+
+}$alert.="</div>"; echo $alert;?>
+      
     <table class="table table-bordered">
     <tbody>
       <tr>
         <td colspan="3"><strong>ASIGNATURA:</strong><?=$model->idCursado0->idMateria0->nombre?></td>
       </tr>
       <tr>
-        <td colspan="3"><strong>DEPARTAMENTO:</strong></td>
+        <td colspan="3"><strong>DEPARTAMENTO:</strong><?=$model->idCursado0->idMateria0->idDepartamento0->nombre?></td>
       </tr>
       <tr>
         <td colspan="1"><strong>AREA:</strong></td>
@@ -87,16 +115,20 @@ $this->params['breadcrumbs'][] = $this->title;
       <tr>
         <td colspan="3"><strong>EQUIPO DE CÁTEDRA:</strong><br>
           <strong>Listado de Docentes:</strong>
+         <?php foreach($model->idCursado0->idDocentes as $recorre2){
+           echo $recorre2->nombre." ".$recorre2->apellido."<br>";
+         }
+           ?>
       </td>
       </tr>
       <tr>
-        <td colspan="3"><strong>HORAS DE CLASE:</strong></td>
+        <td colspan="3"><strong>HORAS DE CLASE:</strong><?=$model->idCursado0->idMateria0->hora?></td>
       </tr>
       <tr>
-        <td colspan="3"><strong>OBJETIVOS DE LA MATERIA:</strong></td>
+        <td colspan="3"><strong>OBJETIVOS DE LA MATERIA:</strong><?=$model->idCursado0->idMateria0->objetivo?></td>
       </tr>
       <tr>
-        <td colspan="3"><strong>CONTENIDOS MINIMOS:</strong></td>
+        <td colspan="3"><strong>CONTENIDOS MINIMOS:</strong><?=$model->idCursado0->idMateria0->contenidoMinimo?></td>
       </tr>
       <tr>
         <td colspan="3"><strong>PROGRAMA ANALÍTICO:</strong><br><?=$model->programaAnalitico;?>
@@ -119,13 +151,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     </tbody>
   </table>
-<!-- en teoria va a traer las obersaciones,falta hacerle muchas cosas a esto-->
-<?php foreach ( $model->observacions as $recorre) {
-if ( empty($recorre) == false ){
-  echo "<strong>observaciones</strong><br>";
-}
-echo  $recorre->observacion;
-  }?>
+
 
 </div>
 
