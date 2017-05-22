@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Docente;
 use app\models\DocenteSearch;
+use app\models\Usuario;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -64,8 +65,14 @@ class DocenteController extends Controller
     public function actionCreate()
     {
         $model = new Docente();
+        $modelUsuario = new Usuario();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $modelUsuario->idDocente = $model->idDocente;
+            $modelUsuario->idRol = 1;
+            $modelUsuario->usuario = $model->cuil;
+            $modelUsuario->clave = $model->cuil;
+            $modelUsuario->save();
             return $this->redirect(['view', 'id' => $model->idDocente]);
         } else {
             return $this->render('create', [
