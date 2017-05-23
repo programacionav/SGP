@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use app\models\Docente;
+use app\models\Facultad;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Departamento */
@@ -25,11 +26,24 @@ use app\models\Docente;
         return $model['nombre'].' '.$model['apellido'];
     }
 	);
+
+    $itemFacultad = ArrayHelper::map(Facultad::find()->all(),
+    'idFacultad',
+    function($model) {
+        return $model['nombre'];
+    }
+    );
      ?>
+
     <?= $form->field($model, 'idDocente')->dropdownList(
         $item,
     ['prompt'=>'Seleccione docente']
     )->label('Director de departamento'); ?>
+
+        <?= $form->field($model, 'idFacultad')->dropdownList(
+        $itemFacultad,
+    ['prompt'=>'Seleccione la facultad']
+    )->label('Facultad'); ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Modificar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
