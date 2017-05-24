@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
         <?= Html::a('Agregar observacion',Url::toRoute(['observacion/create','id' => $model->idPrograma]), ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Aprobar(secretario academico)', ['index'], [
+        <?= Html::a('Aprobar(secretario academico)', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma,'idEstado'=>3]), [
             'class' => 'btn btn-primary',
             'data' => [
                     'confirm' => 'Esta seguro que desea aprobar este programa?'],
@@ -72,7 +72,7 @@ $cantidad = $recorre->find()
      ->andWhere(['idPrograma' => $model->idPrograma])
     ->count();
   
-  $alert.="<strong>- </strong>".$recorre->observacion."<br>";
+  $alert.="<strong>- </strong>".$recorre->observacion.Html::a('Realizado',Url::toRoute(['index','idObservacion' => $recorre->idObservacion]), ['class' => 'pull-right','target'=>'_blank']) ."<br>";
   
 
  

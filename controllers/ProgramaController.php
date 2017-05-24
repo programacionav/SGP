@@ -70,7 +70,7 @@ class ProgramaController extends Controller
          $model = new Programa();
         //$model->idCursado = $_GET['idCursado']; Descomentar esto cuando este listo 
         $model->anioActual = date('Y');
-        $model->idCursado = 5;
+        $model->idCursado = 6;
         
         if(isset(Yii::$app->request->post()['Programa'])){
             if($model->load(Yii::$app->request->post()) && $model->save()) {
