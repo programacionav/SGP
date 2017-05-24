@@ -67,16 +67,18 @@ class DocenteController extends Controller
         $model = new Docente();
         $modelUsuario = new Usuario();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) &&  $model->save()) { //Compruebo si cargué por post y si se pudo guardar el docente
             $modelUsuario->idDocente = $model->idDocente;
-            $modelUsuario->idRol = 1;
+            //$modelUsuario->idRol "El idRol de Usuario lo carga por post del select correspondiente"
             $modelUsuario->usuario = $model->cuil;
             $modelUsuario->clave = $model->cuil;
-            $modelUsuario->save();
+        }if ($modelUsuario->load(Yii::$app->request->post()) && $modelUsuario->save()){ //Compruebo si se pudo cargar por post y guardar el usuario del Docente
             return $this->redirect(['view', 'id' => $model->idDocente]);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'modelUsuario' => $modelUsuario,
+
             ]);
         }
     }
