@@ -17,6 +17,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $this->render('_form', [
         'model' => $model,
         'modelUsuario' => $modelUsuario, //Agrego el modelo Usuario recibido de DocenteController al hacer render en action create
+        'modelCargo' => $modelCargo,
+        'modelDepartamento' => $modelDepartamento,
+        'modelDepartamentoDocenteCargo' => $modelDepartamentoDocenteCargo,
+
     ]) ?>
 
 </div>

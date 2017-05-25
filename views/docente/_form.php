@@ -5,6 +5,9 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use app\models\Dedicacion;
 use app\models\Rol;
+use app\models\Cargo;
+use app\models\Departamento;
+use app\models\DepartamentoDocenteCargo;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Docente */
@@ -37,6 +40,37 @@ use app\models\Rol;
     )->label('Dedicacion'); ?>
 
 
+
+	<?php
+	$item = ArrayHelper::map(Cargo::find()->all(),
+    'idCargo',
+    function($modelCargo) {
+        return $modelCargo['abreviatura'].' '.$modelCargo['descripcion'];
+    }
+	);
+     ?>
+    <?= $form->field($modelDepartamentoDocenteCargo, 'idCargo')->dropdownList(
+        $item,
+    ['prompt'=>'Seleccione...']
+    )->label('Cargo'); ?>
+
+
+
+	<?php
+	$item = ArrayHelper::map(Departamento::find()->all(),
+    'idDepartamento',
+    function($modelDepartamento) {
+        return $modelDepartamento['nombre'];
+    }
+	);
+     ?>
+    <?= $form->field($modelDepartamentoDocenteCargo, 'idDepartamento')->dropdownList(
+        $item,
+    ['prompt'=>'Seleccione...']
+    )->label('Departamento'); ?>
+
+
+    
     
     <?php //Este select envia los datos al modelo Usuario creado en DocenteController
 	$item = ArrayHelper::map(Rol::find()->all(),
