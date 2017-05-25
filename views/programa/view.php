@@ -11,7 +11,7 @@ use yii\bootstrap\Modal;
 
 $this->title = $model->idPrograma;
 $this->params['breadcrumbs'][] = ['label' => 'Programas', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = $model->getTitulo();
 ?>
 <div class="programa-view container-fluid">
     <div class="page-header">
@@ -61,21 +61,25 @@ $this->params['breadcrumbs'][] = $this->title;
 <!-- en teoria va a traer las obersaciones,falta hacerle muchas cosas a esto-->
 <?php
 $alert = null;
-if ( empty($model->observacions) == false ){
+$cantidad = null;
+  foreach ( $model->observacions as $recorre) {
+$cantidad = $recorre->find()
+    ->where(['idEstadoO' => 1])// aca tambien deberia detectar el rol del usuario logueado para que cuando se loguee el jefe pueda ver las observaciones corregidas por el docente
+     ->andWhere(['idPrograma' => $model->idPrograma])
+    ->count();
+  }
+if ( $cantidad > 0 ){
 $alert = "<div class='alert alert-danger'>";
 $alert.= "<strong>observaciones</strong><br>";
 
 
 
    foreach ( $model->observacions as $recorre) {
-$cantidad = $recorre->find()
-    ->where(['idEstadoO' => 1])
-     ->andWhere(['idPrograma' => $model->idPrograma])
-    ->count();
 
-  $alert.="<strong>- </strong>".$recorre->observacion.Html::a('Realizado',Url::toRoute(['index','idObservacion' => $recorre->idObservacion]), ['class' => 'pull-right','target'=>'_blank']) ."<br>";
+if($recorre->idEstadoO == 1){//busca segun el estado de la observacion,TAMBIEN,deberia decetectar que rol esta logueado.
+  $alert.="<strong>- </strong>".$recorre->observacion.Html::a('Realizado',Url::toRoute(['cambioestadoob','id' => $recorre->idObservacion]), ['class' => 'pull-right']) ."<br>";
 
-
+}
 
 }
 

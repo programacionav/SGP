@@ -177,6 +177,20 @@ public function actionReport($id) {
     return $pdf->render();
 }
 
+//ES UNA PRUEBA, PERDON SI ALGUIEN LO IBA A HACER, NO ME AGUANTE!
+    public function actionCambioestadoob($id){
+         $modelOb = Observacion::findOne($id);
+         $modelOb->idEstadoO = 2;//aca como abajo,tiene que cambiar el idEstado segun el Rol logueado.
+        if($modelOb->save(false)){
+          return $this->redirect(['view',
+        'id' => $modelOb->idPrograma,
+    ]);
+        }
+          
+        
+    }
+
+
   public function actionCambiarestado(){
     $exito = false;
     $postData = Yii::$app->request->get();
