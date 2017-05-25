@@ -146,7 +146,7 @@ class Programa extends \yii\db\ActiveRecord
 
     public function getTitulo()
     {
-        return $this->idCursado." ".$this->anioActual." ".$this->idCursado0->idMateria0->nombre." ".$this->idCursado0->cuatrimestre;
+        return "Nro cursado: ".$this->idCursado." - Año: ".$this->anioActual." - Materia: ".$this->idCursado0->idMateria0->nombre." - Cuatrimestre: ".$this->idCursado0->cuatrimestre;
     }
 
 }
