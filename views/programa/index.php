@@ -15,28 +15,43 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="programa-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a('Create Programa', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'idPrograma',
-            'idCursado',
-            'orientacion',
+            [
+                'label' => 'Nro Cursado',
+                'attribute' => 'idCursado',
+                'value' => function ($data){
+                    return $data->idCursado;
+                }
+            ],
             'anioActual',
             [
-                'attribute' => 'status_dosen',
+                'label' => 'Materia',
+                'attribute' => 'idMateria',
                 'value' => function ($data){
- return Cambioestado::find()->where(['idCambioEstado'=> Cambioestado::find()->where(['idPrograma'=> $data->idPrograma])->max('idCambioEstado')])->one()->idEstadoP0->descripcion ;
-}
+                    return $data->idCursado0->idMateria0->nombre;
+                }
             ],
-            'programaAnalitico:ntext',
+            [
+                'label' => 'Cuatrimestre',
+                'attribute' => 'cuatrimestre',
+                'value' => function ($data){
+                    return $data->idCursado0->cuatrimestre;
+                }
+            ],
+            [
+                'label' => 'Estado',
+                'attribute' => 'idEstadoP',
+                'value' => function ($data){
+                    return Cambioestado::find()->where(['idCambioEstado'=> Cambioestado::find()->where(['idPrograma'=> $data->idPrograma])->max('idCambioEstado')])->one()->idEstadoP0->descripcion ;
+                }
+            ],
+            
+            //'programaAnalitico:ntext',
             // 'propuestaMetodologica',
             // 'condicionesAcredEvalu',
             // 'horariosConsulta',
