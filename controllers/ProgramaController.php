@@ -47,7 +47,7 @@ class ProgramaController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
-    
+
 
     /**
      * Displays a single Programa model.
@@ -68,10 +68,10 @@ class ProgramaController extends Controller
      */
     public function actionCreate(){
          $model = new Programa();
-        //$model->idCursado = $_GET['idCursado']; Descomentar esto cuando este listo 
+        //$model->idCursado = $_GET['idCursado']; Descomentar esto cuando este listo
         $model->anioActual = date('Y');
         $model->idCursado = 6;
-        
+
         if(isset(Yii::$app->request->post()['Programa'])){
             if($model->load(Yii::$app->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->idPrograma]);
@@ -125,14 +125,14 @@ class ProgramaController extends Controller
               $obser->delete();
             }
 
-              
+
             //borrar estados de programa
             $oCambiosEstados = Cambioestado::find()->where(['idPrograma'=>$id])->all();
             foreach($oCambiosEstados as $est)
             {
               $est->delete();
             }
-            
+
 
             //Si el programa se encuentra abierto puede borrarse
             $this->findModel($id)->delete();
@@ -180,7 +180,7 @@ public function actionReport($id) {
   public function actionCambiarestado(){
     $exito = false;
     $postData = Yii::$app->request->get();
-    $idEstado = isset($postData['idEstado'])?$postData['idEstado']:null;
+    $idEstado = '2'; //detectar estado dependiendo del rol, cambiame esto man!
     $idPrograma = isset($postData['idPrograma'])?$postData['idPrograma']:null;
     $modelCambioEstado = new Cambioestado();
     $modelCambioEstado->idPrograma = $idPrograma;
@@ -190,7 +190,7 @@ public function actionReport($id) {
     if($modelCambioEstado->save()){
       $exito = true;
     }
-    return $this->redirect(['view', 
+    return $this->redirect(['view',
         'id' => $idPrograma,
     ]);
   }

@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\helpers\Url;
+use yii\bootstrap\Modal;
 
 
 /* @var $this yii\web\View */
@@ -12,35 +13,35 @@ $this->title = $model->idPrograma;
 $this->params['breadcrumbs'][] = ['label' => 'Programas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="programa-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->idPrograma], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->idPrograma], [
-            'class' => 'btn btn-danger',
+<div class="programa-view container-fluid">
+    <div class="page-header">
+      <h3 class="text-center"><?= $model->getTitulo() ?></h3>
+    </div>
+    <div class="row">
+      <div class="well well-lg">
+        <?= Html::a('<span class="glyphicon glyphicon-pencil"></span>&nbsp;Actualizar', ['update', 'id' => $model->idPrograma], ['class' => 'btn btn-default']) ?>
+        <?= Html::a('<span class="glyphicon glyphicon-trash"></span>&nbsp;Borrar', ['delete', 'id' => $model->idPrograma], [
+            'class' => 'btn btn-default',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => '¿Esta seguro que desea eliminar el programa?',
                 'method' => 'post',
             ],
         ]) ?>
-        <?= Html::a('Agregar observacion',Url::toRoute(['observacion/create','id' => $model->idPrograma]), ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Aprobar(secretario academico)', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma,'idEstado'=>3]), [
-            'class' => 'btn btn-primary',
+        <?php
+          Modal::begin([
+            'header' => 'Nueva observación',
+            'toggleButton' => ['label' => '<span class="glyphicon glyphicon-plus"></span>&nbsp;Observación','class'=>'btn btn-default'],
+          ]);
+          Modal::end();
+        ?>
+        <?= Html::a('<span class="glyphicon glyphicon-ok"></span>&nbsp;Aprobar', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma]), [
+            'class' => 'btn btn-success',
             'data' => [
                     'confirm' => 'Esta seguro que desea aprobar este programa?'],
                     ]) ?>
-        <?= Html::a('Aprobar(jefe departamento)', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma,'idEstado'=>2]), [
-          'class' => 'btn btn-primary',
-          'data' => [
-                  'confirm' => 'Esta seguro que desea aprobar este programa?'],
-                  ]) ?>
-        <?= Html::a('Crear pdf',Url::toRoute(['programa/report','id' => $model->idPrograma]), ['class' => 'btn btn-primary pull-right','target'=>'_blank']) ?>
-
-
-
-    </p>
+        <?= Html::a('<span class="glyphicon glyphicon-export"></span>&nbsp;Crear pdf',Url::toRoute(['programa/report','id' => $model->idPrograma]), ['class' => 'btn btn-default pull-right','target'=>'_blank']) ?>
+      </div>
+    </div>
 <!--
      DetailView::widget([
         'model' => $model,
@@ -71,20 +72,20 @@ $cantidad = $recorre->find()
     ->where(['idEstadoO' => 1])
      ->andWhere(['idPrograma' => $model->idPrograma])
     ->count();
-  
-  $alert.="<strong>- </strong>".$recorre->observacion.Html::a('Realizado',Url::toRoute(['index','idObservacion' => $recorre->idObservacion]), ['class' => 'pull-right','target'=>'_blank']) ."<br>";
-  
 
- 
+  $alert.="<strong>- </strong>".$recorre->observacion.Html::a('Realizado',Url::toRoute(['index','idObservacion' => $recorre->idObservacion]), ['class' => 'pull-right','target'=>'_blank']) ."<br>";
+
+
+
 }
 
-  
-  
 
- 
+
+
+
 
 }$alert.="</div>"; echo $alert;?>
-      
+
     <table class="table table-bordered">
     <tbody>
       <tr>
