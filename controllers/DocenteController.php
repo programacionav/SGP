@@ -106,12 +106,22 @@ class DocenteController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $modelUsuario = new Usuario();
+        $modelCargo = new Cargo();
+        $modelDepartamento = new Departamento();
+        $modelDepartamentoDocenteCargo = new DepartamentoDocenteCargo();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idDocente]);
-        } else {
+        }if ($modelUsuario->load(Yii::$app->request->post()) && $modelUsuario->save()){
+            if ($modelDepartamentoDocenteCargo->load(Yii::$app->request->post()) && $modelDepartamentoDocenteCargo->save()){
+            	return $this->redirect(['view', 'id' => $model->idDocente]);
+        }} else {
             return $this->render('update', [
                 'model' => $model,
+                'modelUsuario' => $modelUsuario,
+                'modelCargo' => $modelCargo,
+                'modelDepartamento' => $modelDepartamento,
+                'modelDepartamentoDocenteCargo' => $modelDepartamentoDocenteCargo,
             ]);
         }
     }
