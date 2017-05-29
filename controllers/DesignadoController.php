@@ -165,15 +165,15 @@ class DesignadoController extends Controller
       $dpto = Departamento::find()
       ->where(['idDepartamento' => $idDepartamento])
       ->one();
-      //$idsDocentes = $dpto->idDocentes;
-      $idsDocentes = $dpto->getidDocentes();
-      $algo = get_class($idsDocentes);
-      if($idDepartamento == 1){
-        $arreglo = [['id'=>'1','name'=>$algo],['id'=>'2','name'=>'alex']];
-      }else{
-        $arreglo = [['id'=>'1','name'=>'branko1'],['id'=>'2','name'=>'alex2']];
+      $idsDocentes = $dpto->departamentodocentecargos;
+      //$idsDocentes = $dpto->getidDocentes();
+      //$algo = get_class($idsDocentes);
+      //print_r($dpto);
+      $arreglo= array();
+      $iterativo = $dpto->departamentodocentecargos;
+      foreach ($iterativo as $depdocar) {
+        array_push($arreglo,['id'=>$depdocar->idDocente0->idDocente,'name'=>$depdocar->idDocente0->apellido.', '.$depdocar->idDocente0->nombre]);
       }
-
       return $arreglo;
 
     }

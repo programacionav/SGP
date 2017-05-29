@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Cursado */
 
-$this->title = 'Create Cursado';
+$this->title = 'Crear Cursado';
 $this->params['breadcrumbs'][] = ['label' => 'Cursados', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

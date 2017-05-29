@@ -67,10 +67,6 @@ class Departamento extends \yii\db\ActiveRecord
      */
     public function getDepartamentodocentecargos()
     {
-<<<<<<< HEAD
-        return $this->hasMany(Docente::className(), ['idDocente' => 'idDocente'])->viaTable('departamentoDocenteCargo', ['idDepartamento' => 'idDepartamento']);
-=======
-        return $this->hasMany(Departamentodocentecargo::className(), ['idDepartamento' => 'idDepartamento']);
->>>>>>> b7d67d82573e5d7b7cee834c0b69f14e617a786f
+        return $this->hasMany(DepartamentoDocenteCargo::className(), ['idDepartamento' => 'idDepartamento']);
     }
 }

@@ -23,7 +23,7 @@ use app\models\Cursado;
 
     ?>
 	  <?php
-    /*
+
         $itemDptos = Departamento::find() //obtengo un arreglo asociativo[index->titulo]
         ->select(['nombre'])  //de noticias donde: lo que esta dentro del option es el titulo
         ->indexBy('idDepartamento')       // y el value de los option es el id
@@ -59,16 +59,16 @@ use app\models\Cursado;
         'url'=>Url::to(['subcat'])
     ]
     ]);
-    */
+
      ?>
 
     <?php $funciones = ['acargo' => 'A Cargo','ayudante' => 'Ayudante']; ?>
-    <?= $form->field($model, 'idDocente')->textInput(); ?>
-    <?= $form->field($model, 'idCursado')->textInput(); ?>
+    <?// $form->field($model, 'idDocente')->textInput(); ?>
     <?= $form->field($model, 'funcion')->dropdownList(
-       $funciones,
-       ['prompt'=>'Elija la funcion']); ?>
-
+    $funciones,
+    ['prompt'=>'Elija la funcion']); ?>
+    <?= $form->field($model, 'idCursado')->hiddeninput()->label(""); ?>
+    
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
