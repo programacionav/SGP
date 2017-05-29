@@ -69,9 +69,9 @@ class DesignadoController extends Controller
     {
         $model = new Designado();
         $model_dpto = new Departamento();
-        
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'idCursado' => $model->idCursado, 'idDocente' => $model->idDocente]);
+            return $this->redirect(['cursado/view', 'id' => $model->idCursado]);
         } else {
             return $this->render('create', [
                 'model_dpto' => $model_dpto,
@@ -112,7 +112,7 @@ class DesignadoController extends Controller
     {
         $this->findModel($idCursado, $idDocente)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['cursado/view','id' => $idCursado]);
     }
 
     /**
@@ -165,7 +165,6 @@ class DesignadoController extends Controller
       $dpto = Departamento::find()
       ->where(['idDepartamento' => $idDepartamento])
       ->one();
-      $idsDocentes = $dpto->departamentodocentecargos;
       //$idsDocentes = $dpto->getidDocentes();
       //$algo = get_class($idsDocentes);
       //print_r($dpto);
