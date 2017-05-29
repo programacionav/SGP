@@ -10,10 +10,10 @@ use Yii;
  * @property integer $idDepartamento
  * @property string $nombre
  * @property integer $idDocente
+ * @property integer $idFacultad
  *
- * @property Docente $idDocente0
- * @property Departamentodocente[] $departamentodocentes
- * @property Docente[] $idDocentes
+ * @property Facultad $idFacultad0
+ * @property Departamentodocentecargo[] $departamentodocentecargos
  */
 class Departamento extends \yii\db\ActiveRecord
 {
@@ -31,14 +31,13 @@ class Departamento extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre'], 'required'],
-			[['idDocente'], 'required', 'message'=>'Ingrese el Director'],
+	        [['nombre'], 'required'],
+            [['idDocente'], 'required', 'message'=>'Ingrese el Director'],
             [['idDocente'], 'integer'],
             [['idFacultad'], 'required', 'message' => 'Ingrese la facultad'],
             [['idFacultad'], 'integer'],
             [['nombre'], 'string', 'max' => 50],
-            [['idDocente'], 'exist', 'skipOnError' => true, 'targetClass' => Docente::className(), 'targetAttribute' => ['idDocente' => 'idDocente']],
-            [['idFacultad'], 'exist', 'skipOnError' => true, 'targetClass' => Facultad::className(), 'targetAttribute'=> ['idFacultad' =>'idFacultad' ]],
+            [['idFacultad'], 'exist', 'skipOnError' => true, 'targetClass' => Facultad::className(), 'targetAttribute' => ['idFacultad' => 'idFacultad']],
         ];
     }
 
@@ -51,18 +50,9 @@ class Departamento extends \yii\db\ActiveRecord
             'idDepartamento' => 'Id Departamento',
             'nombre' => 'Nombre',
             'idDocente' => 'Id Docente',
-            'idFacultad' => 'Id Facultad'
+            'idFacultad' => 'Id Facultad',
         ];
     }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getIdDocente0()
-    {
-        return $this->hasOne(Docente::className(), ['idDocente' => 'idDocente']);
-    }
-
 
     /**
      * @return \yii\db\ActiveQuery
@@ -72,20 +62,11 @@ class Departamento extends \yii\db\ActiveRecord
         return $this->hasOne(Facultad::className(), ['idFacultad' => 'idFacultad']);
     }
 
-
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDepartamentodocentes()
+    public function getDepartamentodocentecargos()
     {
-        return $this->hasMany(Departamentodocente::className(), ['idDepartamento' => 'idDepartamento']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getIdDocentes()
-    {
-        return $this->hasMany(Docente::className(), ['idDocente' => 'idDocente'])->viaTable('departamentodocente', ['idDepartamento' => 'idDepartamento']);
+        return $this->hasMany(Departamentodocentecargo::className(), ['idDepartamento' => 'idDepartamento']);
     }
 }
