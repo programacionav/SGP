@@ -18,7 +18,7 @@ use yii\helpers\ArrayHelper;
   <?= $form->field($model, 'idCarrera')->dropDownList(
       ArrayHelper::map(Carrera::find()->all(), 'idCarrera', 'nombre')) ?>
    <div class="form-group">
-   <?= Html::a('Crear Carrera', ['carrera/create'], ['class' => 'btn btn-success']) ?>
+   <?= Html::a('Nueva Carrera', ['carrera/create'], ['class' => 'btn btn-success']) ?>
 </div>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Modificar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\Plan;
+use app\models\Departamento;
 use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
@@ -25,15 +26,19 @@ use yii\helpers\ArrayHelper;
     <?= $form->field($model, 'objetivo')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'contenidoMinimo')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'idDepartamento')->textInput() ?>
+    
+       
+    <?= $form->field($model, 'idDepartamento')->dropDownList(
+      ArrayHelper::map(Departamento::find()->all(), 'idDepartamento','nombre')) ?>
+      
+        <?= $form->field($model, 'area')->textInput(['maxlength' => true]) ?>
     
     
  <?= $form->field($model, 'idPlan')->dropDownList(
       ArrayHelper::map(Plan::find()->all(), 'idPlan','numOrd')) ?>
-      
-    
-
+       <div class="form-group">
+      <?= Html::a('Correlativas', ['correlativa/create'], ['class' => 'btn btn-success']) ?>
+</div>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Modificar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
