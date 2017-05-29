@@ -3,6 +3,9 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\helpers\Url;
+use yii\bootstrap\Modal;
+use app\models\Usuario;
+
 
 
 /* @var $this yii\web\View */
@@ -10,37 +13,59 @@ use yii\helpers\Url;
 
 $this->title = $model->idPrograma;
 $this->params['breadcrumbs'][] = ['label' => 'Programas', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = $model->getTitulo();
 ?>
-<div class="programa-view">
+<?php
+$estado = null;
+$nombreAccion = null;
+if(Yii::$app->user->identity->idRol == 1){
+  $estado = 1;
+}else{
+  $estado = 2;  
+  $nombreAccion = "Comprobado";
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->idPrograma], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->idPrograma], [
-            'class' => 'btn btn-danger',
+}
+$cantidad = null;
+  foreach ( $model->observacions as $recorre) {
+$cantidad = $recorre->find()
+    ->where(['idEstadoO' => $estado])// aca tambien deberia detectar el rol del usuario logueado para que cuando se loguee el jefe pueda ver las observaciones corregidas por el docente
+     ->andWhere(['idPrograma' => $model->idPrograma])
+    ->count();
+  }
+?>
+<div class="programa-view container-fluid">
+    <div class="page-header">
+      <h3 class="text-center"><?= $model->getTitulo() ?></h3>
+    </div>
+    <div class="row">
+      <div class="well well-lg">
+        <?= Html::a('<span class="glyphicon glyphicon-pencil"></span>&nbsp;Actualizar', ['update', 'id' => $model->idPrograma], ['class' => 'btn btn-default']) ?>
+        <?= Html::a('<span class="glyphicon glyphicon-trash"></span>&nbsp;Borrar', ['delete', 'id' => $model->idPrograma], [
+            'class' => 'btn btn-default',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => '¿Esta seguro que desea eliminar el programa?',
                 'method' => 'post',
             ],
         ]) ?>
-        <?= Html::a('Agregar observacion',Url::toRoute(['observacion/create','id' => $model->idPrograma]), ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Aprobar(secretario academico)', ['index'], [
-            'class' => 'btn btn-primary',
+        <?php
+        if(Yii::$app->user->identity->idRol != 1){
+          Modal::begin([
+            'header' => 'Nueva observación',
+            'toggleButton' => ['label' => '<span class="glyphicon glyphicon-plus"></span>&nbsp;Observación','class'=>'btn btn-default'],
+          ]);
+          Modal::end();
+        ?>
+
+        <?php
+        if($cantidad == 0){
+        echo  Html::a('<span class="glyphicon glyphicon-ok"></span>&nbsp;Aprobar', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma]), [
+            'class' => 'btn btn-success',
             'data' => [
                     'confirm' => 'Esta seguro que desea aprobar este programa?'],
-                    ]) ?>
-        <?= Html::a('Aprobar(jefe departamento)', ['index'], [
-          'class' => 'btn btn-primary',
-          'data' => [
-                  'confirm' => 'Esta seguro que desea aprobar este programa?'],
-                  ]) ?>
-        <?= Html::a('Crear pdf',Url::toRoute(['programa/report','id' => $model->idPrograma]), ['class' => 'btn btn-primary pull-right','target'=>'_blank']) ?>
-
-
-
-    </p>
+                    ]);} } ?>
+        <?= Html::a('<span class="glyphicon glyphicon-export"></span>&nbsp;Crear pdf',Url::toRoute(['programa/report','id' => $model->idPrograma]), ['class' => 'btn btn-default pull-right','target'=>'_blank']) ?>
+      </div>
+    </div>
 <!--
      DetailView::widget([
         'model' => $model,
@@ -57,13 +82,39 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ])
 -->
+<!-- en teoria va a traer las obersaciones,falta hacerle muchas cosas a esto-->
+<?php
+
+$alert = null;
+
+if ( $cantidad > 0 ){
+$alert = "<div class='alert alert-danger'>";
+$alert.= "<strong>observaciones</strong><br>";
+
+
+
+   foreach ( $model->observacions as $recorre) {
+
+if($recorre->idEstadoO == $estado){//busca segun el estado de la observacion,TAMBIEN,deberia decetectar que rol esta logueado.
+  $alert.="<strong>- </strong>".$recorre->observacion.Html::a($nombreAccion,Url::toRoute(['cambioestadoob','id' => $recorre->idObservacion]), ['class' => 'pull-right']) ."<br>";
+
+}
+
+}
+
+
+
+
+
+}$alert.="</div>"; echo $alert;?>
+
     <table class="table table-bordered">
     <tbody>
       <tr>
         <td colspan="3"><strong>ASIGNATURA:</strong><?=$model->idCursado0->idMateria0->nombre?></td>
       </tr>
       <tr>
-        <td colspan="3"><strong>DEPARTAMENTO:</strong></td>
+        <td colspan="3"><strong>DEPARTAMENTO:</strong><?=$model->idCursado0->idMateria0->idDepartamento0->nombre?></td>
       </tr>
       <tr>
         <td colspan="1"><strong>AREA:</strong></td>
@@ -87,16 +138,20 @@ $this->params['breadcrumbs'][] = $this->title;
       <tr>
         <td colspan="3"><strong>EQUIPO DE CÁTEDRA:</strong><br>
           <strong>Listado de Docentes:</strong>
+         <?php foreach($model->idCursado0->idDocentes as $recorre2){
+           echo $recorre2->nombre." ".$recorre2->apellido."<br>";
+         }
+           ?>
       </td>
       </tr>
       <tr>
-        <td colspan="3"><strong>HORAS DE CLASE:</strong></td>
+        <td colspan="3"><strong>HORAS DE CLASE:</strong><?=$model->idCursado0->idMateria0->hora?></td>
       </tr>
       <tr>
-        <td colspan="3"><strong>OBJETIVOS DE LA MATERIA:</strong></td>
+        <td colspan="3"><strong>OBJETIVOS DE LA MATERIA:</strong><?=$model->idCursado0->idMateria0->objetivo?></td>
       </tr>
       <tr>
-        <td colspan="3"><strong>CONTENIDOS MINIMOS:</strong></td>
+        <td colspan="3"><strong>CONTENIDOS MINIMOS:</strong><?=$model->idCursado0->idMateria0->contenidoMinimo?></td>
       </tr>
       <tr>
         <td colspan="3"><strong>PROGRAMA ANALÍTICO:</strong><br><?=$model->programaAnalitico;?>
@@ -119,13 +174,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     </tbody>
   </table>
-<!-- en teoria va a traer las obersaciones,falta hacerle muchas cosas a esto-->
-<?php foreach ( $model->observacions as $recorre) {
-if ( empty($recorre) == false ){
-  echo "<strong>observaciones</strong><br>";
-}
-echo  $recorre->observacion;
-  }?>
+
 
 </div>
 

@@ -65,12 +65,14 @@ class ObservacionController extends Controller
     {
         $model = new Observacion();
         $model->idPrograma = $id;
+        $model->idEstadoO = 1;
+        $model->idUsuario = Yii::$app->user->id;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idObservacion]);
         } else {
-            return $this->render('create', [
-                'model' => $model,
+            return $this->render('../programa/view', [
+                'modelOb' => $model,
             ]);
         }
     }
