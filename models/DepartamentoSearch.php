@@ -18,7 +18,7 @@ class DepartamentoSearch extends Departamento
     public function rules()
     {
         return [
-            [['idDepartamento', 'idDocente', 'idFacultad'], 'integer'],
+            [['idDepartamento', 'idFacultad'], 'integer'],
             [['nombre'], 'safe'],
         ];
     }
@@ -60,7 +60,6 @@ class DepartamentoSearch extends Departamento
         // grid filtering conditions
         $query->andFilterWhere([
             'idDepartamento' => $this->idDepartamento,
-            'idDocente' => $this->idDocente,
             'idFacultad' => $this->idFacultad,
         ]);
 

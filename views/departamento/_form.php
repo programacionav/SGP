@@ -20,7 +20,7 @@ use app\models\Facultad;
     
 
 	<?php
-	$item = ArrayHelper::map(Docente::find()->all(),
+	$item = ArrayHelper::map(Docente::find()->all(), //Verficar si funciona
     'idDocente',
     function($model) {
         return $model['nombre'].' '.$model['apellido'];
