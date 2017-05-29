@@ -7,6 +7,7 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Programa;
 use app\models\Rol;
+use app\models\DepartamentoDocenteCargo;
 
 /**
  * ProgramaSearch represents the model behind the search form about `app\models\Programa`.
@@ -52,7 +53,30 @@ class ProgramaSearch extends Programa
         $query = Programa::find();
 
         
-        $query->joinWith(['cambioestados','idCursado0.idMateria0.idDepartamento0', 'idCursado0.idMateria0.idPlan0.idCarrera0']);
+        if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
+            /*
+            Si es docente filtro por los programas que esten a su cargo y los que sean de su departamento siempre y cuando esten publicados. Ordenado por año materia cuatrimestre (descripcion) y cursado
+            */            
+            
+            $query->joinWith(['cambioestados','idCursado0.idMateria0.idDepartamento0', 'idCursado0.idMateria0.idPlan0.idCarrera0','idCursado0.designadoACargo']);
+
+            $query->andFilterWhere(['designado.idDocente'=>Yii::$app->user->identity->id]);
+
+            //PENDIENTE VALIDAR EL DEPARTAMENTO DEL DOCENTE Y LOS PROGRAMAS PUBLICADOS
+            $query->andFilterWhere(['materia.idDepartamento'=>DepartamentoDocenteCargo::find()->where(['idDocente'=>Yii::$app->user->identity->id])->one()->idDepartamento]);
+
+        }
+
+        if(Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
+            /*Si es jefedpto filtro por su departameto y ordeno por año materia cuatrimestre y cursado, este no puede ver los programas de otros dptos. Ordenado por año materia cuatrimestre (descripcion) y cursado*/
+        }
+
+        if(Rol::findOne(Yii::$app->user->identity->idRol)->esSecAcademico()){
+            /*Si es sec academico filtro los programas publicados ordenados por año, carrera, materia, cuatrimestre (descripcion) y crusado. (Este no puede ver otros programas que no esten publicados, pero si ve aquellos que esten pendientes de publicar por el.)*/
+        }
+        /*NOTA todos los roles pueden ver los programas publicados de todas las materias. 
+        Ademas todos los roles pueden filtrar por carrera, materia, año, cuatrimestre y cursado para ver programas de cualquier materia y cualquier carrera.*/        
+        //$query->joinWith(['cambioestados','idCursado0.idMateria0.idDepartamento0', 'idCursado0.idMateria0.idPlan0.idCarrera0']);
         
 
         // add conditions that should always apply here
@@ -91,19 +115,5 @@ class ProgramaSearch extends Programa
             ->andFilterWhere(['like', 'cursado.cuatrimestre', $this->cuatrimestre]);
 
         return $dataProvider;
-
-        //íf(Rol::findOne(Yii::$app->user->idRol)->esDocente()){
-            /*Si es docente filtro por los programas que esten a su cargo y los que sean de su departamento. Ordenado por año materia cuatrimestre (descripcion) y cursado*/
-        //}
-
-        //íf(Rol::findOne(Yii::$app->user->idRol)->esJefeDpto()){
-            /*Si es jefedpto filtro por su departameto y ordeno por año materia cuatrimestre y cursado, este no puede ver los programas de otros dptos. Ordenado por año materia cuatrimestre (descripcion) y cursado*/
-        //}
-
-        //íf(Rol::findOne(Yii::$app->user->idRol)->esSecAcademico()){
-            /*Si es sec academico filtro los programas publicados ordenados por año, carrera, materia, cuatrimestre (descripcion) y crusado. (Este no puede ver otros programas que no esten publicados, pero si ve aquellos que esten pendientes de publicar por el.)*/
-        //}
-        /*NOTA todos los roles pueden ver los programas publicados de todas las materias. 
-        Ademas todos los roles pueden filtrar por carrera, materia, año, cuatrimestre y cursado para ver programas de cualquier materia y cualquier carrera.*/
     }
 }
