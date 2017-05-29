@@ -6,20 +6,28 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Programa;
+use app\models\Rol;
 
 /**
  * ProgramaSearch represents the model behind the search form about `app\models\Programa`.
  */
 class ProgramaSearch extends Programa
 {
+
+    public $idMateria;
+    public $idEstadoP;
+    public $cuatrimestre;
+    public $idCarrera;
+    public $idPlan;
+    public $idDepartamento;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['idPrograma', 'idCursado'], 'integer'],
-            [['orientacion', 'anioActual', 'programaAnalitico', 'propuestaMetodologica', 'condicionesAcredEvalu', 'horariosConsulta', 'bibliografia'], 'safe'],
+            [['idPrograma', 'idCursado' , 'idMateria', 'idEstadoP', 'idCarrera', 'idPlan', 'idDepartamento'], 'integer'],
+            [['orientacion', 'anioActual', 'programaAnalitico', 'propuestaMetodologica', 'condicionesAcredEvalu', 'horariosConsulta', 'bibliografia', 'cuatrimestre'], 'safe'],
         ];
     }
 
@@ -43,6 +51,10 @@ class ProgramaSearch extends Programa
     {
         $query = Programa::find();
 
+        
+        $query->joinWith(['cambioestados','idCursado0.idMateria0.idDepartamento0', 'idCursado0.idMateria0.idPlan0.idCarrera0']);
+        
+
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -59,9 +71,14 @@ class ProgramaSearch extends Programa
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'idPrograma' => $this->idPrograma,
-            'idCursado' => $this->idCursado,
-            'anioActual' => $this->anioActual,
+            'programa.idPrograma' => $this->idPrograma,
+            'programa.idCursado' => $this->idCursado,
+            'programa.anioActual' => $this->anioActual,
+            'materia.codigo' => $this->idMateria,
+            'cambioestado.idEstadoP' => $this->idEstadoP,
+            'carrera.idCarrera' => $this->idCarrera,
+            'departamento.idDepartamento' => $this->idDepartamento,
+            'plan.idPlan' => $this->idPlan,
         ]);
 
         $query->andFilterWhere(['like', 'orientacion', $this->orientacion])
@@ -69,8 +86,24 @@ class ProgramaSearch extends Programa
             ->andFilterWhere(['like', 'propuestaMetodologica', $this->propuestaMetodologica])
             ->andFilterWhere(['like', 'condicionesAcredEvalu', $this->condicionesAcredEvalu])
             ->andFilterWhere(['like', 'horariosConsulta', $this->horariosConsulta])
-            ->andFilterWhere(['like', 'bibliografia', $this->bibliografia]);
+            ->andFilterWhere(['like', 'bibliografia', $this->bibliografia])
+            ->andFilterWhere(['like', 'bibliografia', $this->bibliografia])
+            ->andFilterWhere(['like', 'cursado.cuatrimestre', $this->cuatrimestre]);
 
         return $dataProvider;
+
+        //íf(Rol::findOne(Yii::$app->user->idRol)->esDocente()){
+            /*Si es docente filtro por los programas que esten a su cargo y los que sean de su departamento. Ordenado por año materia cuatrimestre (descripcion) y cursado*/
+        //}
+
+        //íf(Rol::findOne(Yii::$app->user->idRol)->esJefeDpto()){
+            /*Si es jefedpto filtro por su departameto y ordeno por año materia cuatrimestre y cursado, este no puede ver los programas de otros dptos. Ordenado por año materia cuatrimestre (descripcion) y cursado*/
+        //}
+
+        //íf(Rol::findOne(Yii::$app->user->idRol)->esSecAcademico()){
+            /*Si es sec academico filtro los programas publicados ordenados por año, carrera, materia, cuatrimestre (descripcion) y crusado. (Este no puede ver otros programas que no esten publicados, pero si ve aquellos que esten pendientes de publicar por el.)*/
+        //}
+        /*NOTA todos los roles pueden ver los programas publicados de todas las materias. 
+        Ademas todos los roles pueden filtrar por carrera, materia, año, cuatrimestre y cursado para ver programas de cualquier materia y cualquier carrera.*/
     }
 }

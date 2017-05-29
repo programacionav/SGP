@@ -57,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
   echo "</tr>";
   echo "</table>";
 ?>
-<?= Html::a('Nueva Designación',['designado/create','idCursado'=>$model->idCursado],['class' =>'btn btn-info']);?>
+<?= Html::a('Nueva Designación',['designado/create','idCursado'=>$model->idCursado],['class' =>'btn btn-success']);?>
     <?/* DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -67,6 +67,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'cuatrimestre',
         ],
-    ]) */?>
+    ]) */
+    ?>
+    <?="<br>"?>
+    <?="<br>"?>
+    <?= $this->render('_viewdesignado.php', [
+        'model' => $model
+    ]) ?>
+
 
 </div>

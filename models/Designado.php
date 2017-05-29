@@ -65,4 +65,7 @@ class Designado extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Docente::className(), ['idDocente' => 'idDocente']);
     }
+    public function esACargo(){
+      return $this->funcion == 'acargo';
+    }
 }
