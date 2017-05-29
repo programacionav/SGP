@@ -20,7 +20,7 @@ use yii\jui\DatePicker;
      ?>
      <?= $form->field($model, 'idMateria')->dropdownList(
         $item,
-        ['prompt'=>'Elija la noticia']
+        ['prompt'=>'Elija la Materia']
       ); ?>
     <?= $form->field($model, 'fechaInicio')->textInput() ?>
 
@@ -28,7 +28,7 @@ use yii\jui\DatePicker;
 
     <?= $form->field($model, 'cuatrimestre')->textInput() ?>
 
-    <?= DatePicker::widget(['name' => 'date']) ?>
+
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

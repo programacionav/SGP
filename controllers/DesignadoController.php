@@ -5,10 +5,13 @@ namespace app\controllers;
 use Yii;
 use app\models\Designado;
 use app\models\DesignadoSearch;
+use app\models\Departamento;
+use app\models\DepartamentoDocenteCargo;
+use app\models\Docente;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\helpers\Json;
 /**
  * DesignadoController implements the CRUD actions for Designado model.
  */
@@ -65,12 +68,15 @@ class DesignadoController extends Controller
     public function actionCreate()
     {
         $model = new Designado();
-
+        $model_dpto = new Departamento();
+        $idCursado = 2;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'idCursado' => $model->idCursado, 'idDocente' => $model->idDocente]);
         } else {
             return $this->render('create', [
+                'model_dpto' => $model_dpto,
                 'model' => $model,
+                'id_cursado' => $idCursado,
             ]);
         }
     }
@@ -124,5 +130,51 @@ class DesignadoController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionSubcat() {
+      /* Esta accion Subcat es para obtener los docentes que pertenecen a un determinado Departamento**/
+    $out = [];
+    if (isset($_POST['depdrop_parents'])) {
+        $parents = $_POST['depdrop_parents'];
+        if ($parents != null) {
+            $cat_id = $parents[0];
+            $out = self::getSubCatList($cat_id);
+            // the getSubCatList function will query the database based on the
+            // cat_id and return an array like below:
+            // [
+            //    ['id'=>'<sub-cat-id-1>', 'name'=>'<sub-cat-name1>'],
+            //    ['id'=>'<sub-cat_id_2>', 'name'=>'<sub-cat-name2>']
+            // ]
+
+            echo Json::encode(['output'=>$out, 'selected'=>'']);
+            return;
+        }
+    }
+    echo Json::encode(['output'=>'', 'selected'=>'']);
+    }
+    private function getSubCatList($idDepartamento){
+      /**$itemDptos = Docente::find() //obtengo un arreglo asociativo[index->titulo]
+      ->select(['nombre'])  //de noticias donde: lo que esta dentro del option es el titulo
+      ->indexBy('idDocente')       // y el value de los option es el id
+      ->column();
+      $arreglo = false;
+      foreach ($itemDptos as $indice => $dpto) {
+        $arreglo[]= [$indice =>$dpto];
+      }*/
+      $dpto = Departamento::find()
+      ->where(['idDepartamento' => $idDepartamento])
+      ->one();
+      //$idsDocentes = $dpto->idDocentes;
+      $idsDocentes = $dpto->getidDocentes();
+      $algo = get_class($idsDocentes);
+      if($idDepartamento == 1){
+        $arreglo = [['id'=>'1','name'=>$algo],['id'=>'2','name'=>'alex']];
+      }else{
+        $arreglo = [['id'=>'1','name'=>'branko1'],['id'=>'2','name'=>'alex2']];
+      }
+
+      return $arreglo;
+
     }
 }
