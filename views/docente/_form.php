@@ -2,6 +2,12 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
+use app\models\Dedicacion;
+use app\models\Rol;
+use app\models\Cargo;
+use app\models\Departamento;
+use app\models\DepartamentoDocenteCargo;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Docente */
@@ -20,10 +26,69 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'mail')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'idDedicacion')->textInput() ?>
+	<?php
+	$item = ArrayHelper::map(Dedicacion::find()->all(),
+    'idDedicacion',
+    function($model) {
+        return $model['descripcion'];
+    }
+	);
+     ?>
+    <?= $form->field($model, 'idDedicacion')->dropdownList(
+        $item,
+    ['prompt'=>'Seleccione...']
+    )->label('Dedicacion'); ?>
+
+
+
+	<?php
+	$item = ArrayHelper::map(Cargo::find()->all(),
+    'idCargo',
+    function($modelCargo) {
+        return $modelCargo['abreviatura'].' '.$modelCargo['descripcion'];
+    }
+	);
+     ?>
+    <?= $form->field($modelDepartamentoDocenteCargo, 'idCargo')->dropdownList(
+        $item,
+    ['prompt'=>'Seleccione...']
+    )->label('Cargo'); ?>
+
+
+
+	<?php
+	$item = ArrayHelper::map(Departamento::find()->all(),
+    'idDepartamento',
+    function($modelDepartamento) {
+        return $modelDepartamento['nombre'];
+    }
+	);
+     ?>
+    <?= $form->field($modelDepartamentoDocenteCargo, 'idDepartamento')->dropdownList(
+        $item,
+    ['prompt'=>'Seleccione...']
+    )->label('Departamento'); ?>
+
+
+    
+    
+    <?php //Este select envia los datos al modelo Usuario creado en DocenteController
+	$item = ArrayHelper::map(Rol::find()->all(),
+    'idRol',
+    function($modelUsuario) {
+        return $modelUsuario['descripcion'];
+    }
+	);
+     ?>
+    <?= $form->field($modelUsuario, 'idRol')->dropdownList(
+        $item,
+    ['prompt'=>'Seleccione...']
+    )->label('Rol'); ?>
+
+
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Modificar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\models\Plan;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Materia */
@@ -25,8 +27,12 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'contenidoMinimo')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'idDepartamento')->textInput() ?>
-
-    <?= $form->field($model, 'idPlan')->textInput() ?>
+    
+    
+ <?= $form->field($model, 'idPlan')->dropDownList(
+      ArrayHelper::map(Plan::find()->all(), 'idPlan','numOrd')) ?>
+      
+    
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Modificar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

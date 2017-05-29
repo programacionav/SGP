@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Docente */
 
-$this->title = 'Create Docente';
+$this->title = 'Crear Docente';
 $this->params['breadcrumbs'][] = ['label' => 'Docentes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -16,6 +16,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'modelUsuario' => $modelUsuario, //Agrego el modelo Usuario recibido de DocenteController al hacer render en action create
+        'modelCargo' => $modelCargo,
+        'modelDepartamento' => $modelDepartamento,
+        'modelDepartamentoDocenteCargo' => $modelDepartamentoDocenteCargo,
+
     ]) ?>
 
 </div>

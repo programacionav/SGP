@@ -40,7 +40,8 @@ class Docente extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['cuil', 'nombre', 'apellido', 'mail', 'idDedicacion'], 'required'],
+            [['cuil', 'nombre', 'apellido', 'mail'], 'required'],
+			[['idDedicacion'], 'required', 'message'=>'Ingrese la dedicacion'],
             [['idDedicacion'], 'integer'],
             [['cuil'], 'string', 'max' => 20],
             [['nombre', 'apellido'], 'string', 'max' => 50],
@@ -67,22 +68,6 @@ class Docente extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCargodocentes()
-    {
-        return $this->hasMany(Cargodocente::className(), ['idDocente' => 'idDocente']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getIdCargos()
-    {
-        return $this->hasMany(Cargo::className(), ['idCargo' => 'idCargo'])->viaTable('cargodocente', ['idDocente' => 'idDocente']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getDepartamentos()
     {
         return $this->hasMany(Departamento::className(), ['idDocente' => 'idDocente']);
@@ -91,17 +76,9 @@ class Docente extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDepartamentodocentes()
+    public function getDepartamentodocentecargos()
     {
-        return $this->hasMany(Departamentodocente::className(), ['idDocente' => 'idDocente']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getIdDepartamentos()
-    {
-        return $this->hasMany(Departamento::className(), ['idDepartamento' => 'idDepartamento'])->viaTable('departamentodocente', ['idDocente' => 'idDocente']);
+        return $this->hasMany(Departamentodocentecargo::className(), ['idDocente' => 'idDocente']);
     }
 
     /**

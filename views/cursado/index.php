@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\ListView;
+use yii\data\ActiveDataProvider;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CursadoSearch */
@@ -18,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Cursado', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-    <?= GridView::widget([
+   <!--  <?/*= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -32,5 +34,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
-    ]); ?>
+    ]); */?> -->
+    <?= ListView::widget(
+
+    		[
+    				'dataProvider' => $dataProvider,
+    				'itemView' => '_view',
+    		]
+
+    		);
+
+    ?>
 </div>

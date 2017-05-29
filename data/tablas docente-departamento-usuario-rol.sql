@@ -62,7 +62,7 @@ FOREIGN KEY(idDepartamento) REFERENCES departamento(idDepartamento)
 CREATE TABLE IF NOT EXISTS rol(
   idRol int(11) NOT NULL AUTO_INCREMENT,
   descripcion varchar(50) NOT NULL,
- 
+
   PRIMARY KEY(idRol)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -77,5 +77,3 @@ CREATE TABLE IF NOT EXISTS usuario(
  FOREIGN KEY(idDocente) REFERENCES docente(idDocente),/*relacion 1 a 1*/
  FOREIGN KEY(idRol) REFERENCES rol(idRol)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-

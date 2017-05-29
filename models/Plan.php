@@ -43,8 +43,8 @@ class Plan extends \yii\db\ActiveRecord
     {
         return [
             'idPlan' => 'Id Plan',
-            'numOrd' => 'Num Ord',
-            'idCarrera' => 'Id Carrera',
+            'numOrd' => 'Numero Ordenanza',
+            'idCarrera' => 'Carrera',
         ];
     }
 
