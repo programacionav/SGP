@@ -24,7 +24,7 @@ use yii\widgets\ActiveForm;
         <td colspan="3"><strong>ASIGNATURA:</strong><?=$model->idCursado0->idMateria0->nombre?></td>
       </tr>
       <tr>
-        <td colspan="3"><strong>DEPARTAMENTO:</strong></td>
+        <td colspan="3"><strong>DEPARTAMENTO:</strong><?=$model->idCursado0->idMateria0->idDepartamento0->nombre?></td>
       </tr>
       <tr>
         <td colspan="1"><strong>AREA:</strong></td>
@@ -47,18 +47,22 @@ use yii\widgets\ActiveForm;
       </td>
       </tr>
       <tr>
-        <td colspan="3"><strong>EQUIPO DE CÁTEDRA:</strong><br>
+       <td colspan="3"><strong>EQUIPO DE CÁTEDRA:</strong><br>
           <strong>Listado de Docentes:</strong>
+         <?php foreach($model->idCursado0->idDocentes as $recorre2){
+           echo $recorre2->nombre." ".$recorre2->apellido."<br>";
+         }
+           ?>
       </td>
       </tr>
       <tr>
-        <td colspan="3"><strong>HORAS DE CLASE:</strong></td>
+        <td colspan="3"><strong>HORAS DE CLASE:</strong><?=$model->idCursado0->idMateria0->hora?></td>
       </tr>
       <tr>
-        <td colspan="3"><strong>OBJETIVOS DE LA MATERIA:</strong></td>
+        <td colspan="3"><strong>OBJETIVOS DE LA MATERIA:</strong><?=$model->idCursado0->idMateria0->objetivo?></td>
       </tr>
       <tr>
-        <td colspan="3"><strong>CONTENIDOS MINIMOS:</strong></td>
+        <td colspan="3"><strong>CONTENIDOS MINIMOS:</strong><?=$model->idCursado0->idMateria0->contenidoMinimo?></td>
       </tr>
       <tr>
         <td colspan="3"><strong>PROGRAMA ANALÍTICO:</strong><br><?= $form->field($model, 'programaAnalitico')->textarea(['rows' => 6])->label(false) ?>

@@ -4,6 +4,8 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Programa;
+use app\models\Observacion;
+use app\models\Cambioestado;
 use app\models\ProgramaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -46,6 +48,7 @@ class ProgramaController extends Controller
         ]);
     }
 
+
     /**
      * Displays a single Programa model.
      * @param integer $id
@@ -63,13 +66,11 @@ class ProgramaController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
-        $model = new Programa();
-
+    public function actionCreate(){
+         $model = new Programa();
         //$model->idCursado = $_GET['idCursado']; Descomentar esto cuando este listo
-        $model->idCursado = 3;
         $model->anioActual = date('Y');
+        $model->idCursado = 6;
 
         if(isset(Yii::$app->request->post()['Programa'])){
             if($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -87,6 +88,7 @@ class ProgramaController extends Controller
         }
     }
 
+
     /**
      * Updates an existing Programa model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -95,12 +97,18 @@ class ProgramaController extends Controller
      */
     public function actionUpdate($id)
     {
+        $destino = null;
         $model = $this->findModel($id);
+        if(Yii::$app->user->identity->idRol == 1){
+            $destino = 'update';
+        }else{
+            $destino = 'view';
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idPrograma]);
         } else {
-            return $this->render('update', [
+            return $this->render($destino, [
                 'model' => $model,
             ]);
         }
@@ -116,6 +124,22 @@ class ProgramaController extends Controller
     {
         if($this->findModel($id)->isabierto())
         {
+            //boorrar observaciones de programa
+            $oObservaciones = Observacion::find()->where(['idPrograma'=>$id])->all();
+            foreach($oObservaciones as $obser)
+            {
+              $obser->delete();
+            }
+
+
+            //borrar estados de programa
+            $oCambiosEstados = Cambioestado::find()->where(['idPrograma'=>$id])->all();
+            foreach($oCambiosEstados as $est)
+            {
+              $est->delete();
+            }
+
+
             //Si el programa se encuentra abierto puede borrarse
             $this->findModel($id)->delete();
         }
@@ -158,5 +182,44 @@ public function actionReport($id) {
     ]);
     return $pdf->render();
 }
+
+//ES UNA PRUEBA, PERDON SI ALGUIEN LO IBA A HACER, NO ME AGUANTE!
+    public function actionCambioestadoob($id){
+        $estadoAAsignar = null;
+if(Yii::$app->user->identity->idRol == 1){
+  $estadoAAsignar = 2;
+}else{
+  $estadoAAsignar = 3;  
+
+}
+         $modelOb = Observacion::findOne($id);
+         $modelOb->idEstadoO = $estadoAAsignar;//aca como abajo,tiene que cambiar el idEstado segun el Rol logueado.
+        if($modelOb->save(false)){
+          return $this->redirect(['update',
+        'id' => $modelOb->idPrograma,
+    ]);
+        }
+          
+        
+    }
+
+
+  public function actionCambiarestado(){
+    $exito = false;
+    $postData = Yii::$app->request->get();
+    $idEstado = '2'; //detectar estado dependiendo del rol, cambiame esto man!
+    $idPrograma = isset($postData['idPrograma'])?$postData['idPrograma']:null;
+    $modelCambioEstado = new Cambioestado();
+    $modelCambioEstado->idPrograma = $idPrograma;
+    $modelCambioEstado->idUsuario = 1; //hardcode
+    $modelCambioEstado->fecha = date("Y-m-d");
+    $modelCambioEstado->idEstadoP = $idEstado;
+    if($modelCambioEstado->save()){
+      $exito = true;
+    }
+    return $this->redirect(['view',
+        'id' => $idPrograma,
+    ]);
+  }
 
 }

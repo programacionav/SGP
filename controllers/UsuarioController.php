@@ -56,6 +56,14 @@ class UsuarioController extends Controller
         ]);
     }
 
+    public function actionCuenta()
+    {
+      $id = Usuario::findIdentity(Yii::$app->user->id);
+       return $this->render('cuenta', [
+           'model' => $this->findModel($id),
+       ]);
+    }
+
     /**
      * Creates a new Usuario model.
      * If creation is successful, the browser will be redirected to the 'view' page.
