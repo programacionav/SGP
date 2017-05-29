@@ -34,13 +34,14 @@ class CursadoController extends Controller
      * @return mixed
      */
     public function actionIndex()
-    {
+    {$model = new Cursado();
         $searchModel = new CursadoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'dataProvider' => $dataProvider,'model' => $model,
+        		
         ]);
     }
 
@@ -61,7 +62,7 @@ class CursadoController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($idMateria)
     {
         $model = new Cursado();
 
@@ -70,6 +71,7 @@ class CursadoController extends Controller
         } else {
             return $this->render('create', [
                 'model' => $model,
+            	'idMateria'=>$idMateria
             ]);
         }
     }
