@@ -65,11 +65,11 @@ class DesignadoController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($idCursado)
     {
         $model = new Designado();
         $model_dpto = new Departamento();
-        $idCursado = 2;
+        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'idCursado' => $model->idCursado, 'idDocente' => $model->idDocente]);
         } else {

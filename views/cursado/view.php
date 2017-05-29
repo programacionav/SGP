@@ -57,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
   echo "</tr>";
   echo "</table>";
 ?>
-<?= Html::a('Nueva Designación',['programa/create','idCursado'=>$model->idCursado],['class' =>'btn btn-info']);?>
+<?= Html::a('Nueva Designación',['designado/create','idCursado'=>$model->idCursado],['class' =>'btn btn-info']);?>
     <?/* DetailView::widget([
         'model' => $model,
         'attributes' => [
