@@ -71,8 +71,8 @@ class ObservacionController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idObservacion]);
         } else {
-            return $this->render('create', [
-                'model' => $model,
+            return $this->render('../programa/view', [
+                'modelOb' => $model,
             ]);
         }
     }

@@ -4,6 +4,8 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\helpers\Url;
 use yii\bootstrap\Modal;
+use app\models\Usuario;
+
 
 
 /* @var $this yii\web\View */
@@ -12,6 +14,24 @@ use yii\bootstrap\Modal;
 $this->title = $model->idPrograma;
 $this->params['breadcrumbs'][] = ['label' => 'Programas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->getTitulo();
+?>
+<?php
+$estado = null;
+$nombreAccion = null;
+if(Yii::$app->user->identity->idRol == 1){
+  $estado = 1;
+}else{
+  $estado = 2;  
+  $nombreAccion = "Comprobado";
+
+}
+$cantidad = null;
+  foreach ( $model->observacions as $recorre) {
+$cantidad = $recorre->find()
+    ->where(['idEstadoO' => $estado])// aca tambien deberia detectar el rol del usuario logueado para que cuando se loguee el jefe pueda ver las observaciones corregidas por el docente
+     ->andWhere(['idPrograma' => $model->idPrograma])
+    ->count();
+  }
 ?>
 <div class="programa-view container-fluid">
     <div class="page-header">
@@ -28,17 +48,21 @@ $this->params['breadcrumbs'][] = $model->getTitulo();
             ],
         ]) ?>
         <?php
+        if(Yii::$app->user->identity->idRol != 1){
           Modal::begin([
             'header' => 'Nueva observación',
             'toggleButton' => ['label' => '<span class="glyphicon glyphicon-plus"></span>&nbsp;Observación','class'=>'btn btn-default'],
           ]);
           Modal::end();
         ?>
-        <?= Html::a('<span class="glyphicon glyphicon-ok"></span>&nbsp;Aprobar', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma]), [
+
+        <?php
+        if($cantidad == 0){
+        echo  Html::a('<span class="glyphicon glyphicon-ok"></span>&nbsp;Aprobar', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma]), [
             'class' => 'btn btn-success',
             'data' => [
                     'confirm' => 'Esta seguro que desea aprobar este programa?'],
-                    ]) ?>
+                    ]);} } ?>
         <?= Html::a('<span class="glyphicon glyphicon-export"></span>&nbsp;Crear pdf',Url::toRoute(['programa/report','id' => $model->idPrograma]), ['class' => 'btn btn-default pull-right','target'=>'_blank']) ?>
       </div>
     </div>
@@ -60,14 +84,9 @@ $this->params['breadcrumbs'][] = $model->getTitulo();
 -->
 <!-- en teoria va a traer las obersaciones,falta hacerle muchas cosas a esto-->
 <?php
+
 $alert = null;
-$cantidad = null;
-  foreach ( $model->observacions as $recorre) {
-$cantidad = $recorre->find()
-    ->where(['idEstadoO' => 1])// aca tambien deberia detectar el rol del usuario logueado para que cuando se loguee el jefe pueda ver las observaciones corregidas por el docente
-     ->andWhere(['idPrograma' => $model->idPrograma])
-    ->count();
-  }
+
 if ( $cantidad > 0 ){
 $alert = "<div class='alert alert-danger'>";
 $alert.= "<strong>observaciones</strong><br>";
@@ -76,13 +95,12 @@ $alert.= "<strong>observaciones</strong><br>";
 
    foreach ( $model->observacions as $recorre) {
 
-if($recorre->idEstadoO == 1){//busca segun el estado de la observacion,TAMBIEN,deberia decetectar que rol esta logueado.
-  $alert.="<strong>- </strong>".$recorre->observacion.Html::a('Realizado',Url::toRoute(['cambioestadoob','id' => $recorre->idObservacion]), ['class' => 'pull-right']) ."<br>";
+if($recorre->idEstadoO == $estado){//busca segun el estado de la observacion,TAMBIEN,deberia decetectar que rol esta logueado.
+  $alert.="<strong>- </strong>".$recorre->observacion.Html::a($nombreAccion,Url::toRoute(['cambioestadoob','id' => $recorre->idObservacion]), ['class' => 'pull-right']) ."<br>";
 
 }
 
 }
-
 
 
 

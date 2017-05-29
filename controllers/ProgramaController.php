@@ -97,12 +97,18 @@ class ProgramaController extends Controller
      */
     public function actionUpdate($id)
     {
+        $destino = null;
         $model = $this->findModel($id);
+        if(Yii::$app->user->identity->idRol == 1){
+            $destino = 'update';
+        }else{
+            $destino = 'view';
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idPrograma]);
         } else {
-            return $this->render('update', [
+            return $this->render($destino, [
                 'model' => $model,
             ]);
         }
@@ -179,10 +185,17 @@ public function actionReport($id) {
 
 //ES UNA PRUEBA, PERDON SI ALGUIEN LO IBA A HACER, NO ME AGUANTE!
     public function actionCambioestadoob($id){
+        $estadoAAsignar = null;
+if(Yii::$app->user->identity->idRol == 1){
+  $estadoAAsignar = 2;
+}else{
+  $estadoAAsignar = 3;  
+
+}
          $modelOb = Observacion::findOne($id);
-         $modelOb->idEstadoO = 2;//aca como abajo,tiene que cambiar el idEstado segun el Rol logueado.
+         $modelOb->idEstadoO = $estadoAAsignar;//aca como abajo,tiene que cambiar el idEstado segun el Rol logueado.
         if($modelOb->save(false)){
-          return $this->redirect(['view',
+          return $this->redirect(['update',
         'id' => $modelOb->idPrograma,
     ]);
         }
