@@ -63,9 +63,10 @@ class DepartamentoDocenteCargoController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($idDocente)
     {
         $model = new DepartamentoDocenteCargo();
+        $model->idDocente=$idDocente;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'idDocente' => $model->idDocente, 'idDepartamento' => $model->idDepartamento, 'idCargo' => $model->idCargo]);
