@@ -32,6 +32,9 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php
   echo "<table class='table'>";
   echo "<tr>";
+  echo "<th>ID Cursado</th><th>Materia</th><th>Cuatrimestre</th><th>Año Inicio</th><th>Año Fin</th><th>Opciones</th>";
+  echo "</tr>";
+  echo "<tr>";
   echo "<td>";
   echo "ID Cursado: ".$model->idCursado."<br>";
   echo "</td>";
@@ -54,6 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
   echo "</tr>";
   echo "</table>";
 ?>
+<?= Html::a('Nueva Designación',['designado/create','idCursado'=>$model->idCursado],['class' =>'btn btn-info']);?>
     <?/* DetailView::widget([
         'model' => $model,
         'attributes' => [
