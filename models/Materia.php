@@ -9,7 +9,7 @@ use Yii;
  *
  * @property integer $codigo
  * @property string $nombre
- * @property string $año
+ * @property string $anio
  * @property string $hora
  * @property string $objetivo
  * @property string $contenidoMinimo
@@ -21,7 +21,9 @@ use Yii;
  * @property Correlativa[] $correlativas0
  * @property Materia[] $idMateria2s
  * @property Materia[] $idMateria1s
+ * @property Cursado[] $cursados
  * @property Plan $idPlan0
+ * @property Departamento $idDepartamento0
  */
 class Materia extends \yii\db\ActiveRecord
 {
@@ -46,6 +48,7 @@ class Materia extends \yii\db\ActiveRecord
             [['objetivo'], 'string', 'max' => 700],
             [['contenidoMinimo'], 'string', 'max' => 1500],
             [['idPlan'], 'exist', 'skipOnError' => true, 'targetClass' => Plan::className(), 'targetAttribute' => ['idPlan' => 'idPlan']],
+            [['idDepartamento'], 'exist', 'skipOnError' => true, 'targetClass' => Departamento::className(), 'targetAttribute' => ['idDepartamento' => 'idDepartamento']],
         ];
     }
 
@@ -103,13 +106,22 @@ class Materia extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getCursados()
+    {
+        return $this->hasMany(Cursado::className(), ['idMateria' => 'idMateria']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getIdPlan0()
     {
         return $this->hasOne(Plan::className(), ['idPlan' => 'idPlan']);
     }
-    
+
     public function getIdDepartamento0()
     {
     	return $this->hasOne(Departamento::className(), ['idDepartamento' => 'idDepartamento']);
-    }
-}
+
+
+}}

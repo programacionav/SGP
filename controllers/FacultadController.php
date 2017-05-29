@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Observacion;
-use app\models\ObservacionSearch;
+use app\models\Facultad;
+use app\models\FacultadSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ObservacionController implements the CRUD actions for Observacion model.
+ * FacultadController implements the CRUD actions for Facultad model.
  */
-class ObservacionController extends Controller
+class FacultadController extends Controller
 {
     /**
      * @inheritdoc
@@ -30,12 +30,12 @@ class ObservacionController extends Controller
     }
 
     /**
-     * Lists all Observacion models.
+     * Lists all Facultad models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ObservacionSearch();
+        $searchModel = new FacultadSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class ObservacionController extends Controller
     }
 
     /**
-     * Displays a single Observacion model.
+     * Displays a single Facultad model.
      * @param integer $id
      * @return mixed
      */
@@ -57,28 +57,25 @@ class ObservacionController extends Controller
     }
 
     /**
-     * Creates a new Observacion model.
+     * Creates a new Facultad model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($id = null)
+    public function actionCreate()
     {
-        $model = new Observacion();
-        $model->idPrograma = $id;
-        $model->idEstadoO = 1;
-        $model->idUsuario = Yii::$app->user->id;
+        $model = new Facultad();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idObservacion]);
+            return $this->redirect(['view', 'id' => $model->idFacultad]);
         } else {
-            return $this->render('../programa/view', [
-                'modelOb' => $model,
+            return $this->render('create', [
+                'model' => $model,
             ]);
         }
     }
 
     /**
-     * Updates an existing Observacion model.
+     * Updates an existing Facultad model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -88,7 +85,7 @@ class ObservacionController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idObservacion]);
+            return $this->redirect(['view', 'id' => $model->idFacultad]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -97,7 +94,7 @@ class ObservacionController extends Controller
     }
 
     /**
-     * Deletes an existing Observacion model.
+     * Deletes an existing Facultad model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -110,15 +107,15 @@ class ObservacionController extends Controller
     }
 
     /**
-     * Finds the Observacion model based on its primary key value.
+     * Finds the Facultad model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Observacion the loaded model
+     * @return Facultad the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Observacion::findOne($id)) !== null) {
+        if (($model = Facultad::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

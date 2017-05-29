@@ -4,19 +4,19 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Departamento */
+/* @var $model app\models\Facultad */
 
-$this->title = $model->idDepartamento;
-$this->params['breadcrumbs'][] = ['label' => 'Departamentos', 'url' => ['index']];
+$this->title = $model->idFacultad;
+$this->params['breadcrumbs'][] = ['label' => 'Facultads', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="departamento-view">
+<div class="facultad-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->idDepartamento], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->idDepartamento], [
+        <?= Html::a('Update', ['update', 'id' => $model->idFacultad], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete', ['delete', 'id' => $model->idFacultad], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -28,9 +28,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'idDepartamento',
-            'nombre',
             'idFacultad',
+            'nombre',
+            'sigla',
         ],
     ]) ?>
 
