@@ -37,10 +37,11 @@ class CarreraController extends Controller
     {
         $searchModel = new CarreraSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $model = Carrera::find()->all();
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+        	'model'=> $model	
         ]);
     }
 

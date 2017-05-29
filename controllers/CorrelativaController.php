@@ -67,7 +67,7 @@ class CorrelativaController extends Controller
         $model = new Correlativa();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'idMateria1' => $model->idMateria1, 'idMateria2' => $model->idMateria2]);
+            return $this->redirect(['materia/create', 'idMateria1' => $model->idMateria1, 'idMateria2' => $model->idMateria2]);
         } else {
             return $this->render('create', [
                 'model' => $model,
