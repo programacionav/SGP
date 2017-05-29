@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Materia */
 
-$this->title = $model->idMateria;
+//$this->title = $model->idMateria;
 $this->params['breadcrumbs'][] = ['label' => 'Materias', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -34,8 +34,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'hora',
             'objetivo',
             'contenidoMinimo',
-            'idMateria',
-            'idDepartamento',
+        		//[ 'attribute'=> 'correlativas',
+        		//'label'=>'Correlativa',],
+        		
+            //'idMateria',
+            //'idDepartamento',
+        		[ 'attribute'=> 'idDepartamento0.nombre',
+        		'label'=>'Departamento'],
             'idPlan',
         ],
     ]) ?>

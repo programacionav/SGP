@@ -31,7 +31,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'mail',
             // 'idDedicacion',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',
+            'template' => '{view} {update} {delete} {create}',
+            'buttons' => [
+                'create' => function($url,$model,$key){
+                    return Html::a('<span class="glyphicon glyphicon-plus-sign"></span>',
+                                    ['departamento-docente-cargo/create','idDocente'=>$model->idDocente] , [
+                                    'title' => Yii::t('app', 'Anexar departamento y cargo'),]);
+                }
+            ]],
         ],
     ]); ?>
 </div>

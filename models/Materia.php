@@ -61,12 +61,13 @@ class Materia extends \yii\db\ActiveRecord
             'codigo' => 'Codigo',
             'nombre' => 'Nombre',
             'anio' => 'Anio',
-            'hora' => 'Hora',
-            'objetivo' => 'Objetivo',
-            'contenidoMinimo' => 'Contenido Minimo',
+            'hora' => ' Cantidad de Horas Semanales',
+            'objetivo' => 'Objetivos',
+            'contenidoMinimo' => 'Contenidos Minimos',
             'idMateria' => 'Id Materia',
-            'idDepartamento' => 'Id Departamento',
-            'idPlan' => 'Id Plan',
+            'idDepartamento' => 'Departamento',
+            'idPlan' => 'Numero de Ordenanza del Plan',
+        	'area'=>'Area',	
         ];
     }
 
@@ -118,11 +119,9 @@ class Materia extends \yii\db\ActiveRecord
         return $this->hasOne(Plan::className(), ['idPlan' => 'idPlan']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getIdDepartamento0()
     {
-        return $this->hasOne(Departamento::className(), ['idDepartamento' => 'idDepartamento']);
-    }
-}
+    	return $this->hasOne(Departamento::className(), ['idDepartamento' => 'idDepartamento']);
+
+
+}}

@@ -61,18 +61,34 @@ class MateriaController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id=null)
     {
         $model = new Materia();
-
+       if($id!=null){
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idMateria]);
+            return $this->redirect(['plan/view', 'id' => $model->idPlan]);
         } else {
+        	$model->idPlan=$id;
             return $this->render('create', [
                 'model' => $model,
             ]);
         }
+       }
+       else{
+       	if ($model->load(Yii::$app->request->post()) && $model->save()) {
+       		return $this->redirect(['view', 'id' => $model->idMateria]);
+       	} else {
+       		 
+       		return $this->render('create', [
+       				'model' => $model,
+       		]);
+       	}
+       	
+       }
     }
+      
+     
+       
 
     /**
      * Updates an existing Materia model.

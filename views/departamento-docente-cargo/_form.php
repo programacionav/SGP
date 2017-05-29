@@ -40,10 +40,12 @@ use app\models\Cargo;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'idDocente')->dropdownList(
-        $itemDocente,
-    ['prompt'=>'Seleccione docente']
-    )->label('Docente') ?>
+    <big><b>Docente</b></big>
+    <br>
+
+    <?= Html::encode($itemDocente[$model->idDocente])  ?>
+     <br>
+     <br>  
 
     <?= $form->field($model, 'idDepartamento')->dropdownList(
         $itemDepartamento,
@@ -56,7 +58,7 @@ use app\models\Cargo;
     )->label('Cargo') ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Asignar' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

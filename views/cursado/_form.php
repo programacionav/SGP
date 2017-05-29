@@ -2,30 +2,18 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use app\models\Materia;
-
-
+use kartik\date\DatePicker;
 /* @var $this yii\web\View */
 /* @var $model app\models\Cursado */
 /* @var $form yii\widgets\ActiveForm */
-use kartik\date\DatePicker;
-
-
-
 
 ?>
 
 <div class="cursado-form">
     <?php $form = ActiveForm::begin(); 
-     // if(isset($_GET['id'])&&$_GET['id']!="")
-    //{$model->idMateria=$_GET['id'];}
+     if(isset($_GET['idMateria'])&&$_GET['idMateria']!="")
+    {$model->idMateria=$_GET['idMateria'];}
     ?>
-    <?php
-      $item = Materia::find() 
-        ->select(['Nombre'])  
-        ->indexBy('idMateria')  
-        ->column();
-  ?>
     <?= $form->field($model, 'fechaFin')->widget(DatePicker::classname(),[
     		'name' => 'fechaFin',
     		'id'=>'fechaFin',
@@ -49,10 +37,7 @@ use kartik\date\DatePicker;
     ]
 ]);
      ?>
-     <?= $form->field($model, 'idMateria')->dropdownList(
-        $item,
-    ['prompt'=>'Elija materia']
-    ); ?>
+     <?= $form->field($model, 'idMateria')->hiddenInput()->label(""); ?>
    
 
    

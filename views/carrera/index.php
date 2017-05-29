@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\models\Carrera;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CarreraSearch */
@@ -16,19 +17,25 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Crear Carrera', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Nueva Carrera', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Nuevo Plan', ['plan/create'], ['class' => 'btn btn-success']) ?>
     </p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-           // 'idCarrera',
-            'nombre',
-        		
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+     <?php
+     
+     $tabla = "<table class='table table-hover'>"
+		. " <tr><th>Carreras</th>". " <th>Plan</th>";
+     foreach ($model as $unaCarrera){
+     	$tabla .= "<tr>".
+     	'<td>'.$unaCarrera->nombre."</td>
+		<td>";foreach ($unaCarrera->plans as $unPlan){
+		$tabla.= Html::a(Html::encode($unPlan->numOrd), ['plan/view', 'id'=>$unPlan->idPlan]).'<br>';
+     	}
+		"</td>"."</tr>";
+     	
+     } 
+     
+     $tabla .= "</table>";
+     echo $tabla;
+     ?>
+   
 </div>
