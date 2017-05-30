@@ -22,11 +22,7 @@ $nombreAccion = null;
 if(Yii::$app->user->identity->idRol == 1){
   $estado = 1;
 }else{
-<<<<<<< HEAD
   $estado = 2;
-=======
-  $estado = 2;  
->>>>>>> cf45d5199559099f9c26d64c6c02c78cfc0f8479
   $nombreAccion = "Comprobado";
 
 }
@@ -56,7 +52,6 @@ $cantidad = $recorre->find()
         if(Yii::$app->user->identity->idRol != 1){
           Modal::begin([
             'header' => 'Nueva observación',
-<<<<<<< HEAD
             'headerOptions' => ['class' => 'text-center'],
             'toggleButton' => ['label' => '<span class="glyphicon glyphicon-plus"></span>&nbsp;Observación','class'=>'btn btn-default'],
           ]);
@@ -73,10 +68,7 @@ $cantidad = $recorre->find()
           ActiveForm::end();
           echo '</div>';
           echo '</div>';
-=======
-            'toggleButton' => ['label' => '<span class="glyphicon glyphicon-plus"></span>&nbsp;Observación','class'=>'btn btn-default'],
-          ]);
->>>>>>> cf45d5199559099f9c26d64c6c02c78cfc0f8479
+            
           Modal::end();
         ?>
 
@@ -122,7 +114,6 @@ $alert.= "<strong>observaciones</strong><br>";
 if($recorre->idEstadoO == $estado){//busca segun el estado de la observacion,TAMBIEN,deberia decetectar que rol esta logueado.
   $alert.="<strong>- </strong>".$recorre->observacion.Html::a($nombreAccion,Url::toRoute(['cambioestadoob','id' => $recorre->idObservacion]), ['class' => 'pull-right']) ."<br>";
 
-<<<<<<< HEAD
 }
 
 }
@@ -130,15 +121,9 @@ if($recorre->idEstadoO == $estado){//busca segun el estado de la observacion,TAM
 
 
 
-=======
-}
-
-}
 
 
 
-
->>>>>>> cf45d5199559099f9c26d64c6c02c78cfc0f8479
 
 }$alert.="</div>"; echo $alert;?>
 
@@ -242,6 +227,6 @@ if($recorre->idEstadoO == $estado){//busca segun el estado de la observacion,TAM
     }
   }
 };";
-$this->registerJs($jsCtrl,View::POS_LOAD);
+$this->registerJs($jsCtrl,View::POS_HEAD);
 
 ?>
