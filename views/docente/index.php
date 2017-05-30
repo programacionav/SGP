@@ -32,14 +32,22 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'idDedicacion',
 
             ['class' => 'yii\grid\ActionColumn',
-            'template' => '{view} {update} {delete} {create}',
+            'template' => '{view} {update} {delete} {create} {indexDDC}',
             'buttons' => [
                 'create' => function($url,$model,$key){
                     return Html::a('<span class="glyphicon glyphicon-plus-sign"></span>',
                                     ['departamento-docente-cargo/create','idDocente'=>$model->idDocente] , [
                                     'title' => Yii::t('app', 'Anexar departamento y cargo'),]);
+                },
+                'indexDDC'=> function($url,$model,$key){
+                    return Html::a('<span class="glyphicon glyphicon-share-alt"></span>',
+                    ['departamento-docente-cargo/index','idDocente'=>$model->idDocente] ,
+                    ['title' => Yii::t('app','Modificar o eliminar departamento y cargo'),]);
                 }
-            ]],
-        ],
-    ]); ?>
+            ]
+          ]
+        ],       
+    ]); 
+    
+    ?>
 </div>
