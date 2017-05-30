@@ -124,4 +124,37 @@ class ObservacionController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    public function actionAbmobservacion(){
+      $postData = Yii::$app->request->post();
+      $action = isset($postData['action'])?$postData['action']:null;
+      $exito = false;
+      $errors[] = "";
+      switch($action){
+        case 'insert':
+          $observacion = isset($postData['observacion'])?$postData['observacion']:null;
+          $idPrograma = isset($postData['idPrograma'])?$postData['idPrograma']:null;
+          $idUsuario = Yii::$app->user->identity->id;
+          $idEstadoO = 1;
+          $observacion = new Observacion();
+          $observacion->observacion = $observacion;
+          $observacion->idUsuario = $idUsuario;
+          $observacion->idPrograma = $idPrograma;
+          $observacion->idEstadoO = $idEstadoO;
+          if($observacion->save()){
+            $exito = true;
+          }else{
+            $errors[] = 'Ocurrio un error al crear la observación';
+          }
+          break;
+        case 'update':
+          break;
+        case 'delete';
+          break;
+
+        echo json_encode(['success' => $exito,'errors' => $errors]);
+      }
+
+
+    }
 }

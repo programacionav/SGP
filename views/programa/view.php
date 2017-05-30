@@ -1,5 +1,6 @@
 <?php
-
+use yii\web\View;
+use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\helpers\Url;
@@ -21,7 +22,11 @@ $nombreAccion = null;
 if(Yii::$app->user->identity->idRol == 1){
   $estado = 1;
 }else{
+<<<<<<< HEAD
+  $estado = 2;
+=======
   $estado = 2;  
+>>>>>>> cf45d5199559099f9c26d64c6c02c78cfc0f8479
   $nombreAccion = "Comprobado";
 
 }
@@ -51,8 +56,27 @@ $cantidad = $recorre->find()
         if(Yii::$app->user->identity->idRol != 1){
           Modal::begin([
             'header' => 'Nueva observación',
+<<<<<<< HEAD
+            'headerOptions' => ['class' => 'text-center'],
             'toggleButton' => ['label' => '<span class="glyphicon glyphicon-plus"></span>&nbsp;Observación','class'=>'btn btn-default'],
           ]);
+          echo '<div class="row">';
+          echo '<div class="col-xs-12">';
+          $form = ActiveForm::begin();
+          echo '<div class="form-group">';
+          echo '<label>Observación</label>';
+          echo HTML::textArea('observacion',null,['id' => 'texto-observacion','class' => 'form-control']);
+          echo '</div>';
+          echo '<div class="form-group">';
+          echo HTML::button('<span class="glyphicon glyphicon-plus"></span>&nbsp;Agregar',['type'=>'button','class' => 'btn btn-success','onclick'=>'ctrl.observacion.nueva()']);
+          echo '</div>';
+          ActiveForm::end();
+          echo '</div>';
+          echo '</div>';
+=======
+            'toggleButton' => ['label' => '<span class="glyphicon glyphicon-plus"></span>&nbsp;Observación','class'=>'btn btn-default'],
+          ]);
+>>>>>>> cf45d5199559099f9c26d64c6c02c78cfc0f8479
           Modal::end();
         ?>
 
@@ -98,6 +122,7 @@ $alert.= "<strong>observaciones</strong><br>";
 if($recorre->idEstadoO == $estado){//busca segun el estado de la observacion,TAMBIEN,deberia decetectar que rol esta logueado.
   $alert.="<strong>- </strong>".$recorre->observacion.Html::a($nombreAccion,Url::toRoute(['cambioestadoob','id' => $recorre->idObservacion]), ['class' => 'pull-right']) ."<br>";
 
+<<<<<<< HEAD
 }
 
 }
@@ -105,6 +130,15 @@ if($recorre->idEstadoO == $estado){//busca segun el estado de la observacion,TAM
 
 
 
+=======
+}
+
+}
+
+
+
+
+>>>>>>> cf45d5199559099f9c26d64c6c02c78cfc0f8479
 
 }$alert.="</div>"; echo $alert;?>
 
@@ -177,6 +211,37 @@ if($recorre->idEstadoO == $estado){//busca segun el estado de la observacion,TAM
 
 
 </div>
-
-
 </div>
+
+<?php $jsCtrl =
+"var ctrl = {
+  idPrograma:'".$model->idPrograma."',
+  observacion:{
+    textarea:$('#texto-observacion'),
+    nueva:function(){
+      var observacion = observacion.textarea.val();
+      $.ajax({
+        url:'index.php?r=observacion/abmobservacion',
+        method:'POST',
+        data:{
+          action:'insert',
+          observacion:observacion,
+          idPrograma:ctrl.idPrograma,
+        },
+        dataType:'json',
+        success:function(response){
+          alert(response);
+        }
+      });
+    },
+    actualizar:function(){
+
+    },
+    borrar:function(){
+
+    }
+  }
+};";
+$this->registerJs($jsCtrl,View::POS_LOAD);
+
+?>
