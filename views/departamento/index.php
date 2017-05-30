@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\models\Facultad;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\DepartamentoSearch */
@@ -26,7 +27,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'idDepartamento',
             'nombre',
-            'idFacultad',
+        [
+            'attribute' => 'idFacultad',
+            'label' => 'Facultad',
+            'filter' => Facultad::listaDeNombres(),
+            'value' => function($model, $index, $dataColumn) {
+                $nombreFacultad = Facultad::listaDeNombres();//Arreglo con todos los nombres de las facultades
+                return $nombreFacultad[$model->idFacultad];//retorna el nombre segun idFacultad
+            },
+        ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

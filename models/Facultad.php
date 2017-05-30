@@ -23,6 +23,16 @@ class Facultad extends \yii\db\ActiveRecord
         return 'facultad';
     }
 
+    //Funcion de Clase obtenida de la ejemplo 1 de la siguiente pagina
+    //Fuente: https://amnah.net/2013/12/22/how-to-display-sort-and-filter-related-model-data-in-gridview/
+    public static function listaDeNombres() {
+        $modelos = static::find()->all();
+        foreach ($modelos as $modelo) {
+            $listaDeNombres[$modelo->idFacultad] = $modelo->nombre;
+        }
+        return $listaDeNombres; //Devuelve un arreglo con los nombre de cada facultad y su indice corresponde con el idFacultad
+    }
+
     /**
      * @inheritdoc
      */
