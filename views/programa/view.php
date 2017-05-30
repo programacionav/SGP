@@ -6,30 +6,41 @@ use yii\widgets\DetailView;
 use yii\helpers\Url;
 use yii\bootstrap\Modal;
 use app\models\Usuario;
+use app\models\Rol;
 
 
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Programa */
 
+//PRUEBA
+foreach ( Yii::$app->user->identity->idDocente0->designados as $recorre2) {
+if ($recorre2->esACargo() == true){
+  echo "estoy a cargo";
+
+}
+  }
+
 $this->title = $model->idPrograma;
 $this->params['breadcrumbs'][] = ['label' => 'Programas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->getTitulo();
 ?>
 <?php
+//determina el idEstado segun el rol logueado.
 $estado = null;
 $nombreAccion = null;
-if(Yii::$app->user->identity->idRol == 1){
+if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
   $estado = 1;
-}else{
+}elseif(Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
   $estado = 2;
   $nombreAccion = "Comprobado";
 
 }
+//realiza la busqueda para saber si hay observaciones
 $cantidad = null;
   foreach ( $model->observacions as $recorre) {
 $cantidad = $recorre->find()
-    ->where(['idEstadoO' => $estado])// aca tambien deberia detectar el rol del usuario logueado para que cuando se loguee el jefe pueda ver las observaciones corregidas por el docente
+    ->where(['idEstadoO' => $estado])
      ->andWhere(['idPrograma' => $model->idPrograma])
     ->count();
   }
@@ -49,8 +60,8 @@ $cantidad = $recorre->find()
             ],
         ]) ?>
         <?php
-        if(Yii::$app->user->identity->idRol != 1){
-          Modal::begin([
+if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() == false){
+            Modal::begin([
             'header' => 'Nueva observación',
             'headerOptions' => ['class' => 'text-center'],
             'toggleButton' => ['label' => '<span class="glyphicon glyphicon-plus"></span>&nbsp;Observación','class'=>'btn btn-default'],
@@ -82,23 +93,7 @@ $cantidad = $recorre->find()
         <?= Html::a('<span class="glyphicon glyphicon-export"></span>&nbsp;Crear pdf',Url::toRoute(['programa/report','id' => $model->idPrograma]), ['class' => 'btn btn-default pull-right','target'=>'_blank']) ?>
       </div>
     </div>
-<!--
-     DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'idPrograma',
-            'idCursado',
-            'orientacion',
-            'anioActual',
-            'programaAnalitico:ntext',
-            'propuestaMetodologica',
-            'condicionesAcredEvalu',
-            'horariosConsulta',
-            'bibliografia',
-        ],
-    ])
--->
-<!-- en teoria va a traer las obersaciones,falta hacerle muchas cosas a esto-->
+
 <?php
 
 $alert = null;

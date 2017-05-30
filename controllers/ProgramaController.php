@@ -6,6 +6,7 @@ use Yii;
 use app\models\Programa;
 use app\models\Observacion;
 use app\models\Cambioestado;
+use app\models\Rol;
 use app\models\ProgramaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -186,7 +187,7 @@ public function actionReport($id) {
 //ES UNA PRUEBA, PERDON SI ALGUIEN LO IBA A HACER, NO ME AGUANTE!
     public function actionCambioestadoob($id){
         $estadoAAsignar = null;
-if(Yii::$app->user->identity->idRol == 1){
+if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
   $estadoAAsignar = 2;
 }else{
   $estadoAAsignar = 3;  
@@ -204,14 +205,21 @@ if(Yii::$app->user->identity->idRol == 1){
     }
 
 
+
   public function actionCambiarestado(){
+      if(Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
+  $estadoPrograma = 2;
+}elseif(Rol::findOne(Yii::$app->user->identity->idRol)->esSecAcademico()){
+  $estadoPrograma = 3;  
+
+}
     $exito = false;
     $postData = Yii::$app->request->get();
-    $idEstado = '2'; //detectar estado dependiendo del rol, cambiame esto man!
+    $idEstado = $estadoPrograma; //detectar estado dependiendo del rol, cambiame esto man!
     $idPrograma = isset($postData['idPrograma'])?$postData['idPrograma']:null;
     $modelCambioEstado = new Cambioestado();
     $modelCambioEstado->idPrograma = $idPrograma;
-    $modelCambioEstado->idUsuario = 1; //hardcode
+    $modelCambioEstado->idUsuario = Yii::$app->user->identity->id; //hardcode
     $modelCambioEstado->fecha = date("Y-m-d");
     $modelCambioEstado->idEstadoP = $idEstado;
     if($modelCambioEstado->save()){
