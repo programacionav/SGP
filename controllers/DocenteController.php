@@ -84,9 +84,8 @@ class DocenteController extends Controller
         }if ($modelUsuario->load(Yii::$app->request->post()) && $modelUsuario->save())
         { //Compruebo si se pudo cargar por post y guardar el usuario del Docente
 				    return $this->redirect(['view', 'id' => $model->idDocente]);
-			  }
-
-        } else {
+			  }else
+        {
             return $this->render('create', [
                 'model' => $model,
                 'modelUsuario' => $modelUsuario,
