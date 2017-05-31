@@ -111,7 +111,7 @@ class DepartamentoDocenteCargoController extends Controller
     {
         $this->findModel($idDocente, $idDepartamento, $idCargo)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['index', 'idDocente' => $idDocente]);
     }
 
     /**
