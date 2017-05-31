@@ -34,11 +34,19 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php
     if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() || Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
 
-            $aDepto = Departamento::find()->asArray()->where(DepartamentoDocenteCargo::find()->where(['idDocente'=>Yii::$app->user->identity->id])->one()->idDepartamento)->all();        
+            $aDepto = Departamento::find()->where(['idDepartamento'=>DepartamentoDocenteCargo::find()->where(['idDocente'=>Yii::$app->user->identity->id])->one()->idDepartamento])->asArray()->all();        
     }
-     else{
+    else{
             $aDepto = Departamento::find()->asArray()->all();     
-        } 
+    }
+
+    if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() || Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
+
+            $aMateria = Materia::find()->where(['idDepartamento'=>DepartamentoDocenteCargo::find()->where(['idDocente'=>Yii::$app->user->identity->id])->one()->idDepartamento])->asArray()->all();
+    }
+    else{
+            $aMateria = Materia::find()->asArray()->all();
+    } 
     ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -83,7 +91,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($data){
                     return $data->idCursado0->idMateria0->nombre;
                 },
-                'filter'=>ArrayHelper::map(Materia::find()->asArray()->all(), 'codigo', 'nombre'),
+                'filter'=>ArrayHelper::map($aMateria, 'codigo', 'nombre'),
             ],
             [
                 'label' => 'Cuatrimestre',
