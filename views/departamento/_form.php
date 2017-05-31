@@ -23,7 +23,7 @@ use app\models\Departamento;
 	$item = ArrayHelper::map(Docente::find()->all(), //Verficar si funciona
     'idDocente',
     function($model) {
-        return $model['nombre'].' '.$model['apellido'];
+     	return $model['nombre'].' '.$model['apellido'];
     }
 	);
 
@@ -35,10 +35,21 @@ use app\models\Departamento;
     );
      ?>
 
-    <?= $form->field($model, 'idDocente')->dropdownList(
-        $item,
-    ['prompt'=>'Seleccione docente']
-    )->label('Director de departamento'); ?>
+    <?php  
+		$docentes = count($item);
+		if($docentes==0){
+			echo "<label>Director de departamento</label>
+				<p>No hay docentes registrados para seleccionar.</p>";
+			echo "<p>".Html::a('Registrar nuevo docente', ['/docente/create'], ['class' => 'btn btn-success'])."</p>";	
+		}
+		else{
+			echo $form->field($model, 'idDocente')->dropdownList(
+				$item,
+			['prompt'=>'Seleccione docente']
+			)->label('Director de departamento');
+		}
+	?>
+            
 
         <?= $form->field($model, 'idFacultad')->dropdownList(
         $itemFacultad,
