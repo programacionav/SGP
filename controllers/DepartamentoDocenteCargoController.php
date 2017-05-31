@@ -33,10 +33,11 @@ class DepartamentoDocenteCargoController extends Controller
      * Lists all DepartamentoDocenteCargo models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($idDocente)
     {
         $searchModel = new DepartamentoDocenteCargoSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+       // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(['DepartamentoDocenteCargoSearch' => ['idDocente'=> $idDocente]]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
