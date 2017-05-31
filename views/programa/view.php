@@ -37,6 +37,7 @@ $estado = null;
 $nombreAccion = null;
 if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
   $estado = 1;
+  $nombreAccion = "Realizado";
 }elseif(Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
   $estado = 2;
   $nombreAccion = "Comprobado";
