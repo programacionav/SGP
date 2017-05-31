@@ -70,7 +70,7 @@ class DepartamentoDocenteCargoController extends Controller
         $model->idDocente=$idDocente;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'idDocente' => $model->idDocente, 'idDepartamento' => $model->idDepartamento, 'idCargo' => $model->idCargo]);
+            return $this->redirect(['docente/view', 'id' => $model->idDocente]);
         } else {
             return $this->render('create', [
                 'model' => $model,
