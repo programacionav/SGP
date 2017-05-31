@@ -9,11 +9,19 @@ use app\models\Estadoprograma;
 use app\models\Departamento;
 use app\models\Carrera;
 use app\models\Plan;
+use app\models\Rol;
+use app\models\DepartamentoDocenteCargo;
 
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ProgramaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+$update = null;
+      foreach ( Yii::$app->user->identity->idDocente0->designados as $recorre2) {
+if ($recorre2->esACargo() == true){
+   $update = "{delete} {update}";
+}
+            }
 
 $this->title = 'Programas';
 $this->params['breadcrumbs'][] = $this->title;
@@ -21,7 +29,17 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="programa-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    
+
+
+    <?php
+    if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() || Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
+
+            $aDepto = Departamento::find()->asArray()->where(DepartamentoDocenteCargo::find()->where(['idDocente'=>Yii::$app->user->identity->id])->one()->idDepartamento)->all();        
+    }
+     else{
+            $aDepto = Departamento::find()->asArray()->all();     
+        } 
+    ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -49,7 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($data){
                     return $data->idCursado0->idMateria0->idDepartamento0->nombre;
                 },
-                'filter'=>ArrayHelper::map(Departamento::find()->asArray()->all(), 'idDepartamento', 'nombre'),
+                'filter'=>ArrayHelper::map($aDepto, 'idDepartamento', 'nombre'),
             ],
             [
                 'label' => 'Nro Cursado',
@@ -88,8 +106,8 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'condicionesAcredEvalu',
             // 'horariosConsulta',
             // 'bibliografia',
-
-            ['class' => 'yii\grid\ActionColumn'],
+      
+           ['class' => 'yii\grid\ActionColumn', 'template' => '{view} '.$update.' '],
         ],
     ]); ?>
 </div>
