@@ -55,8 +55,14 @@ class DocenteController extends Controller
      */
     public function actionView($id)
     {
+        $modelCargo = new Cargo();
+        $modelDepartamento = new Departamento();
+        $modelDepartamentoDocenteCargo = new DepartamentoDocenteCargo();
         return $this->render('view', [
             'model' => $this->findModel($id),
+                'modelCargo' => $modelCargo,
+                'modelDepartamento' => $modelDepartamento,
+                'modelDepartamentoDocenteCargo' => $modelDepartamentoDocenteCargo,
         ]);
     }
 
