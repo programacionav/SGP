@@ -75,30 +75,21 @@ class DocenteController extends Controller
     {
         $model = new Docente();
         $modelUsuario = new Usuario();
-        $modelCargo = new Cargo();
-        $modelDepartamento = new Departamento();
-        $modelDepartamentoDocenteCargo = new DepartamentoDocenteCargo();
-
 
         if ($model->load(Yii::$app->request->post()) &&  $model->save()) { //Compruebo si cargué por post y si se pudo guardar el docente
             $modelUsuario->idDocente = $model->idDocente;
             //$modelUsuario->idRol "El idRol de Usuario lo carga por post del select correspondiente"
             $modelUsuario->usuario = $model->cuil;
             $modelUsuario->clave = $model->cuil;
-			$modelDepartamentoDocenteCargo->idDocente = $model->idDocente;
-        }if ($modelUsuario->load(Yii::$app->request->post()) && $modelUsuario->save()){ //Compruebo si se pudo cargar por post y guardar el usuario del Docente
-            if ($modelDepartamentoDocenteCargo->load(Yii::$app->request->post()) && $modelDepartamentoDocenteCargo->save()){
-				return $this->redirect(['view', 'id' => $model->idDocente]);
-			}
-			
+        }if ($modelUsuario->load(Yii::$app->request->post()) && $modelUsuario->save())
+        { //Compruebo si se pudo cargar por post y guardar el usuario del Docente
+				    return $this->redirect(['view', 'id' => $model->idDocente]);
+			  }
+
         } else {
             return $this->render('create', [
                 'model' => $model,
                 'modelUsuario' => $modelUsuario,
-                'modelCargo' => $modelCargo,
-                'modelDepartamento' => $modelDepartamento,
-                'modelDepartamentoDocenteCargo' => $modelDepartamentoDocenteCargo,
-
             ]);
         }
     }
