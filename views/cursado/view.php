@@ -6,7 +6,7 @@ use app\models\Materia;
 /* @var $this yii\web\View */
 /* @var $model app\models\Cursado */
 $mat=Materia::find()->where(['idMateria'=>$model->idMateria])->one();
-$this->title = "Cursado NÂ°".$model->idCursado;
+$this->title = "Cursado N°".$model->idCursado;
 
 
 $this->params['breadcrumbs'][] = ['label' => 'Cursados', 'url' => ['index']];
