@@ -25,6 +25,12 @@ $this->title = $model->idPrograma;
 $this->params['breadcrumbs'][] = ['label' => 'Programas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->getTitulo();
 ?>
+
+
+
+
+
+
 <?php
 //determina el idEstado segun el rol logueado.
 $estado = null;
@@ -74,12 +80,12 @@ if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() == false){
           echo HTML::textArea('observacion',null,['id' => 'texto-observacion','class' => 'form-control']);
           echo '</div>';
           echo '<div class="form-group">';
-          echo HTML::button('<span class="glyphicon glyphicon-plus"></span>&nbsp;Agregar',['type'=>'button','class' => 'btn btn-success','onclick'=>'ctrl.observacion.nueva()']);
+          echo '<button type="button" onclick="ctrl.observacion.nueva()"><span class="glyphicon glyphicon-plus"></span>&nbsp;Agregar</button>';
           echo '</div>';
           ActiveForm::end();
           echo '</div>';
           echo '</div>';
-            
+
           Modal::end();
         ?>
 
@@ -188,40 +194,48 @@ if($recorre->idEstadoO == $estado){//busca segun el estado de la observacion,TAM
 
     </tbody>
   </table>
-
-
 </div>
 </div>
 
-<?php $jsCtrl =
-"var ctrl = {
-  idPrograma:'".$model->idPrograma."',
-  observacion:{
-    textarea:$('#texto-observacion'),
-    nueva:function(){
-      var observacion = observacion.textarea.val();
-      $.ajax({
-        url:'index.php?r=observacion/abmobservacion',
-        method:'POST',
-        data:{
-          action:'insert',
-          observacion:observacion,
-          idPrograma:ctrl.idPrograma,
-        },
-        dataType:'json',
-        success:function(response){
-          alert(response);
-        }
-      });
-    },
-    actualizar:function(){
+<script>
 
-    },
-    borrar:function(){
 
+var ctrl = {
+    idPrograma:'<?= $model->idPrograma ?>',
+    observacion:{
+      textarea:$('#texto-observacion'),
+      nueva:function(){
+        var observacion = ctrl.observacion.textarea.val();
+        $.ajax({
+          url:'index.php?r=observacion/abmobservacion',
+          method:'POST',
+          data:{
+            action:'insert',
+            observacion:observacion,
+            idPrograma:ctrl.idPrograma,
+          },
+          dataType:'json',
+          success:function(response){
+            if(response.success){
+              alert("Observación agregada exitosamente");
+              window.location.href = "";
+            }else{
+              if(response.errors.length > 0){
+                alert(response.errors[0]);
+              }else{
+                alert("Ocurrió un error desconocido al agregar la observación");
+              }
+            }
+          }
+        });
+      },
+      actualizar:function(){
+
+      },
+      borrar:function(){
+
+      }
     }
-  }
-};";
-$this->registerJs($jsCtrl,View::POS_HEAD);
+  };
 
-?>
+</script>

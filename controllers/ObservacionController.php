@@ -129,19 +129,19 @@ class ObservacionController extends Controller
       $postData = Yii::$app->request->post();
       $action = isset($postData['action'])?$postData['action']:null;
       $exito = false;
-      $errors[] = "";
+      $errors = [];
       switch($action){
         case 'insert':
           $observacion = isset($postData['observacion'])?$postData['observacion']:null;
           $idPrograma = isset($postData['idPrograma'])?$postData['idPrograma']:null;
           $idUsuario = Yii::$app->user->identity->id;
           $idEstadoO = 1;
-          $observacion = new Observacion();
-          $observacion->observacion = $observacion;
-          $observacion->idUsuario = $idUsuario;
-          $observacion->idPrograma = $idPrograma;
-          $observacion->idEstadoO = $idEstadoO;
-          if($observacion->save()){
+          $model = new Observacion();
+          $model->observacion = $observacion;
+          $model->idUsuario = $idUsuario;
+          $model->idPrograma = $idPrograma;
+          $model->idEstadoO = $idEstadoO;
+          if($model->save()){
             $exito = true;
           }else{
             $errors[] = 'Ocurrio un error al crear la observación';
@@ -151,10 +151,7 @@ class ObservacionController extends Controller
           break;
         case 'delete';
           break;
-
-        echo json_encode(['success' => $exito,'errors' => $errors]);
       }
-
-
+      echo json_encode(['success' => $exito,'errors' => $errors]);
     }
 }
