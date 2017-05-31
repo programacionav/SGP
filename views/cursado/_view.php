@@ -67,7 +67,7 @@ $mat=Materia::find()->where(['idMateria'=>$model->idMateria])->one();
         						
         						'ver'=> function ($url, $model, $key) {
         						
-        						return Html::a('Ver',['view','idCursado'=>$model->idCursado ],['class'=>'btn btn-primary']);
+        						return Html::a('Ver',['view','id'=>$model->idCursado ],['class'=>'btn btn-primary']);
         						},
         						
         						'programa'=> function ($url, $model, $key) {
