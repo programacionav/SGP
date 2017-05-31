@@ -23,7 +23,7 @@ use app\models\Departamento;
 	$item = ArrayHelper::map(Docente::find()->all(), //Verficar si funciona
     'idDocente',
     function($model) {
-     	return $model['nombre'].' '.$model['apellido'];
+     	return $model['nombre'].' '.$model['apellido']; 
     }
 	);
 
