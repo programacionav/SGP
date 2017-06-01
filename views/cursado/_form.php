@@ -10,21 +10,9 @@ use kartik\date\DatePicker;
 ?>
 
 <div class="cursado-form">
-    <?php $form = ActiveForm::begin(); 
+   <?php $form = ActiveForm::begin(); 
      if(isset($_GET['idMateria'])&&$_GET['idMateria']!="")
     {$model->idMateria=$_GET['idMateria'];}
-    ?>
-    <?= $form->field($model, 'fechaFin')->widget(DatePicker::classname(),[
-    		'name' => 'fechaFin',
-    		'id'=>'fechaFin',
-    		'type' => DatePicker::TYPE_COMPONENT_PREPEND,
-    		'value' => '23-12-2017',
-    		'pluginOptions' => [
-    				'autoclose'=>true,
-    				'format' => 'yyyy-mm-dd'
-    		]
-    ]);
-    
     ?>
      <?= $form->field($model, 'fechaInicio')->widget(DatePicker::classname(),[
     'name' => 'fechaInicio',
@@ -37,6 +25,22 @@ use kartik\date\DatePicker;
     ]
 ]);
      ?>
+     
+      
+    <?= $form->field($model, 'fechaFin')->widget(DatePicker::classname(),[
+    		'name' => 'fechaFin',
+    		'id'=>'fechaFin',
+    		'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+    		'value' => '23-12-2017',
+    		'pluginOptions' => [
+    				'autoclose'=>true,
+    				'format' => 'yyyy-mm-dd'
+    		]
+    ]);
+    
+    ?>
+     
+     
      <?= $form->field($model, 'idMateria')->hiddenInput()->label(""); ?>
    
 
