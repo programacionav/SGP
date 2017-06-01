@@ -13,24 +13,25 @@ use app\models\Rol;
 /* @var $this yii\web\View */
 /* @var $model app\models\Programa */
 
-//PRUEBA
-foreach ( Yii::$app->user->identity->idDocente0->designados as $recorre2) {
-if ($recorre2->esACargo() == true){
-  echo "estoy a cargo";
 
-}
-  }
 
 $this->title = $model->idPrograma;
 $this->params['breadcrumbs'][] = ['label' => 'Programas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->getTitulo();
 ?>
+
+
+
+
+
+
 <?php
 //determina el idEstado segun el rol logueado.
 $estado = null;
 $nombreAccion = null;
 if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
   $estado = 1;
+  $nombreAccion = "Realizado";
 }elseif(Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
   $estado = 2;
   $nombreAccion = "Comprobado";
@@ -51,16 +52,31 @@ $cantidad = $recorre->find()
     </div>
     <div class="row">
       <div class="well well-lg">
-        <?= Html::a('<span class="glyphicon glyphicon-pencil"></span>&nbsp;Actualizar', ['update', 'id' => $model->idPrograma], ['class' => 'btn btn-default']) ?>
-        <?= Html::a('<span class="glyphicon glyphicon-trash"></span>&nbsp;Borrar', ['delete', 'id' => $model->idPrograma], [
+      <?php
+      foreach ( Yii::$app->user->identity->idDocente0->designados as $recorre2) {
+if ($recorre2->esACargo() == true){
+   echo Html::a('<span class="glyphicon glyphicon-pencil"></span>&nbsp;Actualizar', ['update', 'id' => $model->idPrograma], ['class' => 'btn btn-default']);
+        echo Html::a('<span class="glyphicon glyphicon-trash"></span>&nbsp;Borrar', ['delete', 'id' => $model->idPrograma], [
             'class' => 'btn btn-default',
             'data' => [
                 'confirm' => '¿Esta seguro que desea eliminar el programa?',
                 'method' => 'post',
             ],
-        ]) ?>
+        ]);
+
+}
+  }
+       ?>
+      
         <?php
-if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() == false){
+        //BOTON REVISION
+         if($cantidad == 0 & Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() ){
+         echo  Html::a('<span class="glyphicon glyphicon-ok"></span>&nbsp;Revision', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma]), [
+            'class' => 'btn btn-success',
+            'data' => [
+                    'confirm' => 'Esta seguro que desea poner en revision este programa?'],
+                    ]);}
+      if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() == false){
             Modal::begin([
             'header' => 'Nueva observación',
             'headerOptions' => ['class' => 'text-center'],
@@ -74,15 +90,15 @@ if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() == false){
           echo HTML::textArea('observacion',null,['id' => 'texto-observacion','class' => 'form-control']);
           echo '</div>';
           echo '<div class="form-group">';
-          echo HTML::button('<span class="glyphicon glyphicon-plus"></span>&nbsp;Agregar',['type'=>'button','class' => 'btn btn-success','onclick'=>'ctrl.observacion.nueva()']);
+          echo '<button type="button" onclick="ctrl.observacion.nueva()"><span class="glyphicon glyphicon-plus"></span>&nbsp;Agregar</button>';
           echo '</div>';
           ActiveForm::end();
           echo '</div>';
           echo '</div>';
-            
+
           Modal::end();
         ?>
-
+       
         <?php
         if($cantidad == 0){
         echo  Html::a('<span class="glyphicon glyphicon-ok"></span>&nbsp;Aprobar', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma]), [
@@ -188,40 +204,48 @@ if($recorre->idEstadoO == $estado){//busca segun el estado de la observacion,TAM
 
     </tbody>
   </table>
-
-
 </div>
 </div>
 
-<?php $jsCtrl =
-"var ctrl = {
-  idPrograma:'".$model->idPrograma."',
-  observacion:{
-    textarea:$('#texto-observacion'),
-    nueva:function(){
-      var observacion = observacion.textarea.val();
-      $.ajax({
-        url:'index.php?r=observacion/abmobservacion',
-        method:'POST',
-        data:{
-          action:'insert',
-          observacion:observacion,
-          idPrograma:ctrl.idPrograma,
-        },
-        dataType:'json',
-        success:function(response){
-          alert(response);
-        }
-      });
-    },
-    actualizar:function(){
+<script>
 
-    },
-    borrar:function(){
 
+var ctrl = {
+    idPrograma:'<?= $model->idPrograma ?>',
+    observacion:{
+      textarea:$('#texto-observacion'),
+      nueva:function(){
+        var observacion = ctrl.observacion.textarea.val();
+        $.ajax({
+          url:'index.php?r=observacion/abmobservacion',
+          method:'POST',
+          data:{
+            action:'insert',
+            observacion:observacion,
+            idPrograma:ctrl.idPrograma,
+          },
+          dataType:'json',
+          success:function(response){
+            if(response.success){
+              alert("Observación agregada exitosamente");
+              window.location.href = "";
+            }else{
+              if(response.errors.length > 0){
+                alert(response.errors[0]);
+              }else{
+                alert("Ocurrió un error desconocido al agregar la observación");
+              }
+            }
+          }
+        });
+      },
+      actualizar:function(){
+
+      },
+      borrar:function(){
+
+      }
     }
-  }
-};";
-$this->registerJs($jsCtrl,View::POS_HEAD);
+  };
 
-?>
+</script>
