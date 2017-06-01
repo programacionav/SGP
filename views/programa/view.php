@@ -67,8 +67,16 @@ if ($recorre2->esACargo() == true){
 }
   }
        ?>
+      
         <?php
-if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() == false){
+        //BOTON REVISION
+         if($cantidad == 0 & Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() ){
+         echo  Html::a('<span class="glyphicon glyphicon-ok"></span>&nbsp;Revision', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma]), [
+            'class' => 'btn btn-success',
+            'data' => [
+                    'confirm' => 'Esta seguro que desea poner en revision este programa?'],
+                    ]);}
+      if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() == false){
             Modal::begin([
             'header' => 'Nueva observación',
             'headerOptions' => ['class' => 'text-center'],
@@ -90,7 +98,7 @@ if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() == false){
 
           Modal::end();
         ?>
-
+       
         <?php
         if($cantidad == 0){
         echo  Html::a('<span class="glyphicon glyphicon-ok"></span>&nbsp;Aprobar', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma]), [

@@ -211,7 +211,7 @@ if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
          $modelOb = Observacion::findOne($id);
          $modelOb->idEstadoO = $estadoAAsignar;//aca como abajo,tiene que cambiar el idEstado segun el Rol logueado.
         if($modelOb->save(false)){
-          return $this->redirect(['update',
+          return $this->redirect(['view',
         'id' => $modelOb->idPrograma,
     ]);
         }
@@ -227,6 +227,8 @@ if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
 }elseif(Rol::findOne(Yii::$app->user->identity->idRol)->esSecAcademico()){
   $estadoPrograma = 3;  
 
+}elseif(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
+    $estadoPrograma = 4; 
 }
     $exito = false;
     $postData = Yii::$app->request->get();

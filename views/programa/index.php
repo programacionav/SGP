@@ -16,12 +16,7 @@ use app\models\DepartamentoDocenteCargo;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ProgramaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-$update = null;
-      foreach ( Yii::$app->user->identity->idDocente0->designados as $recorre2) {
-if ($recorre2->esACargo() == true){
-   $update = "{delete} {update}";
-}
-            }
+
 
 $this->title = 'Programas';
 $this->params['breadcrumbs'][] = $this->title;
@@ -115,7 +110,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'horariosConsulta',
             // 'bibliografia',
       
-           ['class' => 'yii\grid\ActionColumn', 'template' => '{view} '.$update.' '],
+           ['class' => 'yii\grid\ActionColumn', 'template' => '{view} '],
         ],
     ]); ?>
 </div>
