@@ -9,12 +9,13 @@ use yii\helpers\Url;
 $this->title = 'Actualizar Programa: ' . $model->idPrograma;
 $this->params['breadcrumbs'][] = ['label' => 'Programas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->idPrograma, 'url' => ['view', 'id' => $model->idPrograma]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Actualizar';
 ?>
 <div class="programa-update">
     <h1><?= Html::encode($this->title) ?></h1>
 <!-- en teoria va a traer las obersaciones,falta hacerle muchas cosas a esto-->
 <?php
+/*
 $estado = null;
 if(Yii::$app->user->identity->idRol == 1){
   $estado = 1;
@@ -54,9 +55,9 @@ if($recorre->idEstadoO == $estado){//busca segun el estado de la observacion,TAM
 
 }$alert.="</div>"; echo $alert;?>
 
+*/
 
-
-    <?= $this->render('_form', [
+   echo  $this->render('_form', [
         'model' => $model,
     ]) ?>
 

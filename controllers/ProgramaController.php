@@ -41,7 +41,22 @@ class ProgramaController extends Controller
     public function actionIndex()
     {
         $searchModel = new ProgramaSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
+          $dataProvider = $searchModel->searchDocente(Yii::$app->request->queryParams);
+        }
+        if(Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
+            $dataProvider = $searchModel->searchJefe(Yii::$app->request->queryParams);
+        }
+
+        if(Rol::findOne(Yii::$app->user->identity->idRol)->esSecAcademico()){
+            $dataProvider = $searchModel->searchSecAcademico(Yii::$app->request->queryParams);
+        }
+        /*NOTA todos los roles pueden ver los programas publicados de todas las materias. 
+        Ademas todos los roles pueden filtrar por carrera, materia, año, cuatrimestre y cursado para ver programas de cualquier materia y cualquier carrera.*/        
+        //$query->joinWith(['cambioestados','idCursado0.idMateria0.idDepartamento0', 'idCursado0.idMateria0.idPlan0.idCarrera0']);
+
+        
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -196,7 +211,7 @@ if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
          $modelOb = Observacion::findOne($id);
          $modelOb->idEstadoO = $estadoAAsignar;//aca como abajo,tiene que cambiar el idEstado segun el Rol logueado.
         if($modelOb->save(false)){
-          return $this->redirect(['update',
+          return $this->redirect(['view',
         'id' => $modelOb->idPrograma,
     ]);
         }
@@ -212,6 +227,8 @@ if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
 }elseif(Rol::findOne(Yii::$app->user->identity->idRol)->esSecAcademico()){
   $estadoPrograma = 3;  
 
+}elseif(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
+    $estadoPrograma = 4; 
 }
     $exito = false;
     $postData = Yii::$app->request->get();
