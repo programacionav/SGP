@@ -2,8 +2,8 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=single-2060.banahosting.com;dbname=wyokspje_sgp',
-    'username' => 'wyokspje_bolalenta',
-    'password' => 'sgp123456',
+    'dsn' => 'mysql:host=localhost;dbname=sgp',
+    'username' => 'root',
+    'password' => '',
     'charset' => 'utf8',
 ];

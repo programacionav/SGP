@@ -13,13 +13,7 @@ use app\models\Rol;
 /* @var $this yii\web\View */
 /* @var $model app\models\Programa */
 
-//PRUEBA
-foreach ( Yii::$app->user->identity->idDocente0->designados as $recorre2) {
-if ($recorre2->esACargo() == true){
-  echo "estoy a cargo";
 
-}
-  }
 
 $this->title = $model->idPrograma;
 $this->params['breadcrumbs'][] = ['label' => 'Programas', 'url' => ['index']];
@@ -58,14 +52,21 @@ $cantidad = $recorre->find()
     </div>
     <div class="row">
       <div class="well well-lg">
-        <?= Html::a('<span class="glyphicon glyphicon-pencil"></span>&nbsp;Actualizar', ['update', 'id' => $model->idPrograma], ['class' => 'btn btn-default']) ?>
-        <?= Html::a('<span class="glyphicon glyphicon-trash"></span>&nbsp;Borrar', ['delete', 'id' => $model->idPrograma], [
+      <?php
+      foreach ( Yii::$app->user->identity->idDocente0->designados as $recorre2) {
+if ($recorre2->esACargo() == true){
+   echo Html::a('<span class="glyphicon glyphicon-pencil"></span>&nbsp;Actualizar', ['update', 'id' => $model->idPrograma], ['class' => 'btn btn-default']);
+        echo Html::a('<span class="glyphicon glyphicon-trash"></span>&nbsp;Borrar', ['delete', 'id' => $model->idPrograma], [
             'class' => 'btn btn-default',
             'data' => [
                 'confirm' => '¿Esta seguro que desea eliminar el programa?',
                 'method' => 'post',
             ],
-        ]) ?>
+        ]);
+
+}
+  }
+       ?>
         <?php
 if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() == false){
             Modal::begin([
