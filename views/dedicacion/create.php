@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Dedicacion */
 
-$this->title = 'Create Dedicacion';
-$this->params['breadcrumbs'][] = ['label' => 'Dedicacions', 'url' => ['index']];
+$this->title = 'Crear Dedicacion';
+$this->params['breadcrumbs'][] = ['label' => 'Dedicaciones', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="dedicacion-create">
