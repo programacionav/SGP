@@ -82,17 +82,7 @@ if($usuario->idRol==2){
 echo Html::a('Nueva Designación',['designado/create','idCursado'=>$model->idCursado],['class' =>'btn btn-success']);
 
 ?>
-   <!-- <?/* DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'idCursado',
-            'fechaInicio',
-            'fechaFin',
-
-            'cuatrimestre',
-        ],
-    ]) */ 
-    ?>-->
+   
     <?="<br>"?>
     <?="<br>"?>
     <?= $this->render('_viewdesignado.php', [
