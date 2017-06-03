@@ -35,14 +35,6 @@ use app\models\Cursado;
         ->indexBy('idDocente')       // y el value de los option es el id
         ->column();
 
-        $item2= Docente::find() //obtengo un arreglo asociativo[index->titulo]
-        ->select(['apellido'])  //de noticias donde: lo que esta dentro del option es el titulo
-        ->indexBy('idDocente')       // y el value de los option es el id
-        ->column();
-
-        foreach ($item as $indice => $nombre) {
-          $item3[$indice] = (($item2[$indice].", ".$nombre));
-        }
 
      echo $form->field($model_dpto,'idDepartamento')->dropdownList(
       $itemDptos,
@@ -61,14 +53,22 @@ use app\models\Cursado;
     ]);
 
      ?>
+     <?php
 
-    <?php $funciones = ['acargo' => 'A Cargo','ayudante' => 'Ayudante']; ?>
+      $desigACargo = $cursado->designadoACargo;
+      if(count($desigACargo)==0){
+        $funciones = ['acargo' => 'A Cargo','ayudante' => 'Ayudante'];
+      }else{
+        $funciones = ['ayudante' => 'Ayudante'];
+      }
+      ?>
+
     <?// $form->field($model, 'idDocente')->textInput(); ?>
     <?= $form->field($model, 'funcion')->dropdownList(
     $funciones,
     ['prompt'=>'Elija la funcion']); ?>
     <?= $form->field($model, 'idCursado')->hiddeninput()->label(""); ?>
-    
+
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

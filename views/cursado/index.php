@@ -7,7 +7,8 @@ use yii\data\ActiveDataProvider;
 /* @var $searchModel app\models\CursadoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-
+$this->params['breadcrumbs'][] = ['label' => 'Cursado', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="cursado-index">
 

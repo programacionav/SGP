@@ -7,11 +7,13 @@ use app\models\Programa;
 use app\models\Observacion;
 use app\models\Cambioestado;
 use app\models\Rol;
+
 use app\models\ProgramaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use kartik\mpdf\Pdf;
+use yii\filters\AccessControl;
 
 
 /**
@@ -22,9 +24,25 @@ class ProgramaController extends Controller
     /**
      * @inheritdoc
      */
+     //YA LO CONFIGURE PARA QUE LOS "AYUDANTES" NO PUEDAN INGRESAR A LAS ACCIONES QUE NO LES CORRESPONDEN
     public function behaviors()
     {
         return [
+            'access' => [
+ 'class' => AccessControl::className(),
+ 'only' => ['create','update','delete'],
+ 'rules' => [
+ [
+ 'actions' => ['create','update','delete'],
+ 'allow' => true,
+'roles' => ['@'],
+'matchCallback' => function ($rule, $action) {
+ $valid_roles = [Programa::acargo];
+return Programa::roleInArray($valid_roles);
+ }
+ ],
+ ],
+ ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -86,7 +104,7 @@ class ProgramaController extends Controller
          $model = new Programa();
         //$model->idCursado = $_GET['idCursado']; Descomentar esto cuando este listo
         $model->anioActual = date('Y');
-        $model->idCursado = 6;
+        $model->idCursado = 5;
 
         if(isset(Yii::$app->request->post()['Programa'])){
             if($model->load(Yii::$app->request->post()) && $model->save()) {

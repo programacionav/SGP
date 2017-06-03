@@ -39,6 +39,8 @@ class Programa extends \yii\db\ActiveRecord
     const APROBADO = 2 ;
     const PUBLICADO = 3;
     const REVISION = 4;
+    const ayudante = "ayudante"; //lo hice aca para no tocar archivos que no son de nuestro grupo, me parece que deberia ir en el modelo designado,igualmente funciona.
+    const acargo = "acargo";//lo hice aca para no tocar archivos que no son de nuestro grupo, me parece que deberia ir en el modelo designado,igualmente funciona.
 
     /**
      * @inheritdoc
@@ -161,5 +163,13 @@ class Programa extends \yii\db\ActiveRecord
     {
         return "Nro cursado: ".$this->idCursado." - Año: ".$this->anioActual." - Materia: ".$this->idCursado0->idMateria0->nombre." - Cuatrimestre: ".$this->idCursado0->cuatrimestre;
     }
+
+    //lo hice aca para no tocar archivos que no son de nuestro grupo, me parece que deberia ir en el modelo designado,igualmente funciona.
+     public static function roleInArray($arr_role){
+        foreach ( Yii::$app->user->identity->idDocente0->designados as $recorre2) {
+        
+  return in_array($recorre2->funcion , $arr_role);
+}
+}
 
 }
