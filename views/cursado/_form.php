@@ -14,7 +14,18 @@ use kartik\date\DatePicker;
      if(isset($_GET['idMateria'])&&$_GET['idMateria']!="")
     {$model->idMateria=$_GET['idMateria'];}
     ?>
-     <?= $form->field($model, 'fechaInicio')->widget(DatePicker::classname(),[
+    <?php
+    if(isset(yii::$app->user->identity)){
+
+        $usuario=yii::$app->user->identity;
+        $rol=$usuario->idRol;
+
+        if($rol==2){
+
+
+
+
+ echo $form->field($model, 'fechaInicio')->widget(DatePicker::classname(),[
     'name' => 'fechaInicio',
 	'id'=>'fechaInicio',
     'type' => DatePicker::TYPE_COMPONENT_PREPEND,
@@ -58,6 +69,15 @@ use kartik\date\DatePicker;
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
+
+    <?php     }
+
+    }
+
+
+
+    ?>
+    
 
     <?php ActiveForm::end(); ?>
 
