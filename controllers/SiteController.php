@@ -60,7 +60,8 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        //return $this->render('index');
+        return  $this->redirect(['site/login']);
     }
 
     /**
@@ -71,7 +72,9 @@ class SiteController extends Controller
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
-            return  $this->redirect(['site/login']);//$this->goHome();
+           // echo "Entro por aca"; exit();
+            //return  $this->goHome();
+            return  $this->redirect(['programa/index']);
         }
 
         $model = new LoginForm();
@@ -92,8 +95,8 @@ class SiteController extends Controller
     public function actionLogout()
     {
         Yii::$app->user->logout();
-        return  $this->redirect(['site/login']);
-        //return $this->goHome();
+        //return  $this->redirect(['site/login']);
+        return $this->goHome();
     }
 
     /**
