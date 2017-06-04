@@ -10,10 +10,34 @@ use kartik\date\DatePicker;
 ?>
 
 <div class="cursado-form">
-    <?php $form = ActiveForm::begin(); 
+   <?php $form = ActiveForm::begin(); 
      if(isset($_GET['idMateria'])&&$_GET['idMateria']!="")
     {$model->idMateria=$_GET['idMateria'];}
     ?>
+    <?php
+    if(isset(yii::$app->user->identity)){
+
+        $usuario=yii::$app->user->identity;
+        $rol=$usuario->idRol;
+
+        if($rol==2){
+
+
+
+
+ echo $form->field($model, 'fechaInicio')->widget(DatePicker::classname(),[
+    'name' => 'fechaInicio',
+	'id'=>'fechaInicio',
+    'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+    'value' => '23-12-2017',
+    'pluginOptions' => [
+        'autoclose'=>true,
+        'format' => 'yyyy-mm-dd'
+    ]
+]);
+     ?>
+     
+      
     <?= $form->field($model, 'fechaFin')->widget(DatePicker::classname(),[
     		'name' => 'fechaFin',
     		'id'=>'fechaFin',
@@ -26,17 +50,8 @@ use kartik\date\DatePicker;
     ]);
     
     ?>
-     <?= $form->field($model, 'fechaInicio')->widget(DatePicker::classname(),[
-    'name' => 'fechaInicio',
-	'id'=>'fechaInicio',
-    'type' => DatePicker::TYPE_COMPONENT_PREPEND,
-    'value' => '23-12-2017',
-    'pluginOptions' => [
-        'autoclose'=>true,
-        'format' => 'yyyy-mm-dd'
-    ]
-]);
-     ?>
+     
+     
      <?= $form->field($model, 'idMateria')->hiddenInput()->label(""); ?>
    
 
@@ -54,6 +69,15 @@ use kartik\date\DatePicker;
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
+
+    <?php     }
+
+    }
+
+
+
+    ?>
+    
 
     <?php ActiveForm::end(); ?>
 

@@ -5,8 +5,11 @@ use yii\widgets\DetailView;
 use app\models\Materia;
 /* @var $this yii\web\View */
 /* @var $model app\models\Cursado */
+
+if(isset(yii::$app->user->identity)){
+    $usuario=yii::$app->user->identity;
 $mat=Materia::find()->where(['idMateria'=>$model->idMateria])->one();
-$this->title = "Cursado N�".$model->idCursado;
+$this->title = "Cursado N°".$model->idCursado;
 
 
 $this->params['breadcrumbs'][] = ['label' => 'Cursados', 'url' => ['index']];
@@ -16,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
+ <p>
 
    <!--      <?php /*= Html::a('Update', ['update', 'id' => $model->idCursado], ['class' => 'btn btn-primary']) ?>
         <?php echo Html::a('Delete', ['delete', 'id' => $model->idCursado], [
@@ -27,12 +30,25 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) */
         ?>
-       <?//echo  Html::a('Crear Programa',['programa/create','idCursado'=>$model->idCursado],['class' =>'btn btn-info']);?>
+
+
+
+
+
+
+
+   
+       <? echo  Html::a('Crear Programa',['programa/create','idCursado'=>$model->idCursado],['class' =>'btn btn-info']);?>
     </p> -->
 <?php
+
   echo "<table class='table'>";
   echo "<tr>";
-  echo "<th>ID Cursado</th><th>Materia</th><th>Cuatrimestre</th><th>Año Inicio</th><th>Año Fin</th><th>Opciones</th>";
+  echo "<th>ID Cursado</th><th>Materia</th><th>Cuatrimestre</th><th>Año Inicio</th><th>Año Fin</th>";
+  if($usuario->idRol==2)
+  {
+      echo "<th>Opciones</th>";
+      }
   echo "</tr>";
   echo "<tr>";
   echo "<td>";
@@ -50,30 +66,28 @@ $this->params['breadcrumbs'][] = $this->title;
   echo "<td>";
   echo "Fecha Fin: ".$model->fechaFin."<br>";
   echo "</td>";
+  if($usuario->idRol==2){
   echo "<td>";
   echo Html::a('Modificar', ['update', 'id' => $model->idCursado], ['class' => 'btn btn-primary']);
   echo "</td>";
-  echo "<td>";
+  }
+  
   echo "</tr>";
   echo "</table>";
 ?>
-<?= Html::a('Nueva Designación',['designado/create','idCursado'=>$model->idCursado],['class' =>'btn btn-success']);?>
-    <?/* DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'idCursado',
-            'fechaInicio',
-            'fechaFin',
 
-            'cuatrimestre',
-        ],
-    ]) */
-    ?>
+<?php 
+
+if($usuario->idRol==2){
+echo Html::a('Nueva Designación',['designado/create','idCursado'=>$model->idCursado],['class' =>'btn btn-success']);
+
+?>
+   
     <?="<br>"?>
     <?="<br>"?>
     <?= $this->render('_viewdesignado.php', [
         'model' => $model
     ]) ?>
 
-
+<?php }}?>
 </div>
