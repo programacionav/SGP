@@ -79,7 +79,9 @@ if(!Yii::$app->user->isGuest){
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; Universidad Nacional del Comahue - Facultad de Informática <?= date('Y') ?></p>
+        <p class="pull-left">
+        &copy; Universidad Nacional del Comahue - Facultad de Informática <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;Programación Web Avanzada 2017</p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
