@@ -9,8 +9,12 @@ use app\models\Materia;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 
+
 //echo Yii::$app->controller->action->id;
 
+
+$usuario=yii::$app->user->identity;//usuario;
+if(isset($usuario)){
 $this->params['breadcrumbs'][] = ['label' => 'Cursado', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -25,11 +29,13 @@ $mat=Materia::find()->where(['idMateria'=>$model->idMateria])->one();
 ?>
 <div class="cursado-index">
 
-    
+
 
     <?= $this->render('_view', [
         'model' => $model,
     ]) ?>
 
-   
+
 </div>
+<?php }
+ ?>

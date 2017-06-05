@@ -8,7 +8,7 @@ use app\models\Materia;
 $anioActual=date("Y");//Año actual
 $anioCursado=date("Y", strtotime($model->fechaFin));//Año de cursado
 $mesCursado=date("m", strtotime($model->fechaFin));
-$mesActual = date("m"); // Mes actual 
+$mesActual = date("m"); // Mes actual
 
 if(isset(yii::$app->user->identity)){
     $usuario=yii::$app->user->identity;
@@ -40,11 +40,11 @@ $this->params['breadcrumbs'][] = $this->title;
   {
       if($anioActual==$anioCursado){
         if($mesActual<=$mesCursado){
-            
+
       echo "<th>Opciones</th>";
       }
           }
-    
+
     if($anioActual<$anioCursado){
        echo "<th>Opciones</th>";
     }
@@ -71,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     if($anioActual==$anioCursado){
         if($mesActual<=$mesCursado){
-            
+
 echo "<td>";
   echo Html::a('Modificar', ['update', 'id' => $model->idCursado], ['class' => 'btn btn-primary']);
   echo "</td>";
@@ -83,9 +83,9 @@ echo "<td>";
     }
 
 
-  
+
   }
-  
+
   echo "</tr>";
   echo "</table>";
 ?>
@@ -98,17 +98,19 @@ if($usuario->idRol==2){
             }
 
         }else{
-    if($anioActual<$anioCursado){   
-    
+    if($anioActual<$anioCursado){
+
         echo Html::a('Nueva Designación',['designado/create','idCursado'=>$model->idCursado],['class' =>'btn btn-success']);
 }
 ?>
-  
-    <?="<br>"?>
-    <?="<br>"?>
-    <?=$this->render('_viewdesignado.php', [
-        'model' => $model
-    ]) ?>
+
 
 <?php }}}?>
+<?="<br>"?>
+<?="<br>"?>
+
+<?=$this->render('_viewdesignado.php', [
+    'model' => $model
+]); ?>
+
 </div>
