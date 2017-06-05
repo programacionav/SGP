@@ -55,40 +55,39 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
         ],
     ])?>
-    <br>
-	<big><b>Departamentos: </b></big>
-    <br>
-	<?php
-    $itemDepartamentodocentecargo = ArrayHelper::map(DepartamentoDocenteCargo::find()->all(),
-    'idDocente',
-    function($model) {
-		$itemDepartamento = ArrayHelper::map(Departamento::find()->all(),
-		'idDepartamento',
-		function($modelDepartamento) {
-			//print_r ($modelDepartamento)
-			echo "<br>".$modelDepartamento['nombre']."<br>";
-		}
-		);
-    }
-    );
-
 	
-     ?>
-    <br>
-	<big><b>Cargos: </b></big>
-    <br>
-	<?php
-    $itemDepartamentodocentecargo = ArrayHelper::map(DepartamentoDocenteCargo::find()->all(),
-    'idDocente',
-    function($model) {
-		$itemDepartamento = ArrayHelper::map(Cargo::find()->all(),
-		'idCargo',
-		function($modelCargo) {
-			echo "<br>".$modelCargo['abreviatura'].' '.$modelCargo['descripcion']."<br>";
+	
+	<div class="col-md-6 ">
+    <table id="w0" class="table table-striped table-bordered detail-view">
+	<tr><td><h1>Departamentos</h1></td></tr>
+	<tr>
+	<?php 
+	$itemDepartamento = ArrayHelper::map(Departamento::find()->all(),
+	'idDepartamento',
+		function($modelDepartamento) {
+			
+			echo "<td>".$modelDepartamento['nombre']."</td></tr><tr>";
 		}
-		);
-    }
-    );
-     ?>
+	);
+			//$docentes = count($itemDepartamento);
+			//echo $docentes;
+	?>
+	</table>
+	</div>
+	
+	<div class="col-md-6 ">
+	<table id="w0" class="table table-striped table-bordered detail-view">
+	<tr><td colspan="2"><h1>Cargos</h1></td></tr>
+	<tr>
+	<?php
+	$itemDepartamento = ArrayHelper::map(Cargo::find()->all(),
+	'idCargo',
+		function($modelCargo) {
+		echo "<td>".$modelCargo['abreviatura']."</td>";
+		echo "<td>".$modelCargo['descripcion']."</td></tr><tr>";
+		}
+	);?>
+	</table>
+	</div>
 
 </div>
