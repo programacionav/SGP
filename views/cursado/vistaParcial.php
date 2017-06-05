@@ -18,12 +18,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Cursado', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-    
+
     <?= ListView::widget([
     		'dataProvider'=>$dataProvider,
     		'itemView'=>'_view',
-    		
-    		
+
+
     ])?>
-   
+
 </div>

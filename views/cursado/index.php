@@ -7,12 +7,11 @@ use app\models\Materia;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CursadoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-<<<<<<< HEAD
-=======
+
 
 
 //echo Yii::$app->controller->action->id;
->>>>>>> 7bb4f9d222367f2aa21e3816df8a8a63e30e903a
+
 
 $usuario=yii::$app->user->identity;//usuario;
 if(isset($usuario)){
@@ -30,13 +29,13 @@ $mat=Materia::find()->where(['idMateria'=>$model->idMateria])->one();
 ?>
 <div class="cursado-index">
 
-    
+
 
     <?= $this->render('_view', [
         'model' => $model,
     ]) ?>
 
-   
+
 </div>
 <?php }
  ?>
