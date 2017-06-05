@@ -34,13 +34,15 @@ class CursadoController extends Controller
      * @return mixed
      */
     public function actionIndex()
-    {$model = new Cursado();
+    {
+        $model = new Cursado();
         $searchModel = new CursadoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,'model' => $model,
+            'dataProvider' => $dataProvider,
+            'model' => $model,
         		
         ]);
     }

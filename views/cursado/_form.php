@@ -7,10 +7,19 @@ use kartik\date\DatePicker;
 /* @var $model app\models\Cursado */
 /* @var $form yii\widgets\ActiveForm */
 
+
+/*$request = Yii::$app->request;
+*$get = $request->get();
+*print_r($get);
+*$param = $request->get('idMateria');
+*echo "---".$param."....!";
+*$params = $request->bodyParams;
+*print_r($params);*/
 ?>
 
 <div class="cursado-form">
    <?php $form = ActiveForm::begin(); 
+         
      if(isset($_GET['idMateria'])&&$_GET['idMateria']!="")
     {$model->idMateria=$_GET['idMateria'];}
     ?>
@@ -60,7 +69,7 @@ use kartik\date\DatePicker;
 	
 	<?php 
 	
-	$itemCuatrimestre=['1'=>'Primer Cuatrimestre','2'=>'Segundo Cuatrimestre'];?>
+	$itemCuatrimestre=['Primer Cuatrimestre'=>'Primer Cuatrimestre','Segundo Cuatrimestre'=>'Segundo Cuatrimestre','Anual'=>'Anual','Primer Semestre'=>'Primer Semestre','Segundo Semestre'=>'Segundo Semestre','Mas de un anio'=>'Mas de un año','Otro'=>'Otro'];?>
 	<?= $form->field($model, 'cuatrimestre')->dropdownList($itemCuatrimestre,
 			['prompt'=>'seleccione cuatrimestre']) ;
 	?>
