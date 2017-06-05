@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Cursado */
+
 $this->title = 'Crear Cursado';
 $this->params['breadcrumbs'][] = ['label' => 'Cursados', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -19,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'model' => $model,'idMateria'=>$idMateria
             ]) ;
 
-                echo "aqui".$usuario->idRol;
+                
             }else{
                 echo "Ud. no tiene permiso para relizar la acción";
             }

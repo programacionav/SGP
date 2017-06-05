@@ -17,10 +17,12 @@ use app\models\Designado;
 /*
  if(isset($_GET['id'])&&$_GET['id']!="")
  {$model->idMateria=$_GET['id'];}*/
-$usuario=yii::$app->user->identity;
+ $anioActual=date("Y");//Año actual
+$anioCursado=date("Y", strtotime($model->fechaFin));//Año de cursado
+$mesCursado=date("m", strtotime($model->fechaFin));
+$mesActual = date("m"); // Mes actual 
 
-
-
+$usuario=yii::$app->user->identity;//usuario;
 $model->idMateria=1;
 
 
@@ -33,7 +35,13 @@ $dataProvider = new ActiveDataProvider([
 		'query' => $model::find()->where(['idMateria'=>$model->idMateria]),
 		'pagination' => [
 				'pageSize' => 5,
-		],
+		], 'sort' => [
+        'defaultOrder' => [
+            
+            'fechaInicio' => SORT_DESC, 
+			
+        ]
+    ],
 ]);
 //$mat=Materia::find()->where(['idMateria'=>$model->idMateria])->one();
 
@@ -135,6 +143,5 @@ $dataProvider = new ActiveDataProvider([
 	}else{echo "Debe loguearse";}?>
    
 </div>
-
 
 
