@@ -5,6 +5,10 @@ use yii\widgets\DetailView;
 use app\models\Materia;
 /* @var $this yii\web\View */
 /* @var $model app\models\Cursado */
+$anioActual=date("Y");//Año actual
+$anioCursado=date("Y", strtotime($model->fechaFin));//Año de cursado
+$mesCursado=date("m", strtotime($model->fechaFin));
+$mesActual = date("m"); // Mes actual 
 
 if(isset(yii::$app->user->identity)){
     $usuario=yii::$app->user->identity;
@@ -20,26 +24,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
  <p>
-
-   <!--      <?php /*= Html::a('Update', ['update', 'id' => $model->idCursado], ['class' => 'btn btn-primary']) ?>
-        <?php echo Html::a('Delete', ['delete', 'id' => $model->idCursado], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) */
-        ?>
-
-
-
-
-
-
-
-   
-       <? echo  Html::a('Crear Programa',['programa/create','idCursado'=>$model->idCursado],['class' =>'btn btn-info']);?>
-    </p> -->
 <?php
 
   echo "<table class='table'>";
@@ -47,47 +31,77 @@ $this->params['breadcrumbs'][] = $this->title;
   echo "<th>ID Cursado</th><th>Materia</th><th>Cuatrimestre</th><th>Año Inicio</th><th>Año Fin</th>";
   if($usuario->idRol==2)
   {
+      if($anioActual==$anioCursado){
+        if($mesActual<=$mesCursado){
+            
       echo "<th>Opciones</th>";
       }
+          }
+    
+    if($anioActual<$anioCursado){
+       echo "<th>Opciones</th>";
+    }
+  }
+
   echo "</tr>";
   echo "<tr>";
   echo "<td>";
-  echo "ID Cursado: ".$model->idCursado."<br>";
+  echo " ".$model->idCursado."<br>";
   echo "</td>";
   echo "<td>";
-  echo "Materia: ".$mat->nombre."<br>";
+  echo " ".$mat->nombre."<br>";
   echo "</td>";
   echo "<td>";
-  echo "Cuatrimestre: ".(($model->cuatrimestre == '1')?"Primero":"Segundo")."<br>";
+  echo " ".(($model->cuatrimestre == '1')?"Primero":"Segundo")."<br>";
   echo "</td>";
   echo "<td>";
-  echo "Fecha Inicio: ".$model->fechaInicio."<br>";
+  echo " ".$model->fechaInicio."<br>";
   echo "</td>";
   echo "<td>";
-  echo "Fecha Fin: ".$model->fechaFin."<br>";
+  echo " ".$model->fechaFin."<br>";
   echo "</td>";
   if($usuario->idRol==2){
-  echo "<td>";
+
+    if($anioActual==$anioCursado){
+        if($mesActual<=$mesCursado){
+            
+echo "<td>";
   echo Html::a('Modificar', ['update', 'id' => $model->idCursado], ['class' => 'btn btn-primary']);
   echo "</td>";
+        }
+    }else if($anioActual<$anioCursado){
+        echo "<td>";
+  echo Html::a('Modificar', ['update', 'id' => $model->idCursado], ['class' => 'btn btn-primary']);
+  echo "</td>";
+    }
+
+
+  
   }
   
   echo "</tr>";
   echo "</table>";
 ?>
-
-<?php 
+ <?php
 
 if($usuario->idRol==2){
-echo Html::a('Nueva Designación',['designado/create','idCursado'=>$model->idCursado],['class' =>'btn btn-success']);
+        if($anioActual==$anioCursado){
+            if($mesActual<=$mesCursado){
+                echo Html::a('Nueva Designación',['designado/create','idCursado'=>$model->idCursado],['class' =>'btn btn-success']);
+            }
 
+        }else{
+    if($anioActual<$anioCursado){   
+    
+        echo Html::a('Nueva Designación',['designado/create','idCursado'=>$model->idCursado],['class' =>'btn btn-success']);
+}
 ?>
-   
+  
     <?="<br>"?>
     <?="<br>"?>
-    <?= $this->render('_viewdesignado.php', [
+    <?=$this->render('_viewdesignado.php', [
         'model' => $model
     ]) ?>
 
-<?php }}?>
+<?php }}}?>
 </div>
