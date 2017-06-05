@@ -8,6 +8,8 @@ use app\models\CorrelativaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\Materia;
+use app\models\Plan;
 
 /**
  * CorrelativaController implements the CRUD actions for Correlativa model.
@@ -62,15 +64,21 @@ class CorrelativaController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($idPlan,$idMateria)
     {
+    	
+    	$unPlan=Plan::findOne(['idPlan' => $idPlan]);
+    	
         $model = new Correlativa();
-
+        $model->idMateria1=$idMateria;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['materia/create', 'idMateria1' => $model->idMateria1, 'idMateria2' => $model->idMateria2]);
         } else {
+        	
             return $this->render('create', [
-                'model' => $model,
+            	
+                'model' => $model,'unPlan' =>$unPlan
+            		
             ]);
         }
     }

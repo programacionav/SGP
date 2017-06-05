@@ -37,7 +37,7 @@ use yii\helpers\ArrayHelper;
  <?= $form->field($model, 'idPlan')->dropDownList(
       ArrayHelper::map(Plan::find()->all(), 'idPlan','numOrd')) ?>
        <div class="form-group">
-      <?= Html::a('Correlativas', ['correlativa/create'], ['class' => 'btn btn-success']) ?>
+     
 </div>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Modificar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
