@@ -36,8 +36,8 @@ class Cursado extends \yii\db\ActiveRecord
         return [
             [['fechaInicio', 'fechaFin'], 'required'],
             [['fechaInicio', 'fechaFin'], 'safe'],
-            [['idMateria', 'cuatrimestre'], 'integer'],
-                      
+            [['idMateria'], 'integer'],
+            [['cuatrimestre'],'string'],          
 ['fechaFin', 'compare', 'compareAttribute' => 'fechaInicio', 'operator' => '>', 'message'=>'La Fecha Fin debe ser mayor a Fecha Inicio'],
             
             [['idMateria'], 'exist', 'skipOnError' => true, 'targetClass' => Materia::className(), 'targetAttribute' => ['idMateria' => 'idMateria']],
