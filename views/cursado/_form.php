@@ -9,8 +9,8 @@ use kartik\date\DatePicker;
 
 
 /*$request = Yii::$app->request;
-*$get = $request->get();
-*print_r($get);
+$get = $request->get();
+print_r($get);
 *$param = $request->get('idMateria');
 *echo "---".$param."....!";
 *$params = $request->bodyParams;
