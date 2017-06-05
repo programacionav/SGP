@@ -56,7 +56,7 @@ foreach ( $model->observacions as $recorre) {
       
       foreach ( Yii::$app->user->identity->idDocente0->designados as $recorre2) {
         if ($recorre2->esACargo() == true){
-          echo Html::a('<span class="glyphicon glyphicon-pencil"></span>&nbsp;Actualizar', ['update', 'id' => $model->idPrograma], ['class' => 'btn btn-default']);
+          echo Html::a('<span class="glyphicon glyphicon-pencil"></span>&nbsp;update', ['update', 'id' => $model->idPrograma], ['class' => 'btn btn-default']);
           echo Html::a('<span class="glyphicon glyphicon-trash"></span>&nbsp;Borrar', ['delete', 'id' => $model->idPrograma], [
             'class' => 'btn btn-default',
             'data' => [
