@@ -40,7 +40,7 @@ class Dedicacion extends \yii\db\ActiveRecord
     {
         return [
             'idDedicacion' => 'Id Dedicacion',
-            'descripcion' => 'Descripcion',
+            'descripcion' => 'Nombre',
         ];
     }
 

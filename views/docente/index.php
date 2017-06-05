@@ -16,15 +16,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Docente', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Registrar nuevo docente', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+           // ['class' => 'yii\grid\SerialColumn'],
 
-            'idDocente',
+           // 'idDocente',
             'cuil',
             'nombre',
             'apellido',
@@ -32,14 +32,22 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'idDedicacion',
 
             ['class' => 'yii\grid\ActionColumn',
-            'template' => '{view} {update} {delete} {create}',
+            'template' => '{view} {update} {delete} {create} {indexDDC}',
             'buttons' => [
                 'create' => function($url,$model,$key){
                     return Html::a('<span class="glyphicon glyphicon-plus-sign"></span>',
                                     ['departamento-docente-cargo/create','idDocente'=>$model->idDocente] , [
                                     'title' => Yii::t('app', 'Anexar departamento y cargo'),]);
+                },
+                'indexDDC'=> function($url,$model,$key){
+                    return Html::a('<span class="glyphicon glyphicon-share-alt"></span>',
+                    ['departamento-docente-cargo/index','idDocente'=>$model->idDocente] ,
+                    ['title' => Yii::t('app','Modificar o eliminar departamento y cargo'),]);
                 }
-            ]],
-        ],
-    ]); ?>
+            ]
+          ]
+        ],       
+    ]); 
+    
+    ?>
 </div>

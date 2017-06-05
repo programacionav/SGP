@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\DedicacionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Dedicacions';
+$this->title = 'Dedicaciones';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="dedicacion-index">
@@ -16,15 +16,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Dedicacion', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear Dedicacion', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
-            'idDedicacion',
             'descripcion',
 
             ['class' => 'yii\grid\ActionColumn'],

@@ -10,9 +10,10 @@ use app\assets\AppAsset;
 
 AppAsset::register($this);
 
-
+$pageIndex = Yii::$app->getHomeUrl() . '?r=site/login';
 $menu = array();
 if(!Yii::$app->user->isGuest){
+    $pageIndex = Yii::$app->getHomeUrl() . '?r=programa/index';
     $menu = [
             ['label' => 'Docentes', 'url' => ['/docente/index']],
             ['label' => 'Departamentos', 'url' => ['/departamento/index']],
@@ -32,7 +33,6 @@ if(!Yii::$app->user->isGuest){
             )];
 }
 
-
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -49,9 +49,11 @@ if(!Yii::$app->user->isGuest){
 
 <div class="wrap">
     <?php
+
+
     NavBar::begin([
         'brandLabel' => 'SGP',
-        'brandUrl' => Yii::$app->homeUrl,
+        'brandUrl' => $pageIndex,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
@@ -64,9 +66,12 @@ if(!Yii::$app->user->isGuest){
     ?>
 
     <div class="container">
+        
         <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
+        'homeLink' => ['label' => 'Inicio',
+        'url' => $pageIndex],
+        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [], 
+    ]);?>
        
         <?= $content ?>
     </div>
@@ -74,7 +79,9 @@ if(!Yii::$app->user->isGuest){
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; Universidad Nacional del Comahue - Facultad de Informática <?= date('Y') ?></p>
+        <p class="pull-left">
+        &copy; Universidad Nacional del Comahue - Facultad de Informática <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;Programación Web Avanzada 2017</p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>

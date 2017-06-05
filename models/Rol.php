@@ -51,60 +51,30 @@ class Rol extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Usuario::className(), ['idRol' => 'idRol']);
     }
-/*
-Tres funciones publicas que comprueban si el usuario logueado es Docente, Jefe de Departamento o Secretario Academico
-Las puse en esta clase porque me parece mas intuitivo para llamarlas.
-Sin embargo, no estoy seguro si esta es la forma mas eficiente, si lo que se quiere es
-controlar las reglas de acceso. Me parece que en Yii se pueden configurar esas reglas en las vistas o controladores.
+    /*
+    Tres funciones publicas que comprueban si el usuario logueado es Docente, Jefe de Departamento o Secretario Academico
 
-******* Ejemplo de Uso *******
-use app\models\Rol;
-...
-if (Rol::esDocente()){
-    echo "Es Docente";
-}
-*******************************
+    ******* Ejemplo de Uso *******
+    use app\models\Rol;
+    ...
+    if (Rol::esDocente()){
+        
+    }
+    *******************************
 
-*/
+    */
     public function esDocente()
-    {        
-        $modelUsuario = new Usuario();        
-        $modelUsuario = Usuario::findIdentity(Yii::$app->user->id);
-        $modelRol = new Rol();
-        $modelRol = Rol::findOne($modelUsuario->idRol);
-
-        if ($modelRol->descripcion == "Docente"){
-            return true;
-        }else{
-            return false;
-        }
+    { 
+        return ($this->idRol == 1);
     }
 
-        public function esJefeDpto()
+    public function esJefeDpto()
     {        
-        $modelUsuario = new Usuario();        
-        $modelUsuario = Usuario::findIdentity(Yii::$app->user->id);
-        $modelRol = new Rol();
-        $modelRol = Rol::findOne($modelUsuario->idRol);
-
-        if ($modelRol->descripcion == "DirectorDepartamento"){
-            return true;
-        }else{
-            return false;
-        }
+        return ($this->idRol == 2);
     }
 
-        public function esSecAcademico()
+    public function esSecAcademico()
     {        
-        $modelUsuario = new Usuario();        
-        $modelUsuario = Usuario::findIdentity(Yii::$app->user->id);
-        $modelRol = new Rol();
-        $modelRol = Rol::findOne($modelUsuario->idRol);
-
-        if ($modelRol->descripcion == "SecretariaAcademica"){
-            return true;
-        }else{
-            return false;
-        }
+        return ($this->idRol == 3);
     }
 }

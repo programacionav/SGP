@@ -1,48 +1,41 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
-use yii\widgets\ListView;
 use yii\data\ActiveDataProvider;
+use app\models\Materia;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CursadoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Cursados';
+
+
+//echo Yii::$app->controller->action->id;
+
+
+$usuario=yii::$app->user->identity;//usuario;
+if(isset($usuario)){
+$this->params['breadcrumbs'][] = ['label' => 'Cursado', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$mat=Materia::find()->where(['idMateria'=>$model->idMateria])->one();
+
+
+
+ echo $this->render('vistaMateria', [
+         'model' => $model,//'idMateria'=>$model->idMateria
+         'idMateria'=>1
+    ]) ;
 ?>
 <div class="cursado-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Create Cursado', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-   <!--  <?/*= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
-            'idCursado',
-            'fechaInicio',
-            'fechaFin',
-            'idMateria',
-            'cuatrimestre',
+    <?= $this->render('_view', [
+        'model' => $model,
+    ]) ?>
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); */?> -->
-    <?= ListView::widget(
 
-    		[
-    				'dataProvider' => $dataProvider,
-    				'itemView' => '_view',
-    		]
-
-    		);
-
-    ?>
 </div>
+<?php }
+ ?>

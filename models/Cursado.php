@@ -36,7 +36,12 @@ class Cursado extends \yii\db\ActiveRecord
         return [
             [['fechaInicio', 'fechaFin'], 'required'],
             [['fechaInicio', 'fechaFin'], 'safe'],
-            [['idMateria', 'cuatrimestre'], 'integer'],
+            [['idMateria'], 'integer'],
+
+            [['cuatrimestre'], 'string', 'max' => 30],
+
+['fechaFin', 'compare', 'compareAttribute' => 'fechaInicio', 'operator' => '>', 'message'=>'La Fecha Fin debe ser mayor a Fecha Inicio'],
+
             [['idMateria'], 'exist', 'skipOnError' => true, 'targetClass' => Materia::className(), 'targetAttribute' => ['idMateria' => 'idMateria']],
         ];
     }
@@ -73,7 +78,7 @@ class Cursado extends \yii\db\ActiveRecord
 
     public function getDesignadoACargo()
     {
-        return $this->hasOne(Designado::className(), ['idCursado' => 'idCursado'])->where(['funcion'=>'acargo']);
+        return $this->hasOne(Designado::className(), ['idCursado' => 'idCursado'])->where([Designado::tableName().'.funcion'=>'acargo']);
     }
 
     /**

@@ -23,9 +23,24 @@ use Yii;
  */
 class Programa extends \yii\db\ActiveRecord
 {
-    const ABIERTO = 1;
-    const VALIDADO = 2 ;
+    /*
+        VALIDACION PARA PROGRAMA: 
+        1 - EL DOCENTE CREA EL PROGRAMA (En estado ABIERTO)(marco - listo)
+        2 - EL EDITA EL PROGRAMA TODAS LAS VECES QUE QUIERA HASTA QUE TOQUE EL BOTON ENVIAR A REVISION(marco - listo)
+        3 - EL PROGRAMA PASA A ESTADO REVISION Y EL DIRECTOR ACAD LO VE Y PUEDE OBSERVAR Y REENVIAR A ESTADO ABIERTO
+        4 - EL DIRECTOR REENVIA A ABIERTO CON OBSERVICIONES (SOLO CON OBSERVACION)
+        (SOLO LO PUEDE REABRIR SI TIENE OBSERVACIONES)
+        5 - EL DOCENTE RECIBE OBSERVACIONES Y PUEDE PONER REALZIDO (PARA ENVIAR TIENEN QUE ESTAR LASOBSERVACIONES ENVIADAS)(marco - listo)
+        6 - DIRECTOR ENVIA APROBANDO EL PROGRAMA AL SECT
+        7 - EL SEC PUBLICA Y VE LOS PUBLICADOS Y LOS PENDIENTES DE PUBLICAR(leo)
+    */
+
+   const ABIERTO = 1;
+    const APROBADO = 2 ;
     const PUBLICADO = 3;
+    const REVISION = 4;
+    const ayudante = "ayudante"; //lo hice aca para no tocar archivos que no son de nuestro grupo, me parece que deberia ir en el modelo designado,igualmente funciona.
+    const acargo = "acargo";//lo hice aca para no tocar archivos que no son de nuestro grupo, me parece que deberia ir en el modelo designado,igualmente funciona.
 
     /**
      * @inheritdoc
@@ -59,7 +74,7 @@ class Programa extends \yii\db\ActiveRecord
             'idPrograma' => 'Id Programa',
             'idCursado' => 'Id Cursado',
             'orientacion' => 'Orientacion',
-            'anioActual' => 'Anio Actual',
+            'anioActual' => 'Año Actual',
             'programaAnalitico' => 'Programa Analitico',
             'propuestaMetodologica' => 'Propuesta Metodologica',
             'condicionesAcredEvalu' => 'Condiciones Acred Evalu',
@@ -92,11 +107,11 @@ class Programa extends \yii\db\ActiveRecord
         return $this->hasOne(Cursado::className(), ['idCursado' => 'idCursado']);
     }
 
-    //Verifica estado de el programa. 
+    //Verifica estado de el programa.
     public function isabierto()
     {
         if(Cambioestado::find()->where(['idPrograma'=>$this->idPrograma])->count()>0){
-            return 
+            return
             $this::find()
                 ->joinWith('cambioestados')
                 ->where(['cambioestado.idPrograma' => $this->idPrograma,'idEstadoP' => CambioEstado::find()->where(['cambioestado.idPrograma'=>$this->idPrograma])->max('idEstadoP')])
@@ -104,27 +119,27 @@ class Programa extends \yii\db\ActiveRecord
         }
         else{
             return true;
-        }            
+        }
     }
 
     public function afterSave($insert, $changedAttributes) {
         parent::afterSave($insert, $changedAttributes);
-        
+
             $cambioEstado = new Cambioestado;
 
-            $aData['Cambioestado']['idUsuario'] = 1;//Cambiar por usuario logueado 
+            $aData['Cambioestado']['idUsuario'] = 1;//Cambiar por usuario logueado
             $aData['Cambioestado']['fecha'] = date('Y-m-d');
             $aData['Cambioestado']['idEstadoP'] = self::ABIERTO;
             $aData['Cambioestado']['idPrograma'] = $this->idPrograma;
-            
+
             if($cambioEstado->load($aData) && $cambioEstado->save())
             {
                 return true;
             }else{
                 false;
             }
-        
-        
+
+
     }
 
     //Retorna ultimo programa de un cursado especifico
@@ -148,5 +163,13 @@ class Programa extends \yii\db\ActiveRecord
     {
         return "Nro cursado: ".$this->idCursado." - Año: ".$this->anioActual." - Materia: ".$this->idCursado0->idMateria0->nombre." - Cuatrimestre: ".$this->idCursado0->cuatrimestre;
     }
+
+    //lo hice aca para no tocar archivos que no son de nuestro grupo, me parece que deberia ir en el modelo designado,igualmente funciona.
+     public static function roleInArray($arr_role){
+        foreach ( Yii::$app->user->identity->idDocente0->designados as $recorre2) {
+        
+  return in_array($recorre2->funcion , $arr_role);
+}
+}
 
 }

@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\models\Facultad;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\DepartamentoSearch */
@@ -16,19 +17,29 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Departamento', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Registrar nuevo Departamento', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+           // ['class' => 'yii\grid\SerialColumn'],
 
-            'idDepartamento',
+          //  'idDepartamento',
             'nombre',
-            'idFacultad',
+        [
+            'attribute' => 'idFacultad',
+            'label' => 'Facultad',
+            'filter' => Facultad::listaDeNombres(),
+            'value' => function($model, $index, $dataColumn) {
+                $nombreFacultad = Facultad::listaDeNombres();//Arreglo con todos los nombres de las facultades
+                return $nombreFacultad[$model->idFacultad];//retorna el nombre segun idFacultad
+            },
+        ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',
+              'template' => '{view} {update}'
+            ],
         ],
     ]); ?>
 </div>

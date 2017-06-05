@@ -2,30 +2,27 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use app\models\Materia;
-
-
+use kartik\date\DatePicker;
 /* @var $this yii\web\View */
 /* @var $model app\models\Cursado */
 /* @var $form yii\widgets\ActiveForm */
-use kartik\date\DatePicker;
 
 
-
+/*$request = Yii::$app->request;
+$get = $request->get();
+print_r($get);
+*$param = $request->get('idMateria');
+*echo "---".$param."....!";
+*$params = $request->bodyParams;
+*print_r($params);*/
 
 ?>
 
 <div class="cursado-form">
-    <?php $form = ActiveForm::begin(); 
-     // if(isset($_GET['id'])&&$_GET['id']!="")
-    //{$model->idMateria=$_GET['id'];}
+    <?php $form = ActiveForm::begin();
+     if(isset($_GET['idMateria'])&&$_GET['idMateria']!="")
+    {$model->idMateria=$_GET['idMateria'];}
     ?>
-    <?php
-      $item = Materia::find() 
-        ->select(['Nombre'])  
-        ->indexBy('idMateria')  
-        ->column();
-  ?>
     <?= $form->field($model, 'fechaFin')->widget(DatePicker::classname(),[
     		'name' => 'fechaFin',
     		'id'=>'fechaFin',
@@ -36,7 +33,7 @@ use kartik\date\DatePicker;
     				'format' => 'yyyy-mm-dd'
     		]
     ]);
-    
+
     ?>
      <?= $form->field($model, 'fechaInicio')->widget(DatePicker::classname(),[
     'name' => 'fechaInicio',
@@ -49,22 +46,15 @@ use kartik\date\DatePicker;
     ]
 ]);
      ?>
-     <?= $form->field($model, 'idMateria')->dropdownList(
-        $item,
-    ['prompt'=>'Elija materia']
-    ); ?>
-   
+     <?= $form->field($model, 'idMateria')->hiddenInput()->label(""); ?>
 
-   
+	<?php
 
-	
-	<?php 
-	
-	$itemCuatrimestre=['1'=>'Primer Cuatrimestre','2'=>'Segundo Cuatrimestre'];?>
+	$itemCuatrimestre=['Primer Cuatrimestre'=>'Primer Cuatrimestre','Segundo Cuatrimestre'=>'Segundo Cuatrimestre','Anual'=>'Anual','Mas de un Año'=>'Mas de un Año','Otro'=>'Otro'];?>
 	<?= $form->field($model, 'cuatrimestre')->dropdownList($itemCuatrimestre,
 			['prompt'=>'seleccione cuatrimestre']) ;
 	?>
-	
+
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

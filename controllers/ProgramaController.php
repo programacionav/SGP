@@ -6,11 +6,14 @@ use Yii;
 use app\models\Programa;
 use app\models\Observacion;
 use app\models\Cambioestado;
+use app\models\Rol;
+
 use app\models\ProgramaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use kartik\mpdf\Pdf;
+use yii\filters\AccessControl;
 
 
 /**
@@ -21,9 +24,25 @@ class ProgramaController extends Controller
     /**
      * @inheritdoc
      */
+     //YA LO CONFIGURE PARA QUE LOS "AYUDANTES" NO PUEDAN INGRESAR A LAS ACCIONES QUE NO LES CORRESPONDEN
     public function behaviors()
     {
         return [
+            'access' => [
+ 'class' => AccessControl::className(),
+ 'only' => ['create','update','delete'],
+ 'rules' => [
+ [
+ 'actions' => ['create','update','delete'],
+ 'allow' => true,
+'roles' => ['@'],
+'matchCallback' => function ($rule, $action) {
+ $valid_roles = [Programa::acargo];
+return Programa::roleInArray($valid_roles);
+ }
+ ],
+ ],
+ ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -40,7 +59,22 @@ class ProgramaController extends Controller
     public function actionIndex()
     {
         $searchModel = new ProgramaSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
+          $dataProvider = $searchModel->searchDocente(Yii::$app->request->queryParams);
+        }
+        if(Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
+            $dataProvider = $searchModel->searchJefe(Yii::$app->request->queryParams);
+        }
+
+        if(Rol::findOne(Yii::$app->user->identity->idRol)->esSecAcademico()){
+            $dataProvider = $searchModel->searchSecAcademico(Yii::$app->request->queryParams);
+        }
+        /*NOTA todos los roles pueden ver los programas publicados de todas las materias. 
+        Ademas todos los roles pueden filtrar por carrera, materia, año, cuatrimestre y cursado para ver programas de cualquier materia y cualquier carrera.*/        
+        //$query->joinWith(['cambioestados','idCursado0.idMateria0.idDepartamento0', 'idCursado0.idMateria0.idPlan0.idCarrera0']);
+
+        
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -70,7 +104,7 @@ class ProgramaController extends Controller
          $model = new Programa();
         //$model->idCursado = $_GET['idCursado']; Descomentar esto cuando este listo
         $model->anioActual = date('Y');
-        $model->idCursado = 6;
+        $model->idCursado = 5;
 
         if(isset(Yii::$app->request->post()['Programa'])){
             if($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -186,7 +220,7 @@ public function actionReport($id) {
 //ES UNA PRUEBA, PERDON SI ALGUIEN LO IBA A HACER, NO ME AGUANTE!
     public function actionCambioestadoob($id){
         $estadoAAsignar = null;
-if(Yii::$app->user->identity->idRol == 1){
+if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
   $estadoAAsignar = 2;
 }else{
   $estadoAAsignar = 3;  
@@ -195,7 +229,7 @@ if(Yii::$app->user->identity->idRol == 1){
          $modelOb = Observacion::findOne($id);
          $modelOb->idEstadoO = $estadoAAsignar;//aca como abajo,tiene que cambiar el idEstado segun el Rol logueado.
         if($modelOb->save(false)){
-          return $this->redirect(['update',
+          return $this->redirect(['view',
         'id' => $modelOb->idPrograma,
     ]);
         }
@@ -204,14 +238,23 @@ if(Yii::$app->user->identity->idRol == 1){
     }
 
 
+
   public function actionCambiarestado(){
+      if(Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
+  $estadoPrograma = 2;
+}elseif(Rol::findOne(Yii::$app->user->identity->idRol)->esSecAcademico()){
+  $estadoPrograma = 3;  
+
+}elseif(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
+    $estadoPrograma = 4; 
+}
     $exito = false;
     $postData = Yii::$app->request->get();
-    $idEstado = '2'; //detectar estado dependiendo del rol, cambiame esto man!
+    $idEstado = $estadoPrograma; //detectar estado dependiendo del rol, cambiame esto man!
     $idPrograma = isset($postData['idPrograma'])?$postData['idPrograma']:null;
     $modelCambioEstado = new Cambioestado();
     $modelCambioEstado->idPrograma = $idPrograma;
-    $modelCambioEstado->idUsuario = 1; //hardcode
+    $modelCambioEstado->idUsuario = Yii::$app->user->identity->id; //hardcode
     $modelCambioEstado->fecha = date("Y-m-d");
     $modelCambioEstado->idEstadoP = $idEstado;
     if($modelCambioEstado->save()){

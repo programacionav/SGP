@@ -12,6 +12,7 @@ use app\models\DepartamentoDocenteCargo;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * DocenteController implements the CRUD actions for Docente model.
@@ -30,6 +31,21 @@ class DocenteController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+          'access' => [
+'class' => AccessControl::className(),
+'only' => ['create','update','delete'],
+'rules' => [
+[
+'actions' => ['create','update','delete'],
+'allow' => true,
+'roles' => ['@'],
+'matchCallback' => function ($rule, $action) {
+$valid_roles = [Usuario::ROLE_SECRETARIO_ACADEMICO];
+return Usuario::roleInArray($valid_roles);
+}
+],
+],
+],
         ];
     }
 
@@ -55,8 +71,14 @@ class DocenteController extends Controller
      */
     public function actionView($id)
     {
+        $modelCargo = new Cargo();
+        $modelDepartamento = new Departamento();
+        $modelDepartamentoDocenteCargo = new DepartamentoDocenteCargo();
         return $this->render('view', [
             'model' => $this->findModel($id),
+                'modelCargo' => $modelCargo,
+                'modelDepartamento' => $modelDepartamento,
+                'modelDepartamentoDocenteCargo' => $modelDepartamentoDocenteCargo,
         ]);
     }
 
@@ -69,30 +91,20 @@ class DocenteController extends Controller
     {
         $model = new Docente();
         $modelUsuario = new Usuario();
-        $modelCargo = new Cargo();
-        $modelDepartamento = new Departamento();
-        $modelDepartamentoDocenteCargo = new DepartamentoDocenteCargo();
-
 
         if ($model->load(Yii::$app->request->post()) &&  $model->save()) { //Compruebo si cargué por post y si se pudo guardar el docente
             $modelUsuario->idDocente = $model->idDocente;
             //$modelUsuario->idRol "El idRol de Usuario lo carga por post del select correspondiente"
             $modelUsuario->usuario = $model->cuil;
             $modelUsuario->clave = $model->cuil;
-			$modelDepartamentoDocenteCargo->idDocente = $model->idDocente;
-        }if ($modelUsuario->load(Yii::$app->request->post()) && $modelUsuario->save()){ //Compruebo si se pudo cargar por post y guardar el usuario del Docente
-            if ($modelDepartamentoDocenteCargo->load(Yii::$app->request->post()) && $modelDepartamentoDocenteCargo->save()){
-				return $this->redirect(['view', 'id' => $model->idDocente]);
-			}
-			
-        } else {
+        }if ($modelUsuario->load(Yii::$app->request->post()) && $modelUsuario->save())
+        { //Compruebo si se pudo cargar por post y guardar el usuario del Docente
+				    return $this->redirect(['view', 'id' => $model->idDocente]);
+			  }else
+        {
             return $this->render('create', [
                 'model' => $model,
                 'modelUsuario' => $modelUsuario,
-                'modelCargo' => $modelCargo,
-                'modelDepartamento' => $modelDepartamento,
-                'modelDepartamentoDocenteCargo' => $modelDepartamentoDocenteCargo,
-
             ]);
         }
     }
