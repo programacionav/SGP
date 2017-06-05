@@ -6,6 +6,11 @@ use yii\helpers\Html;
 $this->title = 'Nuevo Cursado';
 $this->params['breadcrumbs'][] = ['label' => 'Cursados', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+ echo $this->render('vistaMateria', [
+         'model' => $model,//'idMateria'=>$model->idMateria
+         'idMateria'=>$idMateria
+    ]) ;
 ?>
 <div class="cursado-create">
 
@@ -15,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
             $usuario=yii::$app->user->identity;
 
             if($usuario->idRol==2){
-                echo "<h1>".Html::encode($this->title)."</h1>";
+               
                   echo  $this->render('_form', [
                 'model' => $model,'idMateria'=>$idMateria
             ]) ;

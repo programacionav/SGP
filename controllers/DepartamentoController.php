@@ -99,13 +99,13 @@ class DepartamentoController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
+    /*public function actionDelete($id)
     {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
-
+*/
     /**
      * Finds the Departamento model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

@@ -7,6 +7,17 @@ use kartik\date\DatePicker;
 /* @var $model app\models\Cursado */
 /* @var $form yii\widgets\ActiveForm */
 
+<<<<<<< HEAD
+=======
+
+/*$request = Yii::$app->request;
+$get = $request->get();
+print_r($get);
+*$param = $request->get('idMateria');
+*echo "---".$param."....!";
+*$params = $request->bodyParams;
+*print_r($params);*/
+>>>>>>> 7bb4f9d222367f2aa21e3816df8a8a63e30e903a
 ?>
 
 <div class="cursado-form">

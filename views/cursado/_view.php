@@ -6,7 +6,7 @@ use yii\data\ActiveDataProvider ;
 use app\models\Materia;
 use app\models\Usuario;
 use app\models\Designado;
-
+use app\models\Programa;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CursadoSearch */
@@ -128,6 +128,10 @@ $dataProvider = new ActiveDataProvider([
 
         							$usuario=yii::$app->user->identity;
 									if($usuario->idRol==1||$usuario->idRol==2||$usuario->idRol==3){
+
+							$programaCursado=Programa::findOne(['idCursado'=>$model->idCursado]);
+							print_r($programaCursado);
+
         						return Html::a('Ver Programa',['programa/view','idCursado'=>$model->idCursado ],['class'=>'btn btn-primary']);}
 
         						},

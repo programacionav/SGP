@@ -13,22 +13,29 @@ $mesActual = date("m"); // Mes actual
 if(isset(yii::$app->user->identity)){
     $usuario=yii::$app->user->identity;
 $mat=Materia::find()->where(['idMateria'=>$model->idMateria])->one();
-$this->title = "Cursado N°".$model->idCursado;
+
+$this->title =  $mat->nombre;
 
 
 $this->params['breadcrumbs'][] = ['label' => 'Cursados', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+
+
+
+ echo $this->render('vistaMateria', [
+         'model' => $model,'idMateria'=>$model->idMateria
+    ]) ;
 ?>
 <div class="cursado-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
 
  <p>
 <?php
 
   echo "<table class='table'>";
   echo "<tr>";
-  echo "<th>ID Cursado</th><th>Materia</th><th>Cuatrimestre</th><th>Año Inicio</th><th>Año Fin</th>";
+  echo "<th>ID Cursado</th><th>Cuatrimestre</th><th>Año Inicio</th><th>Año Fin</th>";
   if($usuario->idRol==2)
   {
       if($anioActual==$anioCursado){
@@ -48,9 +55,9 @@ $this->params['breadcrumbs'][] = $this->title;
   echo "<td>";
   echo " ".$model->idCursado."<br>";
   echo "</td>";
-  echo "<td>";
-  echo " ".$mat->nombre."<br>";
-  echo "</td>";
+  //echo "<td>";
+  //echo " ".$mat->nombre."<br>";
+  //echo "</td>";
   echo "<td>";
   echo " ".(($model->cuatrimestre == '1')?"Primero":"Segundo")."<br>";
   echo "</td>";
