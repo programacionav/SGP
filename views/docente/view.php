@@ -56,22 +56,29 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ])?>
 	
-	
 	<div class="col-md-6 ">
     <table id="w0" class="table table-striped table-bordered detail-view">
 	<tr><td><h1>Departamentos</h1></td></tr>
 	<tr>
 	<?php 
-	$itemDepartamento = ArrayHelper::map(Departamento::find()->all(),
-	'idDepartamento',
-		function($modelDepartamento) {
-			
-			echo "<td>".$modelDepartamento['nombre']."</td></tr><tr>";
-		}
+
+ print_r ($model->departamentodocentecargos[0]->idDepartamento0->nombre);
+	$item = ArrayHelper::map(DepartamentoDocenteCargo::find()->all(),
+	'idDocente',
+		function($modelDocente) {
+		$itemDepartamento = ArrayHelper::map(Departamento::find()->all(),
+		'idDepartamento',
+			function($modelDepartamento) {
+				//print_r($modelDepartamento);
+				//echo "<td>".$modelDepartamento."</td></tr><tr>";
+				echo "<td>".$modelDepartamento['nombre']."</td></tr><tr>";
+			}
+		);
+	}
 	);
-			//$docentes = count($itemDepartamento);
-			//echo $docentes;
 	?>
+
+ 
 	</table>
 	</div>
 	
