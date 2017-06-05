@@ -20,7 +20,7 @@ use app\models\Designado;
  $anioActual=date("Y");//Año actual
 $anioCursado=date("Y", strtotime($model->fechaFin));//Año de cursado
 $mesCursado=date("m", strtotime($model->fechaFin));
-$mesActual = date("m"); // Mes actual 
+$mesActual = date("m"); // Mes actual
 
 $usuario=yii::$app->user->identity;//usuario;
 $model->idMateria=1;
@@ -37,9 +37,9 @@ $dataProvider = new ActiveDataProvider([
 				'pageSize' => 5,
 		], 'sort' => [
         'defaultOrder' => [
-            
-            'fechaInicio' => SORT_DESC, 
-			
+
+            'fechaInicio' => SORT_DESC,
+
         ]
     ],
 ]);
@@ -49,11 +49,12 @@ $dataProvider = new ActiveDataProvider([
 <div class="cursado-index">
 
 		<?php
-		if($usuario->idRol==2){
-	
+    
+  	if($usuario->idRol==2){
+
 				echo Html::a('Crear Cursado', ['create','idMateria'=>$model->idMateria], ['class' => 'btn btn-success']);
 				}
-?>		
+?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
@@ -100,7 +101,7 @@ $dataProvider = new ActiveDataProvider([
 						$docenteACargo = Designado::findOne([
     					'idCursado' => $model->idCursado,
     					'funcion' => 'a cargo',
-						]);	
+						]);
 
 									$usuario=yii::$app->user->identity;
 //si docente y funcion a cargo o es secretario academico muestr boton de ver cursado;
@@ -108,12 +109,12 @@ $dataProvider = new ActiveDataProvider([
         						return Html::a('Ver',['view','id'=>$model->idCursado ],['class'=>'btn btn-primary']);
 								}
 								},
-        						
+
         						'programa'=> function ($url, $model, $key) {
 									$docenteACargo = Designado::findOne([
     					'idCursado' => $model->idCursado,
     					'funcion' => 'a cargo',
-						]);	
+						]);
         						$usuario=yii::$app->user->identity;
 //si docente y funcion a cargo muestra boton de crear programa;
 									if($usuario->idRol==1&&$docenteACargo['funcion']=='a cargo'){
@@ -135,13 +136,11 @@ $dataProvider = new ActiveDataProvider([
         						]
         						],
 
-        		
-        		
-        
-    ]); 
-	
+
+
+
+    ]);
+
 	}else{echo "Debe loguearse";}?>
-   
+
 </div>
-
-

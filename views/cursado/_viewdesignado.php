@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+$usuario=yii::$app->user->identity;//usuario;
 
 $designados = $model->designados;
 //print_r($designados);
@@ -18,18 +19,23 @@ if(count($designados) != 0){
     echo "<td>".$designacion->idDocente0->mail."</td>";
     echo "<td>".(($designacion->funcion == 'acargo')? "A cargo":"Ayudante")."</td>";
     echo "<td>";
+    if(isset($usuario) && $usuario->idRol==2){
     echo Html::a('Ver',['docente/view','id'=>$designacion->idDocente0->idDocente],['class' =>'btn btn-primary']);
     echo Html::a('Desasignar', ['designado/delete', 'idCursado' => $designacion->idCursado0->idCursado, 'idDocente' => $designacion->idDocente0->idDocente], [
         'class' => 'btn btn-danger',
         'data' => [
-            'confirm' => 'Are you sure you want to delete this item?',
+            'confirm' => '¿Esta seguro que quiere desasignar al docente?',
             'method' => 'post',
         ],
     ]);
+  }else{
+    echo "No hay acciones que mostrar";
+  }
     echo "</td>";
     //$salida.="<td>".$designacion->idDocente0-."</td>";
     echo "</tr>";
     }
     echo "</table>";
 }
+
  ?>

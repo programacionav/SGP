@@ -6,8 +6,9 @@ use yii\data\ActiveDataProvider;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CursadoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-echo Yii::$app->controller->action->id;
 
+$usuario=yii::$app->user->identity;//usuario;
+if(isset($usuario)){
 $this->params['breadcrumbs'][] = ['label' => 'Cursado', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -19,3 +20,5 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
     ]) ?>
 </div>
+<?php }
+ ?>
