@@ -16,7 +16,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Registrar nuevo docente', ['create'], ['class' => 'btn btn-success']) ?>
+        <?php
+      
+         if(Yii::$app->user->identity->idRol === 3){//3 para secretario academico
+            echo Html::a('Registrar nuevo docente', ['create'], ['class' => 'btn btn-success']) ;
+        }
+       ?>
+       
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -34,15 +40,33 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn',
             'template' => '{view} {update} {delete} {create} {indexDDC}',
             'buttons' => [
+                  'update' => function ($url, $model) {
+                                 if(Yii::$app->user->identity->idRol === 3){
+                                       return Html::a('<span class="glyphicon glyphicon-pencil"></span>',
+                                      $url, ['title' => Yii::t('app', 'lead-update'),]);
+                                 }
+                               
+            },
+             'delete' => function ($url, $model) {
+                 if(Yii::$app->user->identity->idRol === 3){
+                          return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
+                            'title' => Yii::t('app', 'lead-delete'),
+                ]);
+              }
+            },
                 'create' => function($url,$model,$key){
-                    return Html::a('<span class="glyphicon glyphicon-plus-sign"></span>',
+                    if(Yii::$app->user->identity->idRol === 3){
+                        return Html::a('<span class="glyphicon glyphicon-plus-sign"></span>',
                                     ['departamento-docente-cargo/create','idDocente'=>$model->idDocente] , [
                                     'title' => Yii::t('app', 'Anexar departamento y cargo'),]);
+                    }               
                 },
                 'indexDDC'=> function($url,$model,$key){
-                    return Html::a('<span class="glyphicon glyphicon-share-alt"></span>',
-                    ['departamento-docente-cargo/index','idDocente'=>$model->idDocente] ,
-                    ['title' => Yii::t('app','Modificar o eliminar departamento y cargo'),]);
+                    if(Yii::$app->user->identity->idRol === 3){
+                        return Html::a('<span class="glyphicon glyphicon-share-alt"></span>',
+                         ['departamento-docente-cargo/index','idDocente'=>$model->idDocente] ,
+                         ['title' => Yii::t('app','Modificar o eliminar departamento y cargo'),]);
+                    }    
                 }
             ]
           ]
