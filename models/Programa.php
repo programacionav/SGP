@@ -24,7 +24,7 @@ use Yii;
 class Programa extends \yii\db\ActiveRecord
 {
     /*
-        VALIDACION PARA PROGRAMA: 
+        VALIDACION PARA PROGRAMA:
         1 - EL DOCENTE CREA EL PROGRAMA (En estado ABIERTO)(marco - listo)
         2 - EL EDITA EL PROGRAMA TODAS LAS VECES QUE QUIERA HASTA QUE TOQUE EL BOTON ENVIAR A REVISION(marco - listo)
         3 - EL PROGRAMA PASA A ESTADO REVISION Y EL DIRECTOR ACAD LO VE Y PUEDE OBSERVAR Y REENVIAR A ESTADO ABIERTO
@@ -35,7 +35,7 @@ class Programa extends \yii\db\ActiveRecord
         7 - EL SEC PUBLICA Y VE LOS PUBLICADOS Y LOS PENDIENTES DE PUBLICAR(leo)
     */
 
-   const ABIERTO = 1;
+    const ABIERTO = 1;
     const APROBADO = 2 ;
     const PUBLICADO = 3;
     const REVISION = 4;
@@ -167,9 +167,46 @@ class Programa extends \yii\db\ActiveRecord
     //lo hice aca para no tocar archivos que no son de nuestro grupo, me parece que deberia ir en el modelo designado,igualmente funciona.
      public static function roleInArray($arr_role){
         foreach ( Yii::$app->user->identity->idDocente0->designados as $recorre2) {
-        
+
   return in_array($recorre2->funcion , $arr_role);
 }
 }
+
+public function existeObservacionRevison(){
+  $observaciones = $this->observacions;
+  foreach($observaciones as $observacion){
+    if($observacion->idEstadoO == 1){
+      $flag = true;
+    }
+  }
+  $resultado = isset($flag);
+  return $resultado;
+}
+
+  public function enRevision()
+  {
+     return $this->GetLastStatus() == self::REVISION;
+
+  }
+  public function abierto()
+  {
+     return $this->GetLastStatus() == self::ABIERTO;
+
+  }
+  public function publicado()
+  {
+     return $this->GetLastStatus() == self::PUBLICADO;
+
+  }
+  public function aprobado()
+  {
+     return $this->GetLastStatus() == self::APROBADO;
+
+  }
+
+  public function GetLastStatus()
+  {
+     return Cambioestado::find()->where(['idPrograma'=>$this->idPrograma])->max('idCambioEstado');
+  }
 
 }

@@ -29,10 +29,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php
     if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() || Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
 
-            $aDepto = Departamento::find()->where(['idDepartamento'=>DepartamentoDocenteCargo::find()->where(['idDocente'=>Yii::$app->user->identity->id])->one()->idDepartamento])->asArray()->all();        
+            $aDepto = Departamento::find()->where(['idDepartamento'=>DepartamentoDocenteCargo::find()->where(['idDocente'=>Yii::$app->user->identity->id])->one()->idDepartamento])->asArray()->all();
     }
     else{
-            $aDepto = Departamento::find()->asArray()->all();     
+            $aDepto = Departamento::find()->asArray()->all();
     }
 
     if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() || Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
     }
     else{
             $aMateria = Materia::find()->asArray()->all();
-    } 
+    }
     ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -103,13 +103,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'filter'=>ArrayHelper::map(Estadoprograma::find()->asArray()->all(), 'idEstadoP', 'descripcion'),
             ],
-            
+
             //'programaAnalitico:ntext',
             // 'propuestaMetodologica',
             // 'condicionesAcredEvalu',
             // 'horariosConsulta',
             // 'bibliografia',
-      
+
            ['class' => 'yii\grid\ActionColumn', 'template' => '{view} '],
         ],
     ]); ?>

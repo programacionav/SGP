@@ -53,7 +53,7 @@ foreach ( $model->observacions as $recorre) {
   <div class="row">
     <div class="well well-lg">
       <?php
-      
+
       foreach ( Yii::$app->user->identity->idDocente0->designados as $recorre2) {
         if ($recorre2->esACargo() == true){
           echo Html::a('<span class="glyphicon glyphicon-pencil"></span>&nbsp;Actualizar', ['update', 'id' => $model->idPrograma], ['class' => 'btn btn-default']);
@@ -100,12 +100,22 @@ foreach ( $model->observacions as $recorre) {
             ?>
 
             <?php
-            if($cantidad == 0){
-              echo  Html::a('<span class="glyphicon glyphicon-ok"></span>&nbsp;Aprobar', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma]), [
-                'class' => 'btn btn-success',
-                'data' => [
-                  'confirm' => 'Esta seguro que desea aprobar este programa?'],
-                ]);} } ?>
+              if(Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto() && $model->existeObservacionRevison())  {
+                echo  Html::a('<span class="glyphicon glyphicon-refresh"></span>&nbsp;Reabrir', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma]), [
+                  'class' => 'btn btn-default',
+                  'data' => [
+                    'confirm' => '¿Esta seguro que desea reabrir este programa?'],
+                  ]);
+                echo '&nbsp;';
+              }
+              if($cantidad == 0){
+                echo  Html::a('<span class="glyphicon glyphicon-ok"></span>&nbsp;Aprobar', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma]), [
+                  'class' => 'btn btn-success',
+                  'data' => [
+                    'confirm' => 'Esta seguro que desea aprobar este programa?'],
+                  ]);} }
+
+            ?>
                 <?= Html::a('<span class="glyphicon glyphicon-export"></span>&nbsp;Crear pdf',Url::toRoute(['programa/report','id' => $model->idPrograma]), ['class' => 'btn btn-default pull-right','target'=>'_blank']) ?>
               </div>
             </div>
