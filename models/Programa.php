@@ -183,30 +183,31 @@ public function existeObservacionRevison(){
   return $resultado;
 }
 
-  public function enRevision()
-  {
-     return $this->GetLastStatus() == self::REVISION;
 
-  }
-  public function abierto()
-  {
-     return $this->GetLastStatus() == self::ABIERTO;
+public function enRevision()
+{   $revision = $this->GetLastStatus();
+    return $revision['idEstadoP'] == self::REVISION;
+    
+}
+public function abierto()
+{$abierto = $this->GetLastStatus();
+    return $abierto['idEstadoP'] == self::ABIERTO;
+    
+}
+public function publicado()
+{$publicado = $this->GetLastStatus();
+    return $publicado['idEstadoP'] == self::PUBLICADO;
+    
+}
+public function aprobado()
+{$aprobado = $this->GetLastStatus();
+    return $aprobado['idEstadoP'] == self::APROBADO;
+    
+}
 
-  }
-  public function publicado()
-  {
-     return $this->GetLastStatus() == self::PUBLICADO;
-
-  }
-  public function aprobado()
-  {
-     return $this->GetLastStatus() == self::APROBADO;
-
-  }
-
-  public function GetLastStatus()
-  {
-     return Cambioestado::find()->where(['idPrograma'=>$this->idPrograma])->max('idCambioEstado');
-  }
+public function GetLastStatus()
+{
+    return Cambioestado::find()->select('idEstadoP')->where(['idPrograma'=>$this->idPrograma])->orderBy(['fecha'=>SORT_DESC])->limit(1)->one();
+}
 
 }

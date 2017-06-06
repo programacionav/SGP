@@ -104,7 +104,7 @@ return Programa::roleInArray($valid_roles);
          $model = new Programa();
         //$model->idCursado = $_GET['idCursado']; Descomentar esto cuando este listo
         $model->anioActual = date('Y');
-        $model->idCursado = 5;
+        $model->idCursado = 7;
 
         if(isset(Yii::$app->request->post()['Programa'])){
             if($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -239,9 +239,13 @@ if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
 
 
 
-  public function actionCambiarestado(){
+  public function actionCambiarestado($id = null){
+      //esto no se si sera lo mejor,pero funciona
       if(Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
-  $estadoPrograma = 2;
+        if($id!=null){
+          $estadoPrograma = $id ;
+      }else{$estadoPrograma = 2;}
+
 }elseif(Rol::findOne(Yii::$app->user->identity->idRol)->esSecAcademico()){
   $estadoPrograma = 3;  
 
