@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Correlativa', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Nueva Correlativa', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'idMateria1',
             'idMateria2',
+        		'tipo',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
