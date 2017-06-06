@@ -31,6 +31,7 @@ class Correlativa extends \yii\db\ActiveRecord
         return [
             [['idMateria1', 'idMateria2'], 'required'],
             [['idMateria1', 'idMateria2'], 'integer'],
+        	[['tipo'], 'string'],
             [['idMateria1'], 'exist', 'skipOnError' => true, 'targetClass' => Materia::className(), 'targetAttribute' => ['idMateria1' => 'idMateria']],
             [['idMateria2'], 'exist', 'skipOnError' => true, 'targetClass' => Materia::className(), 'targetAttribute' => ['idMateria2' => 'idMateria']],
         ];
@@ -42,8 +43,9 @@ class Correlativa extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idMateria1' => 'Id Materia1',
-            'idMateria2' => 'Id Materia2',
+            'idMateria1' => 'Materia',
+            'idMateria2' => 'Correlativa',
+        		'tipo'=>'Tipo',
         ];
     }
 

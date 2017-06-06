@@ -31,7 +31,9 @@ class Plan extends \yii\db\ActiveRecord
     {
         return [
             [['numOrd', 'idCarrera'], 'required'],
-            [['numOrd', 'idCarrera'], 'integer'],
+            [['numOrd'], 'string'],
+        		[['numOrd'],'unique',"message"=>'El número de ordenanza ya existe'],
+        		[['idCarrera'], 'integer'],
             [['idCarrera'], 'exist', 'skipOnError' => true, 'targetClass' => Carrera::className(), 'targetAttribute' => ['idCarrera' => 'idCarrera']],
         ];
     }
