@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $anioActual=date("Y");//Año actual
 $anioCursado=date("Y", strtotime($model->fechaFin));//Año de cursado
 $mesCursado=date("m", strtotime($model->fechaFin));
-$mesActual = date("m"); // Mes actual 
+$mesActual = date("m"); // Mes actual
 Programa::find(['idCursado'=>$model->idCursado])->one();
 $modelMateria=Materia::find(['idMateria'=>(Yii::$app->request->get('id'))])->one();
 
@@ -31,12 +31,12 @@ $usuario=yii::$app->user->identity;//usuario;
 //$usuario=Yii::$app->user->getId();//usuario;
 
 
-    
+
 print_r($model);
 echo $this->render('../materia/_view', [
 	'model'=>$modelMateria,
-               
-            ]);
+
+  ]);
 
 
 if(isset($usuario)){
@@ -54,10 +54,10 @@ if(isset($usuario)){
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-           
+
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            
+
         		'idCursado',['attribute'=>'anio',
         				'value'=>function ($model){
 
@@ -110,7 +110,7 @@ if(isset($usuario)){
 								},
 
         						'programa'=> function ($url, $model, $key) {
-									
+
 									$docenteACargo = Designado::findOne([
     					'idCursado' => $model->idCursado,
     					'funcion' => 'a cargo',
@@ -125,12 +125,12 @@ if(isset($usuario)){
 
 	$programaCursado=Programa::find(['idCursado'=>$model->idCursado])->one();
         					//echo count($programaCursado);
-						
+
 
         							$usuario=yii::$app->user->identity;
 									if($usuario->idRol==1||$usuario->idRol==2||$usuario->idRol==3){
 
-							
+
 
 							if(count($programaCursado)==1){
         						return Html::a('Ver Programa',['programa/view','idCursado'=>$model->idCursado ],['class'=>'btn btn-primary']);
@@ -148,4 +148,3 @@ if(isset($usuario)){
     ]);
 
 	}else{echo "Debe loguearse";}?></div>
-
