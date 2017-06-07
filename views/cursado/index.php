@@ -28,8 +28,7 @@ $mesActual = date("m"); // Mes actual
 $usuario=yii::$app->user->identity;//usuario;
 //$usuario=Yii::$app->user->getId();//usuario;
 
-$get=Yii::$app->request;
-echo $model->idMateria."--";
+
 if(isset($usuario)){
     $rol=$usuario->idRol;
 
