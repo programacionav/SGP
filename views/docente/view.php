@@ -55,38 +55,31 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
         ],
     ])?>
-	
-	
+	 
 	<div class="col-md-6 ">
     <table id="w0" class="table table-striped table-bordered detail-view">
-	<tr><td><h1>Departamentos</h1></td></tr>
+	<tr><td><h1>Departamentos asignados</h1></td></tr>
 	<tr>
-	<?php 
-	$itemDepartamento = ArrayHelper::map(Departamento::find()->all(),
-	'idDepartamento',
-		function($modelDepartamento) {
-			
-			echo "<td>".$modelDepartamento['nombre']."</td></tr><tr>";
+	<?php
+	foreach ($model->departamentodocentecargos as $valor) {
+		if($valor->idDocente==$model->idDocente){
+			echo "<td>".$valor->idDepartamento0->nombre."</td></tr><tr>";
 		}
-	);
-			//$docentes = count($itemDepartamento);
-			//echo $docentes;
-	?>
+	}?>
 	</table>
 	</div>
 	
 	<div class="col-md-6 ">
 	<table id="w0" class="table table-striped table-bordered detail-view">
-	<tr><td colspan="2"><h1>Cargos</h1></td></tr>
+	<tr><td colspan="2"><h1>Cargos asignados</h1></td></tr>
 	<tr>
 	<?php
-	$itemDepartamento = ArrayHelper::map(Cargo::find()->all(),
-	'idCargo',
-		function($modelCargo) {
-		echo "<td>".$modelCargo['abreviatura']."</td>";
-		echo "<td>".$modelCargo['descripcion']."</td></tr><tr>";
+	foreach ($model->departamentodocentecargos as $valor) {
+		if($valor->idDocente==$model->idDocente){
+			echo "<td>".$valor->idCargo0->abreviatura."</td>";
+			echo "<td>".$valor->idCargo0->descripcion."</td></tr><tr>";
 		}
-	);?>
+	}?>
 	</table>
 	</div>
 

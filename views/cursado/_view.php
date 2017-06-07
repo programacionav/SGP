@@ -20,16 +20,15 @@ use app\models\Programa;
  $anioActual=date("Y");//Año actual
 $anioCursado=date("Y", strtotime($model->fechaFin));//Año de cursado
 $mesCursado=date("m", strtotime($model->fechaFin));
-
-$mesActual = date("m"); // Mes actual 
-
+$mesActual = date("m"); // Mes actual
 
 
 
-$usuario=yii::$app->user->identity;//usuario;
-$model->idMateria=1;
 
-							
+$usuario=Yii::$app->user->getId();
+echo $usuario;
+
+
 if(isset($usuario)){
 
 
@@ -37,11 +36,12 @@ if(isset($usuario)){
 $dataProvider = new ActiveDataProvider([
 		'query' => $model::find()->where(['idMateria'=>$model->idMateria]),
 		'pagination' => [
-				'pageSize' => 5,
-		], 'sort' => [
+		'pageSize' => 5,
+		],
+		'sort' => [
         'defaultOrder' => [
 
-            'fechaInicio' => SORT_DESC,
+        'fechaInicio' => SORT_DESC,
 
         ]
     ],
@@ -52,11 +52,10 @@ $dataProvider = new ActiveDataProvider([
 <div class="cursado-index">
 
 		<?php
-    
-  	if($usuario->idRol==2){
 
+  	if($usuario->idRol==2){
 				echo Html::a('Crear Cursado', ['create','idMateria'=>$model->idMateria], ['class' => 'btn btn-success']);
-				}
+    }
 ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -114,7 +113,7 @@ $dataProvider = new ActiveDataProvider([
 								},
 
         						'programa'=> function ($url, $model, $key) {
-									
+
 									$docenteACargo = Designado::findOne([
     					'idCursado' => $model->idCursado,
     					'funcion' => 'a cargo',
@@ -129,12 +128,12 @@ $dataProvider = new ActiveDataProvider([
 
 	$programaCursado=Programa::find(['idCursado'=>$model->idCursado])->one();
         					//echo count($programaCursado);
-						
+
 
         							$usuario=yii::$app->user->identity;
 									if($usuario->idRol==1||$usuario->idRol==2||$usuario->idRol==3){
 
-							
+
 
 							if(count($programaCursado)==1){
         						return Html::a('Ver Programa',['programa/view','idCursado'=>$model->idCursado ],['class'=>'btn btn-primary']);

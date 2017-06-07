@@ -23,6 +23,17 @@ print_r($get);
      if(isset($_GET['idMateria'])&&$_GET['idMateria']!="")
     {$model->idMateria=$_GET['idMateria'];}
     ?>
+    <?= $form->field($model, 'fechaInicio')->widget(DatePicker::classname(),[
+   'name' => 'fechaInicio',
+ 'id'=>'fechaInicio',
+   'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+   'value' => '23-12-2017',
+   'pluginOptions' => [
+       'autoclose'=>true,
+       'format' => 'yyyy-mm-dd'
+   ]
+]);
+    ?>
     <?= $form->field($model, 'fechaFin')->widget(DatePicker::classname(),[
     		'name' => 'fechaFin',
     		'id'=>'fechaFin',
@@ -35,17 +46,7 @@ print_r($get);
     ]);
 
     ?>
-     <?= $form->field($model, 'fechaInicio')->widget(DatePicker::classname(),[
-    'name' => 'fechaInicio',
-	'id'=>'fechaInicio',
-    'type' => DatePicker::TYPE_COMPONENT_PREPEND,
-    'value' => '23-12-2017',
-    'pluginOptions' => [
-        'autoclose'=>true,
-        'format' => 'yyyy-mm-dd'
-    ]
-]);
-     ?>
+
      <?= $form->field($model, 'idMateria')->hiddenInput()->label(""); ?>
 
 	<?php
@@ -57,7 +58,7 @@ print_r($get);
 
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Modificar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

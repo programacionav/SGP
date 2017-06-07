@@ -8,7 +8,7 @@ use app\models\CursadoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use app\models\Materia;
 /**
  * CursadoController implements the CRUD actions for Cursado model.
  */
@@ -38,12 +38,14 @@ class CursadoController extends Controller
         $model = new Cursado();
         $searchModel = new CursadoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        //print_r(Yii::$app->request->queryParams);
+        //exit();
+        $modelMateria=Materia::findOne(Yii::$app->request->queryParams['CursadoSearch']['idMateria']);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'model' => $model,
-        		
+        	  'modelMateria'=>$modelMateria,
         ]);
     }
 
@@ -65,15 +67,15 @@ class CursadoController extends Controller
      * @return mixed
      */
     public function actionCreate($idMateria)
-    {
+    {   
         $model = new Cursado();
-
+        $materia=Materia::findOne(['idMateria'=>$idMateria]);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idCursado]);
         } else {
             return $this->render('create', [
                 'model' => $model,
-            	'idMateria'=>$idMateria
+            	  'modelMateria'=>$materia,
             ]);
         }
     }

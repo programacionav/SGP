@@ -63,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
      	'<td>'.Html::a('Agregar Correlativas', ['correlativa/create', 'idPlan' => $model->idPlan,'idMateria' => $unaMateria->idMateria], ['class' => 'btn btn-primary'])."</td>".
      	'<td>'.$unaMateria->idDepartamento0->nombre."</td>".
         '<td>'.$unaMateria->area."</td>".
-        '<td>'.Html::a(Html::encode('ver'), ['cursado/index', 'id'=>$unaMateria->idMateria], ['class' => 'btn btn-primary']).'<br>'."</td>"
+        '<td>'.Html::a(Html::encode('ver'), ['cursado/index', 'CursadoSearch[idMateria]'=>$unaMateria->idMateria], ['class' => 'btn btn-primary']).'<br>'."</td>"
             		."</tr>";
      	
      } 

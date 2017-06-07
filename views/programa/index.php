@@ -27,12 +27,27 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <?php
+    if(Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto())
+    {
+        $aEstado = Estadoprograma::find()->where('idEstadoP <> 1')->asArray()->all();
+    }
+
+    if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente())
+    {
+        $aEstado = Estadoprograma::find()->where('idEstadoP <> 2')->asArray()->all();
+    }
+
+    if(Rol::findOne(Yii::$app->user->identity->idRol)->esSecAcademico())
+    {
+        $aEstado = Estadoprograma::find()->where('idEstadoP = 2 OR idEstadoP = 3')->asArray()->all();
+    }
+
     if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() || Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
 
-            $aDepto = Departamento::find()->where(['idDepartamento'=>DepartamentoDocenteCargo::find()->where(['idDocente'=>Yii::$app->user->identity->id])->one()->idDepartamento])->asArray()->all();        
+            $aDepto = Departamento::find()->where(['idDepartamento'=>DepartamentoDocenteCargo::find()->where(['idDocente'=>Yii::$app->user->identity->id])->one()->idDepartamento])->asArray()->all();
     }
     else{
-            $aDepto = Departamento::find()->asArray()->all();     
+            $aDepto = Departamento::find()->asArray()->all();
     }
 
     if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() || Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
@@ -41,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
     }
     else{
             $aMateria = Materia::find()->asArray()->all();
-    } 
+    }
     ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -101,15 +116,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($data){
                     return Cambioestado::find()->where(['idCambioEstado'=> Cambioestado::find()->where(['idPrograma'=> $data->idPrograma])->max('idCambioEstado')])->one()->idEstadoP0->descripcion ;
                 },
-                'filter'=>ArrayHelper::map(Estadoprograma::find()->asArray()->all(), 'idEstadoP', 'descripcion'),
+                'filter'=>ArrayHelper::map($aEstado, 'idEstadoP', 'descripcion'),
             ],
-            
+
             //'programaAnalitico:ntext',
             // 'propuestaMetodologica',
             // 'condicionesAcredEvalu',
             // 'horariosConsulta',
             // 'bibliografia',
-      
+
            ['class' => 'yii\grid\ActionColumn', 'template' => '{view} '],
         ],
     ]); ?>
