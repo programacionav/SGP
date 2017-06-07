@@ -76,8 +76,8 @@ class CursadoSearch extends Cursado
             'idCursado' => $this->idCursado,
             'fechaInicio' => $this->fechaInicio,
             'fechaFin' => $this->fechaFin,
-        	//'idMateria'=>$this->idMateria,
-             'idMateria'=> Yii::$app->request->get('id'),
+        	'idMateria'=>$this->idMateria,
+             
             'cuatrimestre' => $this->cuatrimestre,
         ]);
        
