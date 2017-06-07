@@ -67,7 +67,7 @@ class CursadoController extends Controller
      * @return mixed
      */
     public function actionCreate($idMateria)
-    {
+    {   
         $model = new Cursado();
         $materia=Materia::findOne(['idMateria'=>$idMateria]);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
