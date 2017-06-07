@@ -55,45 +55,31 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
         ],
     ])?>
-	
+	 
 	<div class="col-md-6 ">
     <table id="w0" class="table table-striped table-bordered detail-view">
-	<tr><td><h1>Departamentos</h1></td></tr>
+	<tr><td><h1>Departamentos asignados</h1></td></tr>
 	<tr>
-	<?php 
-
- print_r ($model->departamentodocentecargos[0]->idDepartamento0->nombre);
-	$item = ArrayHelper::map(DepartamentoDocenteCargo::find()->all(),
-	'idDocente',
-		function($modelDocente) {
-		$itemDepartamento = ArrayHelper::map(Departamento::find()->all(),
-		'idDepartamento',
-			function($modelDepartamento) {
-				//print_r($modelDepartamento);
-				//echo "<td>".$modelDepartamento."</td></tr><tr>";
-				echo "<td>".$modelDepartamento['nombre']."</td></tr><tr>";
-			}
-		);
-	}
-	);
-	?>
-
- 
+	<?php
+	foreach ($model->departamentodocentecargos as $valor) {
+		if($valor->idDocente==$model->idDocente){
+			echo "<td>".$valor->idDepartamento0->nombre."</td></tr><tr>";
+		}
+	}?>
 	</table>
 	</div>
 	
 	<div class="col-md-6 ">
 	<table id="w0" class="table table-striped table-bordered detail-view">
-	<tr><td colspan="2"><h1>Cargos</h1></td></tr>
+	<tr><td colspan="2"><h1>Cargos asignados</h1></td></tr>
 	<tr>
 	<?php
-	$itemDepartamento = ArrayHelper::map(Cargo::find()->all(),
-	'idCargo',
-		function($modelCargo) {
-		echo "<td>".$modelCargo['abreviatura']."</td>";
-		echo "<td>".$modelCargo['descripcion']."</td></tr><tr>";
+	foreach ($model->departamentodocentecargos as $valor) {
+		if($valor->idDocente==$model->idDocente){
+			echo "<td>".$valor->idCargo0->abreviatura."</td>";
+			echo "<td>".$valor->idCargo0->descripcion."</td></tr><tr>";
 		}
-	);?>
+	}?>
 	</table>
 	</div>
 
