@@ -24,15 +24,15 @@ $anioActual=date("Y");//Año actual
 $anioCursado=date("Y", strtotime($model->fechaFin));//Año de cursado
 $mesCursado=date("m", strtotime($model->fechaFin));
 $mesActual = date("m"); // Mes actual 
-Programa::find(['idCursado'=>$model->idCursado])->one();
-$modelMateria=Materia::find(['idMateria'=>(Yii::$app->request->get('id'))])->one();
+
+
 
 $usuario=yii::$app->user->identity;//usuario;
 //$usuario=Yii::$app->user->getId();//usuario;
 
 
     
-print_r($model);
+
 echo $this->render('../materia/_view', [
 	'model'=>$modelMateria,
                
