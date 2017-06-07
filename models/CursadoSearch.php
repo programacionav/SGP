@@ -20,7 +20,8 @@ class CursadoSearch extends Cursado
     {
         return [
         		[['materia'], 'safe'],
-            [['idCursado', 'idMateria', 'cuatrimestre'], 'integer'],
+                [[ 'cuatrimestre'],'string'],
+            [['idCursado', 'idMateria'], 'integer'],
             [['fechaInicio', 'fechaFin'], 'safe'],
         ];
     }
@@ -52,7 +53,7 @@ class CursadoSearch extends Cursado
         $query = Cursado::find();
         
         
-        //$query->select(['materia.nombre','cursado.idMateria','cursado.cuatrimestre','cursado.fechaInicio','cursado.fechaFin','cursado.idCursado'])->from('cursado')->join('inner join','materia','materia.idMateria'>= 'cursado.idMateria');
+       
         
         
         // add conditions that should always apply here
@@ -76,21 +77,10 @@ class CursadoSearch extends Cursado
             'fechaInicio' => $this->fechaInicio,
             'fechaFin' => $this->fechaFin,
         	'idMateria'=>$this->idMateria,
-        		
-        	/*Array ( [0] => Array ( [nombre] => ELEMENTOS DE ÁLGEBRA [idMateria] => 1 [cuatrimestre] => 2 [fechaInicio] => 2017-12-10 [fechaFin] => 2018-02-12 [idCursado] => 1 ) [1] => Array ( [nombre] => ELEMENTOS DE ÁLGEBRA [idMateria] => 1 [cuatrimestre] => 2 [fechaInicio] => 0000-00-00 [fechaFin] => 0000-00-00 [idCursado] => 2 ) [2] => Array ( [nombre] => ELEMENTOS DE ÁLGEBRA [idMateria] => 1 [cuatrimestre] => 1 [fechaInicio] => 2017-05-16 [fechaFin] => 2017-05-03 [idCursado] => 3 ) [3] => Array ( [nombre] => ELEMENTOS DE ÁLGEBRA [idMateria] => 1 [cuatrimestre] => 1 [fechaInicio] => 2017-06-02 [fechaFin] => 2017-05-03 [idCursado] => 4 ) )
-My Company
-Home
-About
-Contact
-Login
-Home Cursados
-
-*
-*b\ActiveQuery Object ( [sql] => [on] => [joinWith] => [select] => Array ( [0] => materia.nombre [1] => cursado.idMateria [2] => cursado.cuatrimestre [3] => cursado.fechaInicio [4] => cursado.fechaFin [5] => cursado.idCursado ) [selectOption] => [distinct] => [from] => Array ( [0] => cursado ) [groupBy] => [join] => Array ( [0] => Array ( [0] => inner join [1] => materia [2] => ) ) [having] => [union] => [params] => Array ( ) [_events:yii\base\Component:private] => Array ( ) [_behaviors:yii\base\Component:private] => Array ( ) [where] => Array ( [cuatrimestre] => 1 ) [limit] => [offset] => [orderBy] => [indexBy] => [emulateExecution] => [modelClass] => app\models\Cursado [with] => [asArray] => [multiple] => [primaryModel] => [link] => [via] => [inverseOf] => )/
-           */ //'idMateria' => $this->idMateria,
+             
             'cuatrimestre' => $this->cuatrimestre,
         ]);
-        print_r($query);
+       
 
         return $dataProvider;
     }

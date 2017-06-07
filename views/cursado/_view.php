@@ -20,14 +20,13 @@ use app\models\Programa;
  $anioActual=date("Y");//Año actual
 $anioCursado=date("Y", strtotime($model->fechaFin));//Año de cursado
 $mesCursado=date("m", strtotime($model->fechaFin));
-
 $mesActual = date("m"); // Mes actual 
 
 
 
 
-$usuario=yii::$app->user->identity;//usuario;
-$model->idMateria=1;
+$usuario=Yii::$app->user->getId();
+echo $usuario;
 
 							
 if(isset($usuario)){
@@ -37,11 +36,12 @@ if(isset($usuario)){
 $dataProvider = new ActiveDataProvider([
 		'query' => $model::find()->where(['idMateria'=>$model->idMateria]),
 		'pagination' => [
-				'pageSize' => 5,
-		], 'sort' => [
+		'pageSize' => 5,
+		],
+		'sort' => [
         'defaultOrder' => [
 
-            'fechaInicio' => SORT_DESC,
+        'fechaInicio' => SORT_DESC,
 
         ]
     ],

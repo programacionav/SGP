@@ -14,7 +14,6 @@ if(isset(yii::$app->user->identity)){
     $usuario=yii::$app->user->identity;
 $mat=Materia::find()->where(['idMateria'=>$model->idMateria])->one();
 
-$this->title =  $mat->nombre;
 
 
 $this->params['breadcrumbs'][] = ['label' => 'Cursados', 'url' => ['index']];
@@ -23,16 +22,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 
- echo $this->render('vistaMateria', [
-         'model' => $model,'idMateria'=>$model->idMateria
-    ]) ;
+
 ?>
 <div class="cursado-view">
 
 
  <p>
 <?php
-
+echo $this->render('../materia/_view', [
+	'model'=>$mat,
+               
+            ]);
   echo "<table class='table'>";
   echo "<tr>";
   echo "<th>ID Cursado</th><th>Cuatrimestre</th><th>Año Inicio</th><th>Año Fin</th>";

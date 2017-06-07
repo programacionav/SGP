@@ -12,10 +12,10 @@ $this->params['breadcrumbs'][] = ['label' => 'Cursados', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->idCursado, 'url' => ['view', 'id' => $model->idCursado]];
 $this->params['breadcrumbs'][] = 'Update';
 
-echo $this->render('vistaMateria', [
-         'model' => $model,//'idMateria'=>$model->idMateria
-         'idMateria'=>1
-    ]) ;
+echo $this->render('../materia/_view', [
+	'model'=>$mat,
+               
+            ]);
 ?>
 <div class="cursado-update">
 

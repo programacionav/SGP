@@ -147,11 +147,15 @@ class ProgramaSearch extends Programa
         $query = Programa::find();
 
         // add conditions that should always apply here
-        $query->joinWith(['idCursado0.idMateria0.idDepartamento0']);
+        $query->joinWith(['cambioestados','idCursado0.idMateria0.idDepartamento0']);
 
-        //PENDIENTE VALIDAR EL DEPARTAMENTO DEL DOCENTE Y LOS PROGRAMAS PUBLICADOS
+        //PENDIENTE VALIDAR EL DEPARTAMENTO DEL DOCENTE 
 
-       $query->andFilterWhere(['materia.idDepartamento'=>DepartamentoDocenteCargo::find()->where(['idDocente'=>Yii::$app->user->identity->id])->one()->idDepartamento]);            
+        $query->andFilterWhere(['materia.idDepartamento'=>DepartamentoDocenteCargo::find()->where(['idDocente'=>Yii::$app->user->identity->id])->one()->idDepartamento]);            
+
+        //Busco ultimo estado del programa y verifico que este en revision
+        $query->andFilterWhere(['cambioestado.idEstadoP' => Cambioestado::find()->where(['idPrograma'=>$this->idPrograma])->max('idEstadoP')]);
+
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -171,7 +175,7 @@ class ProgramaSearch extends Programa
             'programa.idCursado' => $this->idCursado,
             'programa.anioActual' => $this->anioActual,
             'materia.codigo' => $this->idMateria,
-            'cambioestado.idEstadoP' => $this->idEstadoP,
+            //'cambioestado.idEstadoP' => $this->idEstadoP,
             'carrera.idCarrera' => $this->idCarrera,
             'departamento.idDepartamento' => $this->idDepartamento,
             'plan.idPlan' => $this->idPlan,
