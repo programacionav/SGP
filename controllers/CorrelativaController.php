@@ -26,6 +26,7 @@ class CorrelativaController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                		
                 ],
             ],
         ];
@@ -64,22 +65,54 @@ class CorrelativaController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($idPlan,$idMateria)
+    public function actionCreate($idPlan=null,$idMateria=null)
     {
     	
     	$unPlan=Plan::findOne(['idPlan' => $idPlan]);
-    	
+    	//$Materia=Materia::findOne(['idMateria' => $idMateria]);
+    	 
         $model = new Correlativa();
+        
+        $correlativas= array();
+        
+       
+        
+        if($idPlan!=null && $idMateria!=null){
+        	
         $model->idMateria1=$idMateria;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['materia/create', 'idMateria1' => $model->idMateria1, 'idMateria2' => $model->idMateria2]);
-        } else {
-        	
+        	$correlativas= Correlativa::find()->where(['idMateria1'=>$idMateria])->all();
             return $this->render('create', [
-            	
-                'model' => $model,'unPlan' =>$unPlan
+            		
+                'model' => $model,'unPlan' =>$unPlan, 'correlativas'=> $correlativas
+            		
             		
             ]);
+        } else {
+        	$correlativas= Correlativa::find()->where(['idMateria1'=>$idMateria])->all();
+            return $this->render('create', [
+            	
+                'model' => $model,'unPlan' =>$unPlan, 'correlativas'=> $correlativas
+            		
+            		
+            ]);
+        }
+        
+        }
+        else{
+        	if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        		return $this->redirect(['create', 'idMateria1' => $model->idMateria1, 'idMateria2' => $model->idMateria2]);
+        	} else {
+        		 
+        		return $this->render('create', [
+        				 
+        				'model' => $model
+        	
+        	
+        		]);
+        	}
+        	
+        	
         }
     }
 
