@@ -7,24 +7,24 @@ use app\models\Materia;
 $this->title = 'Nuevo Cursado';
 $this->params['breadcrumbs'][] = ['label' => 'Cursados', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-$materia=Materia::find(['idMateria'=>$idMateria])->one();
- 
+
+
 ?>
 <div class="cursado-create">
 
     <?php
 
     echo $this->render('../materia/_view', [
-	'model'=>$materia,
-               
+	     'model'=>$modelMateria,
+
             ]);
-    
+
 
         if(yii::$app->user->identity!=null){
             $usuario=yii::$app->user->identity;
 
             if($usuario->idRol==2){
-               
+
                   echo  $this->render('_form', [
                 'model' => $model,'idMateria'=>Yii::$app->request->get('id'),
             ]) ;

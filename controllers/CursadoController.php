@@ -45,7 +45,7 @@ class CursadoController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'model' => $model,
-        	'modelMateria'=>$modelMateria
+        	  'modelMateria'=>$modelMateria,
         ]);
     }
 
@@ -69,13 +69,13 @@ class CursadoController extends Controller
     public function actionCreate($idMateria)
     {
         $model = new Cursado();
-
+        $materia=Materia::findOne(['idMateria'=>$idMateria]);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idCursado]);
         } else {
             return $this->render('create', [
                 'model' => $model,
-            	'idMateria'=>$idMateria
+            	  'modelMateria'=>$materia,
             ]);
         }
     }
