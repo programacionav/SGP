@@ -130,11 +130,9 @@ if(isset($usuario)){
         							$usuario=yii::$app->user->identity;
 									if($usuario->idRol==1||$usuario->idRol==2||$usuario->idRol==3){
 
-
-
-							if(count($programaCursado)==1){
-        						return Html::a('Ver Programa',['programa/view','idCursado'=>$model->idCursado ],['class'=>'btn btn-primary']);
-								}
+									if(count($programaCursado)==1){
+		        						return Html::a('Ver Programa',['programa/view','idCursado'=>$model->idCursado ],['class'=>'btn btn-primary']);
+										}
 									}
         						},
 
