@@ -19,14 +19,24 @@ use app\models\Programa;
 
 $this->params['breadcrumbs'][] = ['label' => 'Cursado', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-
+				echo "---".$model->idMateria;
 $anioActual=date("Y");//Año actual
 $anioCursado=date("Y", strtotime($model->fechaFin));//Año de cursado
 $mesCursado=date("m", strtotime($model->fechaFin));
 $mesActual = date("m"); // Mes actual 
+Programa::find(['idCursado'=>$model->idCursado])->one();
+$modelMateria=Materia::find(['idMateria'=>(Yii::$app->request->get('id'))])->one();
 
 $usuario=yii::$app->user->identity;//usuario;
 //$usuario=Yii::$app->user->getId();//usuario;
+
+
+    
+print_r($model);
+echo $this->render('../materia/_view', [
+	'model'=>$modelMateria,
+               
+            ]);
 
 
 if(isset($usuario)){
@@ -39,7 +49,7 @@ if(isset($usuario)){
 <?php
 	if($usuario->idRol==2){
 
-				echo Html::a('Crear Cursado', ['create','idMateria'=>$model->idMateria], ['class' => 'btn btn-success']);
+				echo Html::a('Crear Cursado', ['create','idMateria'=>Yii::$app->request->get('id'),'modelMateria'=>$modelMateria], ['class' => 'btn btn-success']);
 				}?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
