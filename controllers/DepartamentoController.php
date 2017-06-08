@@ -8,6 +8,8 @@ use app\models\DepartamentoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use app\models\Usuario;
 
 /**
  * DepartamentoController implements the CRUD actions for Departamento model.
@@ -26,6 +28,21 @@ class DepartamentoController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['create','update','delete'],
+                'rules' => [
+                [
+                'actions' => ['create','update','delete'],
+                'allow' => true,
+                'roles' => ['@'],
+                'matchCallback' => function ($rule, $action) {
+                    $valid_roles = [Usuario::ROLE_SECRETARIO_ACADEMICO];
+                    return Usuario::roleInArray($valid_roles);
+                    }
+                ],
+            ],
+          ],
         ];
     }
 

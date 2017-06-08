@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $model->getTitulo();
 
 
 <?php
-echo $model->aprobado();
+echo $model->enRevision();
 //determina el idEstado segun el rol logueado.
 $estado = null;
 $nombreAccion = null;
@@ -57,10 +57,11 @@ foreach ( $model->observacions as $recorre) {
       <?php
 
       foreach ( Yii::$app->user->identity->idDocente0->designados as $recorre2) {
-        if ($recorre2->esACargo() == true){
-          if($model->enRevision() == false){
+        if ($recorre2->idCursado == $model->idCursado && $recorre2->esACargo() == true){
+          if($model->abierto() && Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
           echo Html::a('<span class="glyphicon glyphicon-pencil"></span>&nbsp;Actualizar', ['update', 'id' => $model->idPrograma], ['class' => 'btn btn-default']);
-          }
+          
+           if ($model->abierto() ){
           echo Html::a('<span class="glyphicon glyphicon-trash"></span>&nbsp;Borrar', ['delete', 'id' => $model->idPrograma], [
             'class' => 'btn btn-default',
             'data' => [
@@ -69,20 +70,23 @@ foreach ( $model->observacions as $recorre) {
             ],
           ]);
         }
+          }
+        }
       }
       ?>
 
       <?php
       //BOTON REVISION
       if($cantidad == 0 & Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() ){
-        if($model->enRevision() == false){
+        if($model->abierto()){
         echo  Html::a('<span class="glyphicon glyphicon-ok"></span>&nbsp;Revision', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma]), [
           'class' => 'btn btn-success',
           'data' => [
             'confirm' => 'Esta seguro que desea poner en revision este programa?'],
           ]);}
       }
-          if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() == false){
+          if((Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto() == true || Rol::findOne(Yii::$app->user->identity->idRol)->esSecAcademico() ) ){
+              if($model->enRevision() == true){
             Modal::begin([
               'header' => 'Nueva observación',
               'headerOptions' => ['class' => 'text-center'],
@@ -103,24 +107,35 @@ foreach ( $model->observacions as $recorre) {
             echo '</div>';
 
             Modal::end();
+              }
             ?>
 
             <?php
               if(Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto() && $model->existeObservacionRevison())  {
+                if($model->enRevision()){
                 echo  Html::a('<span class="glyphicon glyphicon-refresh"></span>&nbsp;Reabrir', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma,'id' => 1]), [
                   'class' => 'btn btn-default',
                   'data' => [
                     'confirm' => '¿Esta seguro que desea reabrir este programa?'],
                   ]);
                 echo '&nbsp;';
+                }
               }
-              if($cantidad == 0){
+              if($cantidad == 0 && $model->existeObservacionRevison() == false){
+                if (Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto() && $model->enRevision()){
                 echo  Html::a('<span class="glyphicon glyphicon-ok"></span>&nbsp;Aprobar', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma]), [
                   'class' => 'btn btn-success',
                   'data' => [
                     'confirm' => 'Esta seguro que desea aprobar este programa?'],
-                  ]);} }
-
+                  ]);}
+                  if (Rol::findOne(Yii::$app->user->identity->idRol)->esSecAcademico() && $model->aprobado()){
+                echo  Html::a('<span class="glyphicon glyphicon-ok"></span>&nbsp;Publicar', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma]), [
+                  'class' => 'btn btn-success',
+                  'data' => [
+                    'confirm' => 'Esta seguro que desea aprobar este programa?'],
+                  ]);}
+                  } 
+                    }
             ?>
                 <?= Html::a('<span class="glyphicon glyphicon-export"></span>&nbsp;Crear pdf',Url::toRoute(['programa/report','id' => $model->idPrograma]), ['class' => 'btn btn-default pull-right','target'=>'_blank']) ?>
               </div>
