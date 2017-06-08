@@ -102,9 +102,8 @@ return Programa::roleInArray($valid_roles);
      */
     public function actionCreate(){
          $model = new Programa();
-        //$model->idCursado = $_GET['idCursado']; Descomentar esto cuando este listo
+        $model->idCursado = $_GET['idCursado'];
         $model->anioActual = date('Y');
-        $model->idCursado = 7;
 
         if(isset(Yii::$app->request->post()['Programa'])){
             if($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -264,8 +263,7 @@ if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
     if($modelCambioEstado->save()){
       $exito = true;
     }
-    return $this->redirect(['view',
-        'id' => $idPrograma,
+    return $this->redirect(['index'
     ]);
   }
 
