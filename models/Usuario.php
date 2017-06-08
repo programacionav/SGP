@@ -94,8 +94,8 @@ public static function roleInArray($arr_role){
     {
         return [
             'idUsuario' => 'Id Usuario',
-            'idDocente' => 'Id Docente',
-            'idRol' => 'Id Rol',
+            'idDocente' => 'Docente',
+            'idRol' => 'Rol',
             'usuario' => 'Usuario',
             'clave' => 'Clave',
         ];

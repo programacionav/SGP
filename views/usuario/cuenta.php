@@ -2,12 +2,15 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\models\Docente;
+use app\models\Rol;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Usuario */
 
-$this->title =  $model->idUsuario;
-//$this->params['breadcrumbs'][] = ['label' => 'Usuarios', 'url' => ['index']];
+$this->title = "Usuario: ".$model['usuario'];
+$this->params['breadcrumbs'][] = ['label' => 'Usuarios', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="usuario-view">
@@ -15,22 +18,38 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->idUsuario], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->idUsuario], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
+        <?= Html::a('Cambiar contraseña', ['contrasenia', 'id' => $model->idUsuario], ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'idUsuario',
-            'idDocente',
-            'idRol',
+			[
+             'attribute' => 'idDocente',
+             'label' => 'Docente',
+             'value'=> function ($model) {
+						$itemDocente = ArrayHelper::map(Docente::find()->all(),
+							'idDocente',
+							function($model) {
+								return $model['nombre'].' '.$model['apellido'];
+							}
+							);
+							return $itemDocente[$model->idDocente];
+				},
+			],
+			[
+             'attribute' => 'idRol',
+             'label' => 'Rol',
+             'value'=> function ($model) {
+						$itemRol = ArrayHelper::map(Rol::find()->all(),
+							'idRol',
+							function($model) {
+								return $model['descripcion'];
+							}
+							);
+							return $itemRol[$model->idRol];
+				},
+			],
             'usuario',
             'clave',
         ],
