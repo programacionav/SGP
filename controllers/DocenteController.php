@@ -91,16 +91,21 @@ return Usuario::roleInArray($valid_roles);
     {
         $model = new Docente();
         $modelUsuario = new Usuario();
-
+       
         if ($model->load(Yii::$app->request->post()) &&  $model->save()) { //Compruebo si cargué por post y si se pudo guardar el docente
             $modelUsuario->idDocente = $model->idDocente;
-            //$modelUsuario->idRol "El idRol de Usuario lo carga por post del select correspondiente"
+            $modelUsuario->idRol=1;//rol docente por defecto
             $modelUsuario->usuario = $model->cuil;
             $modelUsuario->clave = $model->cuil;
-        }if ($modelUsuario->load(Yii::$app->request->post()) && $modelUsuario->save())
+            $modelUsuario->save();
+            return $this->redirect(['view', 'id' => $model->idDocente]);
+        }
+        
+        /**if ($modelUsuario->load(Yii::$app->request->post()) && $modelUsuario->save())
         { //Compruebo si se pudo cargar por post y guardar el usuario del Docente
 				    return $this->redirect(['view', 'id' => $model->idDocente]);
-			  }else
+			  }**/
+        else
         {
             return $this->render('create', [
                 'model' => $model,

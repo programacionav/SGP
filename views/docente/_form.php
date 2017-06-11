@@ -44,14 +44,15 @@ use app\models\Rol;
     }
 	);
      ?>
-    <?= $form->field($modelUsuario, 'idRol')->dropdownList(
+    <?= 'Rol por defecto: Rol docente';/* $form->field($modelUsuario, 'idRol')->dropdownList(
         $item,
     ['prompt'=>'Seleccione...']
-    )->label('Rol'); ?>
+    )->label('Rol'); */?>
 
 
 
     <div class="form-group">
+       <br>
         <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Modificar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 

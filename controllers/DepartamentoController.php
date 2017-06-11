@@ -83,6 +83,9 @@ class DepartamentoController extends Controller
         $model = new Departamento();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            //verificar que el director elegido ya no sea director de otro departamento
+            //buscar el director
+            //en la clase Usuario cambiarle el rol a Director(2)
             return $this->redirect(['view', 'id' => $model->idDepartamento]);
         } else {
             return $this->render('create', [
