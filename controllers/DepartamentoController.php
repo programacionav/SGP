@@ -80,13 +80,14 @@ class DepartamentoController extends Controller
      * @return mixed
      */
     public function actionCreate()
-    {
+    {  
+       
         $model = new Departamento();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $usuarioDirector=Usuario::find()->where(['idDocente'=> $model->idDocente])->one();//buscar el usuario asociado al director
             if($usuarioDirector->idRol===2 || $usuarioDirector->idRol===3){ //verificar que el director elegido ya no sea director de otro departamento
                 //Estoy en la parte de excepcion por ser director de otro departamento o de ser secretario academico
-                return $this->render('create', ['model' => $model,]);//recargar el formulario e indicar que el director elegido no es valido
+                return $this->render('create', ['model' => $model,'mensaje'=>'El director elegido no es válido']);//recargar el formulario e indicar que el director elegido no es valido
             }else{
                 $usuarioDirector->idRol=2;//cambio rol
                 $usuarioDirector->save();//guardo en la base de datos
@@ -95,7 +96,7 @@ class DepartamentoController extends Controller
             }
         } else {
             return $this->render('create', [
-                'model' => $model,
+                'model' => $model,'mensaje'=>''
             ]);
         }
     }
@@ -107,13 +108,14 @@ class DepartamentoController extends Controller
      * @return mixed
      */
     public function actionUpdate($id)
-    {
+    {   
+        
         $model = $this->findModel($id);
         $directorAnterior=Usuario::find()->where(['idDocente'=>$model->idDocente ])->one();
             if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $usuarioDirector=Usuario::find()->where(['idDocente'=>$model->idDocente ])->one(); //buscar el director nuevo
              if($usuarioDirector->idRol===2 || $usuarioDirector->idRol===3){
-                return $this->render('update', ['model' => $model,]);//recargar el formulario e indicar que el director elegido no es valido
+                return $this->render('update', ['model' => $model,'mensaje' => 'El director elegido no es valido']);//recargar el formulario e indicar que el director elegido no es valido
             }else{
                 $usuarioDirector->idRol=2;
                 $directorAnterior->idRol=1;
@@ -122,12 +124,9 @@ class DepartamentoController extends Controller
                 $model->save();
                 return $this->redirect(['view', 'id' => $model->idDepartamento]);
             }
-
-            return $this->redirect(['view', 'id' => $model->idDepartamento]);
-            
         } else {
             return $this->render('update', [
-                'model' => $model,
+                'model' => $model,'mensaje'=>''
             ]);
         }
     }
