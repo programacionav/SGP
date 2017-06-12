@@ -78,7 +78,7 @@ class Cursado extends \yii\db\ActiveRecord
     public function getDesignadoACargo()
     {
         return $this->hasOne(Designado::className(), ['idCursado' => 'idCursado'])->where([Designado::tableName().'.funcion'=>'acargo']);
-    }
+    } 
 
     /**
      * @return \yii\db\ActiveQuery
