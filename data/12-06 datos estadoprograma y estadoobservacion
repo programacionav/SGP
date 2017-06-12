@@ -1,0 +1,11 @@
+INSERT INTO `estadoobservacion` (`idEstadoO`, `descripcion`) VALUES
+(1, 'Revision'),
+(2, 'Corregido'),
+(3, 'Aprobado');
+
+
+INSERT INTO `estadoprograma` (`idEstadoP`, `descripcion`) VALUES
+(1, 'abierto'),
+(2, 'aprobado'),
+(3, 'publicado'),
+(4, 'revision');
