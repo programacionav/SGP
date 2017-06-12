@@ -42,11 +42,11 @@ class UsuarioController extends Controller
 		//$this->redirect(['cuenta']);
 		}  	
 	],
-            
+          
 ],
 	'denyCallback' => function ($rule, $action){
 		return $this->redirect(['cuenta']);
-	}
+	}  
 ],
         ];
     }
@@ -80,10 +80,12 @@ class UsuarioController extends Controller
 
     public function actionCuenta()
     {
-      $id = Usuario::findIdentity(Yii::$app->user->id);
+      /*$id = Usuario::findIdentity(Yii::$app->user->id);
        return $this->render('cuenta', [
            'model' => $this->findModel($id),
-       ]);
+       ]);*/
+        return $this->render('cuenta', [
+           'model' => $this->findModel(Yii::$app->user->id)]);
     }
 
     public function actionContrasenia($id)
