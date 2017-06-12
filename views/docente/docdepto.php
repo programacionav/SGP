@@ -9,12 +9,8 @@ use app\models\Departamento;
 /* @var $searchModel app\models\DocenteSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$idDepartamentoDelJefe = DepartamentoDocenteCargo::find()
-                        ->where(['idDocente'=>Yii::$app->user->identity->idDocente])
-                        ->one()
-                        ->idDepartamento;
 $nombreDepartamento = Departamento::find()
-                        ->where(['idDepartamento'=>$idDepartamentoDelJefe])
+                        ->where(['idDocente'=>Yii::$app->user->identity->idDocente])
                         ->one()
                         ->nombre;
 

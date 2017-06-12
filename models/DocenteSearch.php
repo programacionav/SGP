@@ -74,11 +74,11 @@ class DocenteSearch extends Docente
     public function searchJefe($params) //Función copiada y adaptada de ProgramaSearch()
     {
         $query = Docente::find();
-        $deptoDelJefe = DepartamentoDocenteCargo::find()
+        $deptoDelJefe = Departamento::find()
                         ->where(['idDocente'=>Yii::$app->user->identity->idDocente])
                         ->one()
-                        ->idDepartamento;
-
+                        ->nombre;
+                        
         $query->andFilterWhere(['idDocente'=>DepartamentoDocenteCargo::find()
                                             ->where(['idDepartamento'=>$deptoDelJefe])
                                             ->all()
