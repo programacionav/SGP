@@ -5,9 +5,11 @@ namespace app\controllers;
 use Yii;
 use app\models\Rol;
 use app\models\RolSearch;
+use app\models\Usuario;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * RolController implements the CRUD actions for Rol model.
@@ -26,6 +28,26 @@ class RolController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+          'access' => [
+'class' => AccessControl::className(),
+'only' => ['create','update','delete','index','view'],
+'rules' => [
+	[
+	'actions' => ['create','update','delete','index','view'],
+	'allow' => true,
+	'roles' => ['@'],
+	'matchCallback' => function ($rule, $action) {
+		$valid_roles = [Usuario::ROLE_SECRETARIO_ACADEMICO];
+		return Usuario::roleInArray($valid_roles);
+		//$this->redirect(['cuenta']);
+		}  	
+	],
+          
+],
+	'denyCallback' => function ($rule, $action){
+		return $this->redirect(['usuario/cuenta']);
+	}  
+],
         ];
     }
 

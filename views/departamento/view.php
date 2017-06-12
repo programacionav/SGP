@@ -17,14 +17,19 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($model['nombre']) ?></h1>
 
     <p>
-        <?= Html::a('Modificar', ['update', 'id' => $model->idDepartamento], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Borrar', ['delete', 'id' => $model->idDepartamento], [
+	<?php
+    $idRolActual=Yii::$app->user->identity->idRol;
+    if ($idRolActual === 3) {
+		echo Html::a('Modificar', ['update', 'id' => $model->idDepartamento], ['class' => 'btn btn-primary']);
+		echo "	";
+        echo Html::a('Borrar', ['delete', 'id' => $model->idDepartamento], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
                 'method' => 'post',
             ],
-        ]) ?>
+        ]); 
+	} ?>
     </p>
 
     <?= DetailView::widget([

@@ -9,6 +9,7 @@ use app\models\Usuario;
 use app\models\Cargo;
 use app\models\Departamento;
 use app\models\DepartamentoDocenteCargo;
+use app\models\Rol;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -32,20 +33,34 @@ class DocenteController extends Controller
                 ],
             ],
           'access' => [
-'class' => AccessControl::className(),
-'only' => ['create','update','delete'],
-'rules' => [
-[
-'actions' => ['create','update','delete'],
-'allow' => true,
-'roles' => ['@'],
-'matchCallback' => function ($rule, $action) {
-$valid_roles = [Usuario::ROLE_SECRETARIO_ACADEMICO];
-return Usuario::roleInArray($valid_roles);
-}
-],
-],
-],
+                'class' => AccessControl::className(),
+                'only' => ['create','update','delete'],
+                'rules' => [
+                [
+                'actions' => ['create','update','delete'],
+                'allow' => true,
+                'roles' => ['@'],
+                'matchCallback' => function ($rule, $action) {
+                    $valid_roles = [Usuario::ROLE_SECRETARIO_ACADEMICO];
+                    return Usuario::roleInArray($valid_roles);
+                    }
+                ],
+                ],
+            ],[
+                'class' => AccessControl::className(),
+                'only' => ['docdepto'],
+                'rules' => [
+                [
+                'actions' => ['docdepto'],
+                'allow' => true,
+                'roles' => ['@'],
+                'matchCallback' => function ($rule, $action) {
+                    $valid_roles = [Usuario::ROLE_JEFE_DEPARTAMENTO];
+                    return Usuario::roleInArray($valid_roles);
+                    }
+                ],
+                ],
+            ],
         ];
     }
 
@@ -64,6 +79,18 @@ return Usuario::roleInArray($valid_roles);
         ]);
     }
 
+   public function actionDocdepto()
+    {
+        $searchModel = new DocenteSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        if(Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
+            $dataProvider = $searchModel->searchJefe(Yii::$app->request->queryParams);
+        }
+        return $this->render('docdepto', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
     /**
      * Displays a single Docente model.
      * @param integer $id
@@ -91,16 +118,21 @@ return Usuario::roleInArray($valid_roles);
     {
         $model = new Docente();
         $modelUsuario = new Usuario();
-
+       
         if ($model->load(Yii::$app->request->post()) &&  $model->save()) { //Compruebo si cargué por post y si se pudo guardar el docente
             $modelUsuario->idDocente = $model->idDocente;
-            //$modelUsuario->idRol "El idRol de Usuario lo carga por post del select correspondiente"
+            $modelUsuario->idRol=1;//rol docente por defecto
             $modelUsuario->usuario = $model->cuil;
             $modelUsuario->clave = $model->cuil;
-        }if ($modelUsuario->load(Yii::$app->request->post()) && $modelUsuario->save())
+            $modelUsuario->save();
+            return $this->redirect(['view', 'id' => $model->idDocente]);
+        }
+        
+        /**if ($modelUsuario->load(Yii::$app->request->post()) && $modelUsuario->save())
         { //Compruebo si se pudo cargar por post y guardar el usuario del Docente
 				    return $this->redirect(['view', 'id' => $model->idDocente]);
-			  }else
+			  }**/
+        else
         {
             return $this->render('create', [
                 'model' => $model,
