@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 //Lo anterior es solo para obtener el nombre del Departamento en caso de que el Usuario sea Jefe de Departamento
                 echo Html::a('Ver los docentes del Departamento de '.$nombreDepartamento, ['docdepto'], ['class' => 'btn btn-success']);
             }catch(ErrorException $e){
-                echo 'No estas asignado a un Departamento '.HTML::a('Asignate a tu Departamento ', ['departamento-docente-cargo/create','idDocente'=>Yii::$app->user->identity->idDocente], ['class' => 'btn btn-success']);
+                echo 'No estas asignado a un Departamento. Contacta con el Secretario Academico';
 
             }
         }
