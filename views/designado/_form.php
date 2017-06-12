@@ -16,10 +16,10 @@ use app\models\Cursado;
 <div class="designado-form">
 
     <?php $form = ActiveForm::begin(); ?>
-    <? $model->idCursado = $id_cursado; ?>
-    <?= '<h3>Cursado N°'.$model->idCursado.'</h3>' ?>
+    <?php $model->idCursado = $id_cursado; ?>
+    <?php echo '<h3>Cursado N°'.$model->idCursado.'</h3>'; ?>
     <?php $cursado = Cursado::find()->where(['idCursado' => $model->idCursado])->one();
-
+    
 
     ?>
 	  <?php
@@ -54,7 +54,7 @@ use app\models\Cursado;
 
      ?>
      <?php
-
+    
       $desigACargo = $cursado->designadoACargo;
       if(count($desigACargo)==0){
         $funciones = ['acargo' => 'A Cargo','ayudante' => 'Ayudante'];
@@ -63,7 +63,7 @@ use app\models\Cursado;
       }
       ?>
 
-    <?// $form->field($model, 'idDocente')->textInput(); ?>
+    <?php /* $form->field($model, 'idDocente')->textInput(); */?>
     <?= $form->field($model, 'funcion')->dropdownList(
     $funciones,
     ['prompt'=>'Elija la funcion']); ?>
