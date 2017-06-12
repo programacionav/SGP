@@ -16,8 +16,8 @@ use app\models\Cursado;
 <div class="designado-form">
 
     <?php $form = ActiveForm::begin(); ?>
-    <? $model->idCursado = $id_cursado; ?>
-    <?= '<h3>Cursado N°'.$model->idCursado.'</h3>' ?>
+    <?php $model->idCursado = $id_cursado; ?>
+    <?php echo '<h3>Cursado N°'.$model->idCursado.'</h3>'; ?>
     <?php $cursado = Cursado::find()->where(['idCursado' => $model->idCursado])->one();
 
 
@@ -34,6 +34,7 @@ use app\models\Cursado;
         ->select(['nombre'])  //de noticias donde: lo que esta dentro del option es el titulo
         ->indexBy('idDocente')       // y el value de los option es el id
         ->column();
+
      $usuario=yii::$app->user->identity;//usuario;
      //$docente= $usuario->idDocente0;
      //print_r($docente);Departamento::findOne();
