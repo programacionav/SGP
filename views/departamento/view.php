@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\helpers\ArrayHelper;
 use app\models\Facultad;
+use app\models\Docente;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Departamento */
@@ -36,6 +37,19 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'nombre',
+            [
+             'attribute' => 'idDocente',
+             'label' => 'Docente',
+             'value'=> function ($model) {
+						$itemDocente = ArrayHelper::map(Docente::find()->all(),
+							'idDocente',
+							function($model) {
+								return $model['nombre'];
+							}
+							);
+							return $itemDocente[$model->idDocente];
+                      },
+			],
 			[
              'attribute' => 'idFacultad',
              'label' => 'Facultad',
