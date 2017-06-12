@@ -34,8 +34,10 @@ use app\models\Cursado;
         ->select(['nombre'])  //de noticias donde: lo que esta dentro del option es el titulo
         ->indexBy('idDocente')       // y el value de los option es el id
         ->column();
-
-
+     $usuario=yii::$app->user->identity;//usuario;
+     //$docente= $usuario->idDocente0;
+     //print_r($docente);Departamento::findOne();
+     $model_dpto->idDepartamento =2;
      echo $form->field($model_dpto,'idDepartamento')->dropdownList(
       $itemDptos,
       ['id'=>'idDepartamento']
