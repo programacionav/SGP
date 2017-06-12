@@ -33,20 +33,34 @@ class DocenteController extends Controller
                 ],
             ],
           'access' => [
-'class' => AccessControl::className(),
-'only' => ['create','update','delete'],
-'rules' => [
-[
-'actions' => ['create','update','delete'],
-'allow' => true,
-'roles' => ['@'],
-'matchCallback' => function ($rule, $action) {
-$valid_roles = [Usuario::ROLE_SECRETARIO_ACADEMICO];
-return Usuario::roleInArray($valid_roles);
-}
-],
-],
-],
+                'class' => AccessControl::className(),
+                'only' => ['create','update','delete'],
+                'rules' => [
+                [
+                'actions' => ['create','update','delete'],
+                'allow' => true,
+                'roles' => ['@'],
+                'matchCallback' => function ($rule, $action) {
+                    $valid_roles = [Usuario::ROLE_SECRETARIO_ACADEMICO];
+                    return Usuario::roleInArray($valid_roles);
+                    }
+                ],
+                ],
+            ],[
+                'class' => AccessControl::className(),
+                'only' => ['docdepto'],
+                'rules' => [
+                [
+                'actions' => ['docdepto'],
+                'allow' => true,
+                'roles' => ['@'],
+                'matchCallback' => function ($rule, $action) {
+                    $valid_roles = [Usuario::ROLE_JEFE_DEPARTAMENTO];
+                    return Usuario::roleInArray($valid_roles);
+                    }
+                ],
+                ],
+            ],
         ];
     }
 
