@@ -8,6 +8,8 @@ use app\models\UsuarioSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use yii\helpers\Url;
 
 /**
  * UsuarioController implements the CRUD actions for Usuario model.
@@ -26,6 +28,34 @@ class UsuarioController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+          'access' => [
+'class' => AccessControl::className(),
+'only' => ['create','update','delete','index','view'],
+'rules' => [
+	[
+	'actions' => ['create'],
+	'allow' => true,
+	'roles' => ['@'],
+	'matchCallback' => function ($rule, $action) {
+		return $this->redirect(['cuenta']);
+		}  	
+	],
+	[
+	'actions' => ['update','delete','index','view'],
+	'allow' => true,
+	'roles' => ['@'],
+	'matchCallback' => function ($rule, $action) {
+		$valid_roles = [Usuario::ROLE_SECRETARIO_ACADEMICO];
+		return Usuario::roleInArray($valid_roles);
+		//$this->redirect(['cuenta']);
+		}  	
+	],
+          
+],
+	'denyCallback' => function ($rule, $action){
+		return $this->redirect(['cuenta']);
+	}  
+],
         ];
     }
 
@@ -58,12 +88,26 @@ class UsuarioController extends Controller
 
     public function actionCuenta()
     {
-      $id = Usuario::findIdentity(Yii::$app->user->id);
+      /*$id = Usuario::findIdentity(Yii::$app->user->id);
        return $this->render('cuenta', [
            'model' => $this->findModel($id),
-       ]);
+       ]);*/
+        return $this->render('cuenta', [
+           'model' => $this->findModel(Yii::$app->user->id)]);
     }
 
+    public function actionContrasenia($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['cuenta', 'id' => $model->idUsuario]);
+        } else {
+            return $this->render('contrasenia', [
+                'model' => $model,
+            ]);
+        }
+    }
     /**
      * Creates a new Usuario model.
      * If creation is successful, the browser will be redirected to the 'view' page.

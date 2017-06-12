@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use app\models\Facultad;
+use app\models\Docente;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\DepartamentoSearch */
@@ -17,7 +18,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Registrar nuevo Departamento', ['create'], ['class' => 'btn btn-success']) ?>
+        <?php
+         if (Yii::$app->user->identity->idRol===3) {
+            echo Html::a('Nuevo departamento', ['create'], ['class' => 'btn btn-success']);
+         }
+          ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -27,6 +32,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
           //  'idDepartamento',
             'nombre',
+        [
+            'attribute' => 'idDocente',
+            'label' => 'Docente',
+            'filter' => Docente::listaDeNombres(),
+            'value' => function($model, $index, $dataColumn) {
+                $nombreDocente = Docente::listaDeNombres();//Arreglo con todos los nombres de los Docentes
+                return $nombreDocente[$model->idDocente];//retorna el nombre segun idDocente
+            },
+        ],
         [
             'attribute' => 'idFacultad',
             'label' => 'Facultad',
@@ -38,7 +52,16 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
 
             ['class' => 'yii\grid\ActionColumn',
-              'template' => '{view} {update}'
+              'template' => '{view} {update}',
+              'buttons' => [
+                  'update'=> function($url,$model){
+                      $idRolActual=Yii::$app->user->identity->idRol;
+                      if($idRolActual===3){
+                          return Html::a('<span class="glyphicon glyphicon-pencil"></span>',
+                                      $url, ['title' => Yii::t('app', 'lead-update'),]);
+                      }
+                  }
+              ],
             ],
         ],
     ]); ?>

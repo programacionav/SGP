@@ -2,14 +2,20 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use app\models\Rol;
 use app\models\DepartamentoDocenteCargo;
 use app\models\Departamento;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\DocenteSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Docentes';
+$nombreDepartamento = Departamento::find()
+                        ->where(['idDocente'=>Yii::$app->user->identity->idDocente])
+                        ->one()
+                        ->nombre;
+
+$this->title = 'Docentes del Departamento de '.$nombreDepartamento;
+$this->params['breadcrumbs'][] = ['label' => 'Docentes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="docente-index">
@@ -22,21 +28,6 @@ $this->params['breadcrumbs'][] = $this->title;
         $idRolActual=Yii::$app->user->identity->idRol;
         if ($idRolActual === 3) {
           echo Html::a('Nuevo docente', ['create'], ['class' => 'btn btn-success']);   
-        }
-        if(Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
-            $nombreDepartamento = Departamento::find()
-                    ->where(['idDocente'=>Yii::$app->user->identity->idDocente])
-                    ->one()
-                    ->nombre;// Obtengo el nombre de Departamento del Jefe de Depto
-            echo Html::a('Ver los docentes del Departamento de '.$nombreDepartamento, ['docdepto'], ['class' => 'btn btn-success']);
-            try{
-                DepartamentoDocenteCargo::find()
-                                    ->where(['idDocente'=>Yii::$app->user->identity->idDocente])
-                                    ->one()
-                                    ->idDepartamento;
-            }catch(ErrorException $e){
-                echo '  No estas asignado a un Departamento, contacta con el Secretario Academico';
-            }
         }
           ?>
     </p>

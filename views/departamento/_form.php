@@ -48,6 +48,7 @@ use app\models\Departamento;
 				$item,
 			['prompt'=>'Seleccione docente']
 			)->label('Director de departamento');
+            echo "<p style='color:red'>".$mensaje;
 		}
 	?>
             

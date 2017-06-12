@@ -109,6 +109,15 @@ class ProgramaSearch extends Programa
 
         $this->load($params);
 
+        if(isset($this->idEstadoP))
+        {
+            $query->andWhere('(SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado)) ='.$this->idEstadoP);
+        }else{
+            $query->andWhere('(SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado)) IN (1,3,4)');
+
+            //$query->andFilterWhere(['cambioestado.idEstadoP' =>3]);
+        }
+
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
@@ -154,20 +163,34 @@ class ProgramaSearch extends Programa
         $query->andFilterWhere(['materia.idDepartamento'=>DepartamentoDocenteCargo::find()->where(['idDocente'=>Yii::$app->user->identity->id])->one()->idDepartamento]);            
 
         //Busco ultimo estado del programa y verifico que este en revision
-        $query->andFilterWhere(['cambioestado.idEstadoP' => Cambioestado::find()->where(['idPrograma'=>$this->idPrograma])->max('idEstadoP')]);
+        
 
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
+        
+
+
         $this->load($params);
+
+        if(isset($this->idEstadoP))
+        {
+            $query->andWhere('(SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado)) ='.$this->idEstadoP);
+        }else{
+            $query->andWhere('(SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado)) IN (2,3,4)');
+
+            //$query->andFilterWhere(['cambioestado.idEstadoP' =>3]);
+        }
+
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
         }
+        
 
         // grid filtering conditions
         $query->andFilterWhere([
@@ -175,7 +198,6 @@ class ProgramaSearch extends Programa
             'programa.idCursado' => $this->idCursado,
             'programa.anioActual' => $this->anioActual,
             'materia.codigo' => $this->idMateria,
-            //'cambioestado.idEstadoP' => $this->idEstadoP,
             'carrera.idCarrera' => $this->idCarrera,
             'departamento.idDepartamento' => $this->idDepartamento,
             'plan.idPlan' => $this->idPlan,
@@ -199,13 +221,22 @@ class ProgramaSearch extends Programa
         $query = Programa::find();
 
         // add conditions that should always apply here
-        $query->joinWith(['cambioestados']);
+        //$query->joinWith(['cambioestados']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
         $this->load($params);
+
+        if(isset($this->idEstadoP))
+        {
+            $query->andWhere('(SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado)) ='.$this->idEstadoP);
+        }else{
+            $query->andWhere('(SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado)) IN (2,3)');
+
+            //$query->andFilterWhere(['cambioestado.idEstadoP' =>3]);
+        }
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -219,7 +250,7 @@ class ProgramaSearch extends Programa
             'programa.idCursado' => $this->idCursado,
             'programa.anioActual' => $this->anioActual,
             'materia.codigo' => $this->idMateria,
-            'cambioestado.idEstadoP' => self::PUBLICADO,
+            //'cambioestado.idEstadoP' => self::PUBLICADO,
             'carrera.idCarrera' => $this->idCarrera,
             'departamento.idDepartamento' => $this->idDepartamento,
             'plan.idPlan' => $this->idPlan,

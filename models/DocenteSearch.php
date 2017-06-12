@@ -70,4 +70,38 @@ class DocenteSearch extends Docente
 
         return $dataProvider;
     }
+
+    public function searchJefe($params) //Función copiada y adaptada de ProgramaSearch()
+    {
+        $query = Docente::find();
+        $deptoDelJefe = Departamento::find()
+                        ->where(['idDocente'=>Yii::$app->user->identity->idDocente])
+                        ->one()
+                        ->nombre;
+                        
+        $query->andFilterWhere(['idDocente'=>DepartamentoDocenteCargo::find()
+                                            ->where(['idDepartamento'=>$deptoDelJefe])
+                                            ->all()
+                                            ]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            return $dataProvider;
+        }
+        $query->andFilterWhere([
+            'idDocente' => $this->idDocente,
+            'idDedicacion' => $this->idDedicacion,
+        ]);
+        $query->andFilterWhere(['like', 'cuil', $this->cuil])
+            ->andFilterWhere(['like', 'nombre', $this->nombre])
+            ->andFilterWhere(['like', 'apellido', $this->apellido])
+            ->andFilterWhere(['like', 'mail', $this->mail]);
+
+        return $dataProvider;
+    }
 }
