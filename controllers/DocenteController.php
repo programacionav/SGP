@@ -9,6 +9,7 @@ use app\models\Usuario;
 use app\models\Cargo;
 use app\models\Departamento;
 use app\models\DepartamentoDocenteCargo;
+use app\models\Rol;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -64,6 +65,18 @@ return Usuario::roleInArray($valid_roles);
         ]);
     }
 
+   public function actionDocdepto()
+    {
+        $searchModel = new DocenteSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        if(Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
+            $dataProvider = $searchModel->searchJefe(Yii::$app->request->queryParams);
+        }
+        return $this->render('docdepto', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
     /**
      * Displays a single Docente model.
      * @param integer $id
