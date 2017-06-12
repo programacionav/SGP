@@ -24,16 +24,21 @@ $this->params['breadcrumbs'][] = $this->title;
           echo Html::a('Nuevo docente', ['create'], ['class' => 'btn btn-success']);   
         }
         if(Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
-            $idDepartamentoDelJefe = DepartamentoDocenteCargo::find()
+            try{
+                $idDepartamentoDelJefe = DepartamentoDocenteCargo::find()
                                     ->where(['idDocente'=>Yii::$app->user->identity->idDocente])
                                     ->one()
                                     ->idDepartamento;
-            $nombreDepartamento = Departamento::find()
+                $nombreDepartamento = Departamento::find()
                                     ->where(['idDepartamento'=>$idDepartamentoDelJefe])
                                     ->one()
                                     ->nombre;
-            //Lo anterior es solo para obtener el nombre del Departamento en caso de que el Usuario sea Jefe de Departamento
-            echo Html::a('Ver los docentes del Departamento de '.$nombreDepartamento, ['docdepto'], ['class' => 'btn btn-success']);
+                //Lo anterior es solo para obtener el nombre del Departamento en caso de que el Usuario sea Jefe de Departamento
+                echo Html::a('Ver los docentes del Departamento de '.$nombreDepartamento, ['docdepto'], ['class' => 'btn btn-success']);
+            }catch(ErrorException $e){
+                echo 'No estas asignado a un Departamento '.HTML::a('Asignate a tu Departamento ', ['departamento-docente-cargo/create','idDocente'=>Yii::$app->user->identity->idDocente], ['class' => 'btn btn-success']);
+
+            }
         }
           ?>
     </p>
