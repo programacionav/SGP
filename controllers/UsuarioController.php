@@ -33,7 +33,15 @@ class UsuarioController extends Controller
 'only' => ['create','update','delete','index','view'],
 'rules' => [
 	[
-	'actions' => ['create','update','delete','index','view'],
+	'actions' => ['create'],
+	'allow' => true,
+	'roles' => ['@'],
+	'matchCallback' => function ($rule, $action) {
+		return $this->redirect(['cuenta']);
+		}  	
+	],
+	[
+	'actions' => ['update','delete','index','view'],
 	'allow' => true,
 	'roles' => ['@'],
 	'matchCallback' => function ($rule, $action) {
