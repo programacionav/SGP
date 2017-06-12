@@ -123,7 +123,7 @@ if(isset($usuario)){
 				//echo $usuario->idDocente0->idDocente;
 				$fFin=date("Y",strtotime($model->fechaFin));
 				$anioActual=date("Y");
-				if($docenteACargo['idDocente'] == $usuario->idDocente0->idDocente &&($fFin >=$anioActual) ){
+				if($docenteACargo['idDocente'] == $usuario->idDocente0->idDocente /*&& ($fFin >=$anioActual)*/ ){
 					return Html::a('Crear Programa',['programa/create','idCursado'=>$model->idCursado ],['class'=>'btn btn-primary']);
 				}
 			},

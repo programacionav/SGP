@@ -75,7 +75,7 @@ foreach ( $model->observacions as $recorre) {
         if ($recorre2->idCursado == $model->idCursado && $recorre2->esACargo() == true){
           if($model->abierto() && Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
           echo Html::a('<span class="glyphicon glyphicon-pencil"></span>&nbsp;Actualizar', ['update', 'id' => $model->idPrograma], ['class' => 'btn btn-default']);
-          
+
            if ($model->abierto() ){
           echo Html::a('<span class="glyphicon glyphicon-trash"></span>&nbsp;Borrar', ['delete', 'id' => $model->idPrograma], [
             'class' => 'btn btn-default',
@@ -149,9 +149,9 @@ foreach ( $model->observacions as $recorre) {
                   'data' => [
                     'confirm' => 'Esta seguro que desea aprobar este programa?'],
                   ]);}
-                  } 
+                  }
                     }
-               
+
             ?>
                 <?= Html::a('<span class="glyphicon glyphicon-export"></span>&nbsp;Crear pdf',Url::toRoute(['programa/report','id' => $model->idPrograma]), ['class' => 'btn btn-default pull-right','target'=>'_blank']) ?>
               </div>
@@ -184,7 +184,7 @@ foreach ( $model->observacions as $recorre) {
 
 
             }$alert.="</div>"; echo $alert;?>
-             <?php 
+             <?php
              echo "<p style='text-align:right;'> El estado del programa es:<strong> ".$mostrarEstado."</strong></p>"?>
             <table class="table table-bordered">
               <tbody>
@@ -219,11 +219,11 @@ foreach ( $model->observacions as $recorre) {
                       echo "<br>";
 }
                           }
-                          
-                    
-                   
+
+
+
                     ?>
-                    
+
                     <br>
                     <strong>Aprobadas:</strong><br>
                     <?php
@@ -235,9 +235,9 @@ foreach ( $model->observacions as $recorre) {
                       echo "<br>";
 }
                           }
-                          
-                    
-                   
+
+
+
                     ?>
                   </td>
                 </tr>
