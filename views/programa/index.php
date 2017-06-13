@@ -8,6 +8,7 @@ use app\models\Materia;
 use app\models\Estadoprograma;
 use app\models\Departamento;
 use app\models\Carrera;
+use app\models\Usuario;
 use app\models\Plan;
 use app\models\Rol;
 use app\models\DepartamentoDocenteCargo;
@@ -44,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() || Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
 
-            $aDepto = Departamento::find()->where(['idDepartamento'=>DepartamentoDocenteCargo::find()->where(['idDocente'=>Yii::$app->user->identity->id])->one()->idDepartamento])->asArray()->all();
+            $aDepto = Departamento::find()->where(['idDepartamento'=>DepartamentoDocenteCargo::find()->where(['idDocente'=>Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente])->one()->idDepartamento])->asArray()->all();
     }
     else{
             $aDepto = Departamento::find()->asArray()->all();
@@ -52,7 +53,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() || Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
 
-            $aMateria = Materia::find()->where(['idDepartamento'=>DepartamentoDocenteCargo::find()->where(['idDocente'=>Yii::$app->user->identity->id])->one()->idDepartamento])->asArray()->all();
+            $aMateria = Materia::find()->where(['idDepartamento'=>DepartamentoDocenteCargo::find()->where(['idDocente'=>Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente])->one()->idDepartamento])->asArray()->all();
+
     }
     else{
             $aMateria = Materia::find()->asArray()->all();
