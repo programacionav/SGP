@@ -37,8 +37,8 @@ class ProgramaController extends Controller
  'allow' => true,
 'roles' => ['@'],
 'matchCallback' => function ($rule, $action) {
- $valid_roles = [Programa::acargo];
-return Programa::roleInArray($valid_roles);
+ $valid_roles = "acargo";
+return Programa::valDesignado($valid_roles);
  }
  ],
  ],

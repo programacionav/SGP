@@ -165,13 +165,13 @@ class Programa extends \yii\db\ActiveRecord
     }
 
     //lo hice aca para no tocar archivos que no son de nuestro grupo, me parece que deberia ir en el modelo designado,igualmente funciona.
-     public static function roleInArray($arr_role){
-        foreach ( Yii::$app->user->identity->idDocente0->designados as $recorre2) {
-          $var = $recorre2->funcion;
-}
-return in_array($var , $arr_role);
-
-}
+     public static function valDesignado($valid_roles){
+  $a= Designado::find()->where(['idDocente'=>Yii::$app->user->identity->idDocente,'idCursado'=> $_GET['idCursado']])->one();
+if($a['funcion'] == $valid_roles){
+    return true;
+}else{
+    return false;
+}}
 
 public function existeObservacionRevison(){
   $observaciones = $this->observacions;
