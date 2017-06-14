@@ -56,7 +56,7 @@ class Cargo extends \yii\db\ActiveRecord
         return [
             'idCargo' => 'Id Cargo',
             'abreviatura' => 'Abreviatura',
-            'descripcion' => 'Descripcion',
+            'descripcion' => 'Nombre',
         ];
     }
 

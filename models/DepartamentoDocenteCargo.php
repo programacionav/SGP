@@ -49,9 +49,9 @@ class DepartamentoDocenteCargo extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idDocente' => 'Id Docente',
-            'idDepartamento' => 'Id Departamento',
-            'idCargo' => 'Id Cargo',
+            'idDocente' => 'Docente',
+            'idDepartamento' => 'Departamento',
+            'idCargo' => 'Cargo',
         ];
     }
 

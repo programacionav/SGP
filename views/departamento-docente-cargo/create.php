@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\DepartamentoDocenteCargo */
 
-$this->title = 'Create Departamento Docente Cargo';
-$this->params['breadcrumbs'][] = ['label' => 'Departamento Docente Cargos', 'url' => ['index']];
+$this->title = 'Asignar Departamento y Cargo al Docente';
+$this->params['breadcrumbs'][] = ['label' => 'Administrar Departamento y Cargo al Docente', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="departamento-docente-cargo-create">
