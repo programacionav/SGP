@@ -16,7 +16,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Nueva Materia', ['create'], ['class' => 'btn btn-success']) ?>
+     <?php
+        $idRolActual=Yii::$app->user->identity->idRol;
+        if ($idRolActual === 3) {
+          echo Html::a('Nueva Materia', ['create'], ['class' => 'btn btn-success']);
+          
+        }
+          ?>
+        
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

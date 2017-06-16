@@ -29,7 +29,8 @@ class Carrera extends \yii\db\ActiveRecord
     {
         return [
             [['nombre'], 'required'],
-            [['nombre'], 'string', 'max' => 20],
+            [['nombre'], 'string', 'max' => 100],
+        		[['nombre'],'unique',"message"=>'El nombre de la carrera ya existe'],
         ];
     }
 

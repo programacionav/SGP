@@ -18,26 +18,8 @@ use yii\base\Object;
     <?php $form = ActiveForm::begin(); ?>
 
  
- <h3>
-<?php 
-
-foreach ($unPlan->materias as $unaMateria)
-{
-	if($unaMateria->idMateria == $model->idMateria1){
-	echo $unaMateria->nombre;	
-	}
-	
-}?></h3>
-
- <?= $form->field($model, 'idMateria2')->dropDownList(
-       ArrayHelper::map($unPlan->materias,'idMateria','nombre')) ?>
-
-
- <?=$form->field($model, 'tipo')    ->radioList(array('Aprobado'=>'Aprobado','Cursado'=>'Cursado'))
-  
-   
-                                          ->label('Tipo')?>
-<?php
+ 
+ <?php
 
 $tabla = "<table class='table table-hover'>"
 		. " <tr><th>Correlativas</th><th>Tipo</th>";
@@ -53,6 +35,26 @@ foreach ($correlativas as $unaCorrelativa){
 $tabla .= "</table>";
 echo $tabla;
 ?>
+ <br>
+<?php 
+/*
+foreach ($unPlan->materias as $unaMateria)
+{
+	if($unaMateria->idMateria == $model->idMateria1){
+	echo $unaMateria->nombre;	
+	}
+	
+}*/?><br>
+
+ <?= $form->field($model, 'idMateria2')->dropDownList(
+       ArrayHelper::map($unPlan->materias,'idMateria','nombre')) ?>
+
+
+ <?=$form->field($model, 'tipo')    ->radioList(array('Aprobado'=>'Aprobado','Cursado'=>'Cursado'))
+  
+   
+                                          ->label('Tipo')?>
+
      
     
 
@@ -95,10 +97,10 @@ echo $tabla;
     
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Modificar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-    </div>
-    <?= Html::a('Salir', ['plan/view', 'id' => $unPlan->idPlan], ['class' => 'btn btn-primary']) ?>
- 
+        <?= Html::submitButton( 'Crear' , ['class' =>  'btn btn-success' ]) ?>
+    
+    <?= Html::a('Salir', ['plan/view', 'id' => $unPlan->idPlan], ['class' => 'btn btn-danger']) ?>
+ </div>
     <?php ActiveForm::end(); ?>
 
 </div>
