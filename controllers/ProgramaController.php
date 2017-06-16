@@ -30,7 +30,7 @@ class ProgramaController extends Controller
         return [
             'access' => [
  'class' => AccessControl::className(),
- 'only' => ['create','update','delete'],
+ 'only' => ['create','update','delete','index'],
  'rules' => [
  [
  'actions' => ['create','update','delete'],
@@ -40,6 +40,11 @@ class ProgramaController extends Controller
  $valid_roles = "acargo";
 return Programa::valDesignado($valid_roles);
  }
+ ],
+ [
+ 'actions' => ['index'],
+ 'allow' => true,
+'roles' => ['@'],
  ],
  ],
  ],
