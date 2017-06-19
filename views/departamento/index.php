@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'nombre',
         [
             'attribute' => 'idDocente',
-            'label' => 'Director',
+            'label' => 'Director de Departamento',
             'filter' => Docente::listaDeNombres(),
             'value' => function($model, $index, $dataColumn) {
                 $nombreDocente = Docente::listaDeNombres();//Arreglo con todos los nombres de los Docentes
