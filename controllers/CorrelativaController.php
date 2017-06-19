@@ -10,8 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\Materia;
 use app\models\Plan;
-use yii\filters\AccessControl;
-use app\models\Usuario;
+
 /**
  * CorrelativaController implements the CRUD actions for Correlativa model.
  */
@@ -30,21 +29,6 @@ class CorrelativaController extends Controller
                 		
                 ],
             ],
-        		
-
-        		'access' => [
-        				'class' => AccessControl::className(),
-        				'only' => ['create','update','delete'],
-        				'rules' => [    [     'actions' => ['create','update','delete'],
-        						'allow' => true,
-        						'roles' => ['@'],
-        						'matchCallback' => function ($rule, $action) {
-        							$valid_roles = [Usuario::ROLE_SECRETARIO_ACADEMICO];
-        							return Usuario::roleInArray($valid_roles);
-        						}
-        				],
-        				],
-        				],
         ];
     }
 
@@ -69,13 +53,15 @@ class CorrelativaController extends Controller
      * @param integer $idMateria2
      * @return mixed
      */
-    public function actionView($idPlan, $idMateria1)
-    {$unPlan=Plan::findOne(['idPlan' => $idPlan]);
-    
-    $correlativas= Correlativa::find()->where(['idMateria1'=>$idMateria])->all();
+    public function actionView($idMateria)
+    {
+    	$Materia=Materia::findOne(['idMateria' => $idMateria]);
+        $correlativas= Correlativa::find()->where(['idMateria1'=>$idMateria])->all();
         return $this->render('_view', [
-        		
-            'model' => $model,'unPlan' =>$unPlan, 'correlativas'=> $correlativas
+        		 
+        		'Materia' => $Materia,'correlativas'=> $correlativas
+        
+        
         ]);
     }
 
@@ -88,7 +74,7 @@ class CorrelativaController extends Controller
     {
     	
     	$unPlan=Plan::findOne(['idPlan' => $idPlan]);
-    	
+    	//$Materia=Materia::findOne(['idMateria' => $idMateria]);
     	 
         $model = new Correlativa();
         
@@ -100,7 +86,6 @@ class CorrelativaController extends Controller
         	
         $model->idMateria1=$idMateria;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-        	
         	$correlativas= Correlativa::find()->where(['idMateria1'=>$idMateria])->all();
             return $this->render('create', [
             		
@@ -143,17 +128,18 @@ class CorrelativaController extends Controller
      * @param integer $idMateria2
      * @return mixed
      */
-    public function actionUpdate($idMateria1, $idMateria2)
+    public function actionUpdate($idMateria1,$idMateria2,$idPlan)
     {
-        $model = $this->findModel($idMateria1, $idMateria2);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'idMateria1' => $model->idMateria1, 'idMateria2' => $model->idMateria2]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
+        
+        $unPlan=Plan::findOne(['idPlan' => $idPlan]);
+        $model=Correlativa::findOne(['idMateria1' => $idMateria1,'idMateria2' => $idMateria2]);
+        
+        return $this->render('update', [
+        		 
+        		'unPlan'=>$unPlan,'model'=>$model
+        
+        
+        ]);
     }
 
     /**

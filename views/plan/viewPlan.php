@@ -34,8 +34,9 @@ $this->params['breadcrumbs'][] = $this->title;
         if ($idRolActual === 3) {
           echo Html::a('Agregar Materia', ['materia/create', 'id' => $model->idPlan], ['class' => 'btn btn-success']);   
         }
+        
           ?>
-       
+        <?= Html::a('Volver', ['carrera/index'], ['class' => 'btn btn-danger']) ?>
         
     </p>
 
@@ -56,8 +57,11 @@ $this->params['breadcrumbs'][] = $this->title;
     		
     ]) ?>  
     <?php
+    $mostrar="";
+    if ($idRolActual === 3) {
+    $mostrar.="<th>modificar</th>";}
      $tabla = "<table class='table table-hover'>"
-		. " <tr><th>Codigo</th><th>Materia</th><th>Anio</th><th>Horas</th><th>Objetivos</th><th>Correlativas</th><th>Departamento</th><th>Area</th><th>Cursado</th>";
+		. " <tr><th>Codigo</th><th>Materia</th><th>Anio</th><th>Horas</th><th>Objetivos</th><th>Correlativas</th><th>Departamento</th><th>Area</th><th>Cursado</th>.$mostrar";
      foreach ($model->materias as $unaMateria){?>
      	<?php //$this->render('//materia/_view', [
      			//'model' => $unaMateria,
@@ -70,9 +74,10 @@ $this->params['breadcrumbs'][] = $this->title;
      	if ($idRolActual === 3) {
      		 $corre=Html::a('Agregar Correlativas', ['correlativa/create', 'idPlan' => $model->idPlan,'idMateria' => $unaMateria->idMateria], ['class' => 'btn btn-success'])."&nbsp;&nbsp;";
      		 $modificarMateria=Html::a('Modificar Materia ', ['materia/update','idMateria' => $unaMateria->idMateria,'idPlan' => $model->idPlan], ['class' => 'btn btn-primary']);
+     		 
      	}
      	
-     	$verCorre=Html::a('Ver Correlativas', ['correlativa/view', 'idPlan' => $model->idPlan,'idMateria' => $unaMateria->idMateria], ['class' => 'btn btn-primary']);
+     	$verCorre=Html::a('Ver Correlativas', ['correlativa/view', 'idMateria' => $unaMateria->idMateria], ['class' => 'btn btn-primary']);
        	$tabla .= "<tr>".
        	'<td>'.$unaMateria->codigo."</td>".
        	'<td>'.$unaMateria->nombre."</td>".

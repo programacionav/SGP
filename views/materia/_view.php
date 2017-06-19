@@ -6,13 +6,19 @@ use app\models\Plan;
 
 
 ?><!-- te genera una vista parcial materias -->
-   <h1><?= Html::encode($model['nombre']) ?></h1>
+   <div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading"> 
+ <?= Html::encode($model['nombre']) ?>
+  </div>
+  <div class="panel-body">
+    <p>
   <?php
      $tabla = "<table class='table table-hover'>"
-		. " <tr><th>Codigo</th><th>Materia</th><th>Anio</th>";
+		. " <tr><th>Codigo</th><th>Departamento</th><th>Anio</th><th></th>";
        	$tabla .= "<tr>".
        	'<td>'.$model->codigo."</td>".
-       	'<td>'.$model->nombre."</td>".
+       	'<td>'.$model->idDepartamento0->nombre."</td>".
      	'<td>'.$model->anio."</td>".
      	
         //'<td>'.$model->idDepartamento0->nombre."</td>".
@@ -26,5 +32,9 @@ use app\models\Plan;
      echo $tabla;
      ?>
     
-    
+    </p>
+  </div>
+ </div>
+ 
+ 
      

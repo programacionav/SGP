@@ -14,8 +14,8 @@ $this->params['breadcrumbs'][] = 'Modificar';
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?= $this->render('_form', [
-        'model' => $model,
+    <?= $this->render('_form1', [
+        'unPlan'=>$unPlan,'model'=>$model
     ]) ?>
 
 </div>
