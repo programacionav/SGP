@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Materia */
 
 $this->title = 'Nueva Materia';
-$this->params['breadcrumbs'][] = ['label' => 'Materias', 'url' => ['index']];
+//$this->params['breadcrumbs'][] = ['label' => 'Materias', 'url' => ['index']];crear vista parcial?
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="materia-create">

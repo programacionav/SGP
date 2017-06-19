@@ -15,8 +15,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Nueva Correlativa', ['create'], ['class' => 'btn btn-success']) ?>
+    <p> <?php
+        $idRolActual=Yii::$app->user->identity->idRol;
+        if ($idRolActual === 3) {
+          echo Html::a('Nueva Correlativa', ['create'], ['class' => 'btn btn-success']);   
+        }
+          ?>
+       
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

@@ -8,7 +8,8 @@ use app\models\CarreraSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\filters\AccessControl;
+use app\models\Usuario;
 /**
  * CarreraController implements the CRUD actions for Carrera model.
  */
@@ -19,26 +20,28 @@ class CarreraController extends Controller
      */
     public function behaviors()
     {
-        return [
+       return [
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
                 ],
             ],
-        		/*'access' => [
-        				'class' => AccessControl::className(),
-        				'only' => ['create','update','delete'],
-        				'rules' => [    [     'actions' => ['create','update','delete'],
-        						'allow' => true,
-        						'roles' => ['@'],
-        						'matchCallback' => function ($rule, $action) {
-        							$valid_roles = [Usuarios::ROLE_SECRETARIO_ACADEMICO];
-        							return Usuarios::roleInArray($valid_roles);
-        						}
-        				],
-        				],
-        				],*/
+          'access' => [
+'class' => AccessControl::className(),
+'only' => ['create','update','delete'],
+'rules' => [
+[
+'actions' => ['create','update','delete'],
+'allow' => true,
+'roles' => ['@'],
+'matchCallback' => function ($rule, $action) {
+$valid_roles = [Usuario::ROLE_SECRETARIO_ACADEMICO];
+return Usuario::roleInArray($valid_roles);
+}
+],
+],
+],
         ];
     }
 
