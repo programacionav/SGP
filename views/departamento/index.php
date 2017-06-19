@@ -9,7 +9,7 @@ use app\models\Docente;
 /* @var $searchModel app\models\DepartamentoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Departamentos';
+$this->title = 'Listado de Departamentos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="departamento-index">
@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'nombre',
         [
             'attribute' => 'idDocente',
-            'label' => 'Docente',
+            'label' => 'Director de Departamento',
             'filter' => Docente::listaDeNombres(),
             'value' => function($model, $index, $dataColumn) {
                 $nombreDocente = Docente::listaDeNombres();//Arreglo con todos los nombres de los Docentes

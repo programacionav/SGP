@@ -8,7 +8,8 @@ use app\models\MateriaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\filters\AccessControl;
+use app\models\Usuario;
 /**
  * MateriaController implements the CRUD actions for Materia model.
  */
@@ -26,19 +27,19 @@ class MateriaController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
-        		/*'access' => [
+        		'access' => [
         				'class' => AccessControl::className(),
         				'only' => ['create','update','delete'],
         				'rules' => [    [     'actions' => ['create','update','delete'],
         						'allow' => true,
         						'roles' => ['@'],
         						'matchCallback' => function ($rule, $action) {
-        							$valid_roles = [Usuarios::ROLE_SECRETARIO_ACADEMICO];
-        							return Usuarios::roleInArray($valid_roles);
+        							$valid_roles = [Usuario::ROLE_SECRETARIO_ACADEMICO];
+        							return Usuario::roleInArray($valid_roles);
         						}
         				],
         				],
-        				],*/
+        				],
         ];
     }
 
@@ -109,17 +110,20 @@ class MateriaController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($idMateria,$idPlan)
     {
-        $model = $this->findModel($id);
-
+    	
+    	{
+        $model = $this->findModel($idMateria);
+		
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idMateria]);
         } else {
+        	$model->idPlan=$idPlan;
             return $this->render('update', [
-                'model' => $model,
+                'model' => $model
             ]);
-        }
+        }}
     }
 
     /**

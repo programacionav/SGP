@@ -14,11 +14,19 @@ $pageIndex = Yii::$app->getHomeUrl() . '?r=site/login';
 $menu = array();
 if(!Yii::$app->user->isGuest){
     $pageIndex = Yii::$app->getHomeUrl() . '?r=programa/index';
-    $menu = [
+    $cuenta="";
+    if (Yii::$app->user->identity->idRol===3) {
+        $cuenta="Cuentas de usuario";
+      }
+    else {
+      $cuenta="Mi cuenta";     
+    }
+            $menu = [
             ['label' => 'Docentes', 'url' => ['/docente/index']],
             ['label' => 'Departamentos', 'url' => ['/departamento/index']],
             ['label' => 'Carreras', 'url' => ['/carrera/index']],
             ['label' => 'Programas', 'url' => ['/programa/index']],
+            ['label' => $cuenta, 'url' => ['/usuario/index']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
@@ -31,6 +39,8 @@ if(!Yii::$app->user->isGuest){
                 . Html::endForm()
                 . '</li>'
             )];
+    
+
 }
 
 ?>

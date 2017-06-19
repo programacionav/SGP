@@ -59,18 +59,22 @@ $this->params['breadcrumbs'][] = $this->title;
 				 'desactivarUsuario'=> function ($url, $model) {//los datos del docente solo los puede modificar el secretario
                  $idRolActual=Yii::$app->user->identity->idRol;
                  if($idRolActual === 3){
+						if ($model->estado==1) {
                           return Html::a('<span class="glyphicon glyphicon-remove"></span>', 
 						  ['usuario/desactivar-usuario','id'=>$model->idUsuario], [
                             'title' => Yii::t('app', 'Desactivar cuenta'),
                 ]);
+				}
               }
             },
 				 'activarUsuario'=> function($url,$model){
 					 $idRolActual=Yii::$app->user->identity->idRol;
 					 if ($idRolActual === 3) {
+						if ($model->estado==0) {
 						  return Html::a('<span class="glyphicon glyphicon-ok"></span>',
                                       ['usuario/activar-usuario','id'=>$model->idUsuario],
 									   ['title' => Yii::t('app', 'Activar cuenta'),]);
+						}
 					 }
 					 
 				 }

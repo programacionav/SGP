@@ -6,7 +6,7 @@ use app\models\Plan;
 
 
 ?><!-- te genera una vista parcial materias -->
- 
+   <h1><?= Html::encode($model['nombre']) ?></h1>
   <?php
      $tabla = "<table class='table table-hover'>"
 		. " <tr><th>Codigo</th><th>Materia</th><th>Anio</th>";

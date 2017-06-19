@@ -124,6 +124,7 @@ class DocenteController extends Controller
             $modelUsuario->idRol=1;//rol docente por defecto
             $modelUsuario->usuario = $model->cuil;
             $modelUsuario->clave = $model->cuil;
+            $modelUsuario->estado=0;
             $modelUsuario->save();
             return $this->redirect(['view', 'id' => $model->idDocente]);
         }

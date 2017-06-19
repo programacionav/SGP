@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Plan */
 
 $this->title = 'Nuevo Plan';
-$this->params['breadcrumbs'][] = ['label' => 'Plan', 'url' => ['index']];
+//$this->params['breadcrumbs'][] = ['label' => 'Plan', 'url' => ['index']]; crear vista parcial o mandar a carreras?
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="plan-create">

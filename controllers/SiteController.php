@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Usuario;
 
 class SiteController extends Controller
 {
@@ -69,8 +70,9 @@ class SiteController extends Controller
      *
      * @return string
      */
-    public function actionLogin()
-    {
+    public function actionLogin(){
+
+        $mensaje="";
         if (!Yii::$app->user->isGuest) {
            // echo "Entro por aca"; exit();
             //return  $this->goHome();
@@ -78,12 +80,25 @@ class SiteController extends Controller
         }
 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            //return $this->goBack();
-            return  $this->redirect(['programa/index']);
+        if ($model->load(Yii::$app->request->post())) {
+            $usuario=Usuario::find()->where(['usuario'=> $model->username,'clave'=>$model->password])->one();
+            if (isset($usuario)) {
+               if ($usuario->estado===1) {
+                   if ($model->login()) {
+                    return $this->redirect(['programa/index']);
+                   }
+               }
+               else {
+                   $mensaje="<span style='color:red'>Esta cuenta se encuentra desactivada</span><br><br>";
+               }
+            }
+            else {
+                $mensaje="<span style='color:red'>Datos ingresados incorrectamente</span><br><br>";
+                }
         }
         return $this->render('login', [
             'model' => $model,
+            'mensaje' => $mensaje
         ]);
     }
 
