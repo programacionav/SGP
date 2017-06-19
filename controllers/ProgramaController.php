@@ -243,9 +243,9 @@ if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
 
 
 
-  public function actionCambiarestado($id = null){
+  public function actionCambiarestado($proxEstado = null){
       //esto no se si sera lo mejor,pero funciona
-      if(Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
+     /* if(Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
         if($id!=null){
           $estadoPrograma = $id ;
       }else{$estadoPrograma = 2;}
@@ -255,7 +255,8 @@ if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
 
 }elseif(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
     $estadoPrograma = 4; 
-}
+}*/
+$estadoPrograma = $proxEstado;
     $exito = false;
     $postData = Yii::$app->request->get();
     $idEstado = $estadoPrograma; //detectar estado dependiendo del rol, cambiame esto man!
