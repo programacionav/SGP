@@ -54,8 +54,20 @@ $this->params['breadcrumbs'][] = $this->title;
             'clave',
 
             ['class' => 'yii\grid\ActionColumn',
-		     'template' => '{view} {update} {desactivarUsuario} {activarUsuario}',
+		     'template' => '{view} {update} {desactivarUsuario} {activarUsuario} {cambiarPermisos}',
 			 'buttons' => [
+				 'cambiarPermisos'=> function($url,$model){
+					 $idRolActual=Yii::$app->user->identity->idRol;
+					 if ($idRolActual === 3) {
+						 if ($model->idRol===1) {
+							return Html::a('<span class="glyphicon glyphicon-user"></span>', 
+						  ['usuario/cambiar-a-secretario','idUsuario'=>$model->idUsuario], [
+                            'title' => Yii::t('app', 'Dar permisos de secretario académico'),
+                ]);
+						 }
+						  
+					 }
+				 },
 				 'desactivarUsuario'=> function ($url, $model) {//los datos del docente solo los puede modificar el secretario
                  $idRolActual=Yii::$app->user->identity->idRol;
                  if($idRolActual === 3){

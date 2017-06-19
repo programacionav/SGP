@@ -11,70 +11,82 @@ use yii\helpers\Url;
 use app\models\Docente;
 use app\models\Departamento;
 use app\models\Cursado;
+
 ?>
 
 <div class="designado-form">
 
-    <?php $form = ActiveForm::begin(); ?>
-    <?php $model->idCursado = $id_cursado; ?>
-    <?php echo '<h3>Cursado N°'.$model->idCursado.'</h3>'; ?>
-    <?php $cursado = Cursado::find()->where(['idCursado' => $model->idCursado])->one();
+  <?php $form = ActiveForm::begin(); ?>
+  <?php $model->idCursado = $id_cursado; ?>
+  <?php echo '<h3>Cursado N°'.$model->idCursado.'</h3>'; ?>
+  <?php $cursado = Cursado::find()->where(['idCursado' => $model->idCursado])->one();
 
 
-    ?>
-	  <?php
-        $itemUno = [ '0' => 'Seleccione'];
+  ?>
+  <?php
 
-        $itemDos = Departamento::find() //obtengo un arreglo asociativo[index->titulo]
-        ->select(['nombre'])  //de noticias donde: lo que esta dentro del option es el titulo
-        ->indexBy('idDepartamento')       // y el value de los option es el id
-        ->column();
-        $itemDptos = array_merge($itemUno,$itemDos);
 
-        print_r($itemDptos);
+  $itemDptos = Departamento::find() //obtengo un arreglo asociativo[index->titulo]
+  ->select(['nombre'])  //de noticias donde: lo que esta dentro del option es el titulo
+  ->indexBy('idDepartamento')       // y el value de los option es el id
+  ->column();
 
-     $usuario=yii::$app->user->identity;//usuario;
-     //$docente= $usuario->idDocente0;
-     //print_r($docente);Departamento::findOne();
-     $model_dpto->idDepartamento =2;
-     echo $form->field($model_dpto,'idDepartamento')->dropdownList(
-      $itemDptos,
-      ['id'=>'idDepartamento']
-     )->label("Departamento");
 
-    // Nos va a servir cuando tengamos la relacion
-    // $depto = Departamento::find()->where(['idDepartamento' => 1])->one();
-    echo $form->field($model, 'idDocente')->widget(DepDrop::classname(), [
+  //print_r($itemDptos);
+
+  $usuario=yii::$app->user->identity;//usuario;
+  //$docente= $usuario->idDocente0;
+  //print_r($docente);Departamento::findOne();
+  $docenteDeUsuario = $usuario->idDocente0;
+  //print_r($docenteDeUsuario);
+  //echo "el idDocente del Usuario es: ".$docenteDeUsuario->idDocente;
+  $departamentoDeDocente = Departamento::findOne([
+    'idDocente' =>$docenteDeUsuario->idDocente
+  ]);
+  //print_r($departamentoDeDocente);
+  //echo "el idDepartamento del docente es: ".$departamentoDeDocente->idDepartamento;
+  $model_dpto->idDepartamento =$departamentoDeDocente->idDepartamento;
+  echo $form->field($model_dpto,'idDepartamento')->dropdownList(
+  $itemDptos,
+  [ 'prompt' => 'Seleccione el departamento',
+    'id'=>'idDepartamento'
+  ]
+  )->label("Departamento");
+
+  // Nos va a servir cuando tengamos la relacion
+  // $depto = Departamento::find()->where(['idDepartamento' => 1])->one();
+  echo $form->field($model, 'idDocente')->widget(DepDrop::classname(), [
     'options'=>['id'=>'idDocente'],
     'pluginOptions'=>[
-        'depends'=>['idDepartamento'],
-        'placeholder'=>'Seleccione...',
-        'url'=>Url::to(['subcat'])
+      'depends'=>['idDepartamento'],
+      'placeholder'=>'Seleccione...',
+      'initialize' => true,
+      'url'=>Url::to(['subcat'])
     ]
-    ]);
+  ]);
 
-     ?>
-     <?php
+  ?>
+  <?php
 
-      $desigACargo = $cursado->designadoACargo;
-      if(count($desigACargo)==0){
-        $funciones = ['acargo' => 'A Cargo','ayudante' => 'Ayudante'];
-      }else{
-        $funciones = ['ayudante' => 'Ayudante'];
-      }
-      ?>
+  $desigACargo = $cursado->designadoACargo;
+  if(count($desigACargo)==0){
+    $funciones = ['acargo' => 'A Cargo','ayudante' => 'Ayudante'];
+  }else{
+    $funciones = ['ayudante' => 'Ayudante'];
+  }
+  ?>
 
-    <?php /* $form->field($model, 'idDocente')->textInput(); */?>
-    <?= $form->field($model, 'funcion')->dropdownList(
-    $funciones,
-    ['prompt'=>'Elija la funcion']); ?>
-    <?= $form->field($model, 'idCursado')->hiddeninput()->label(""); ?>
+  <?php /* $form->field($model, 'idDocente')->textInput(); */?>
+  <?= $form->field($model, 'funcion')->dropdownList(
+  $funciones,
+  ['prompt'=>'Elija la funcion']); ?>
+  <?= $form->field($model, 'idCursado')->hiddeninput()->label(""); ?>
 
 
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-    </div>
+  <div class="form-group">
+    <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+  </div>
 
-    <?php ActiveForm::end(); ?>
+  <?php ActiveForm::end(); ?>
 
 </div>

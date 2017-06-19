@@ -39,6 +39,14 @@ class CursadoController extends Controller
         //if(!isset($cursado)){
         //  return $this->redirect(['programa/index']);
         //}else{
+        /*Para  MArce
+          $usuario=yii::$app->user->identity;
+          $docente = $usuario->idDocente0;
+          $cursados = $docente->getIdCursados();
+          $dataProvider = new ActiveDataProvider(
+            $cursados
+          );
+          */
           $model = new Cursado();
           $searchModel = new CursadoSearch();
           $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
