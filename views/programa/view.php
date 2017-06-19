@@ -74,10 +74,10 @@ foreach ( $model->observacions as $recorre) {
       foreach ( Yii::$app->user->identity->idDocente0->designados as $recorre2) {
         if ($recorre2->idCursado == $model->idCursado && $recorre2->esACargo() == true){
           if($model->abierto() && Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
-          echo Html::a('<span class="glyphicon glyphicon-pencil"></span>&nbsp;Actualizar', ['update', 'id' => $model->idPrograma], ['class' => 'btn btn-default']);
+          echo Html::a('<span class="glyphicon glyphicon-pencil"></span>&nbsp;Actualizar', ['update', 'id' => $model->idPrograma,'idCursado' => $model->idCursado], ['class' => 'btn btn-default']);
 
            if ($model->abierto() ){
-          echo Html::a('<span class="glyphicon glyphicon-trash"></span>&nbsp;Borrar', ['delete', 'id' => $model->idPrograma], [
+          echo Html::a('<span class="glyphicon glyphicon-trash"></span>&nbsp;Borrar', ['delete', 'id' => $model->idPrograma,'idCursado' => $model->idCursado], [
             'class' => 'btn btn-default',
             'data' => [
               'confirm' => '¿Esta seguro que desea eliminar el programa?',
