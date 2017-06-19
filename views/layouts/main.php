@@ -19,6 +19,7 @@ if(!Yii::$app->user->isGuest){
             ['label' => 'Departamentos', 'url' => ['/departamento/index']],
             ['label' => 'Carreras', 'url' => ['/carrera/index']],
             ['label' => 'Programas', 'url' => ['/programa/index']],
+            ['label' => 'Mi cuenta', 'url' => ['/usuario/index']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
