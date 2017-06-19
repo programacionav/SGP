@@ -49,6 +49,7 @@ class Materia extends \yii\db\ActiveRecord
             [['contenidoMinimo'], 'string', 'max' => 1500],
             [['idPlan'], 'exist', 'skipOnError' => true, 'targetClass' => Plan::className(), 'targetAttribute' => ['idPlan' => 'idPlan']],
             [['idDepartamento'], 'exist', 'skipOnError' => true, 'targetClass' => Departamento::className(), 'targetAttribute' => ['idDepartamento' => 'idDepartamento']],
+        		[['area'], 'string', 'max' => 50],
         ];
     }
 
