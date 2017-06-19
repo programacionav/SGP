@@ -70,8 +70,9 @@ class SiteController extends Controller
      *
      * @return string
      */
-    public function actionLogin()
-    {
+    public function actionLogin(){
+
+        $mensaje="";
         if (!Yii::$app->user->isGuest) {
            // echo "Entro por aca"; exit();
             //return  $this->goHome();
@@ -80,23 +81,24 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post())) {
-            $usuario=Usuario::find()->where(['usuario'=> $model->username,'contrasenia'=>$model->password])->one();//nombre usuario tiene que ser unico
-            if(isset($usuario) && $usuario->estado===1){
-                if ( $model->login()) {
-                    return  $this->redirect(['programa/index']);
-                }
-            }            
-            else {
-               return $this->render('login', [
-               'model' => $model,
-               'mensaje' => '<span style="color:red">Esta cuenta se encuentra desactivada/Datos ingresados incorrectamente</span><br><br>'
-        ]);
+            $usuario=Usuario::find()->where(['usuario'=> $model->username,'clave'=>$model->password])->one();
+            if (isset($usuario)) {
+               if ($usuario->estado===1) {
+                   if ($model->login()) {
+                    return $this->redirect(['programa/index']);
+                   }
+               }
+               else {
+                   $mensaje="<span style='color:red'>Esta cuenta se encuentra desactivada</span><br><br>";
+               }
             }
-            
+            else {
+                $mensaje="<span style='color:red'>Datos ingresados incorrectamente</span><br><br>";
+                }
         }
         return $this->render('login', [
             'model' => $model,
-            'mensaje' => ''
+            'mensaje' => $mensaje
         ]);
     }
 
