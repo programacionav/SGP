@@ -13,29 +13,32 @@ $mesActual = date("m"); // Mes actual
 if(isset(yii::$app->user->identity)){
     $usuario=yii::$app->user->identity;
 $mat=Materia::find()->where(['idMateria'=>$model->idMateria])->one();
+$this->title = 'Cursado N°'.$model->idCursado;
 
 
-
-$this->params['breadcrumbs'][] = ['label' => 'Cursados', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Cursados', 'url' => ['index','CursadoSearch[idMateria]'=>$mat->idMateria]];
 $this->params['breadcrumbs'][] = $this->title;
-
-
-
-
-
 ?>
 <div class="cursado-view">
+  <div class="panel panel-default">
+    <div class="panel-heading"><?php echo $this->title; ?></div>
+    <div class="panel-body">
+   <?php
+   echo $this->render('../materia/_view', [
+     'model'=>$mat,
+   ]);
+   ?>
+ </div>
+ </div>
+<div class="panel panel-default">
+  <div class="panel-heading"><?php echo $this->title; ?></div>
+  <div class="panel-body">
 
 
- <p>
 <?php
-echo $this->render('../materia/_view', [
-	'model'=>$mat,
-               
-            ]);
   echo "<table class='table'>";
   echo "<tr>";
-  echo "<th>ID Cursado</th><th>Cuatrimestre</th><th>Año Inicio</th><th>Año Fin</th>";
+  echo "<th>Materia</th><th>Cuatrimestre</th><th>Año Inicio</th><th>Año Fin</th>";
   if($usuario->idRol==2)
   {
       if($anioActual==$anioCursado){
@@ -52,12 +55,15 @@ echo $this->render('../materia/_view', [
 
   echo "</tr>";
   echo "<tr>";
-  echo "<td>";
-  echo " ".$model->idCursado."<br>";
-  echo "</td>";
   //echo "<td>";
   //echo " ".$mat->nombre."<br>";
   //echo "</td>";
+  echo "<td>";
+  echo " ".$mat->nombre ."<br>";
+  ?>
+
+  <?php
+  echo "</td>";
   echo "<td>";
   echo " ".$model->cuatrimestre ."<br>";
   echo "</td>";
@@ -89,6 +95,9 @@ echo "<td>";
   echo "</tr>";
   echo "</table>";
 ?>
+</div>
+</div>
+
  <?php
 
 if($usuario->idRol==2){
@@ -108,9 +117,12 @@ if($usuario->idRol==2){
 <?php }}}?>
 <?="<br>"?>
 <?="<br>"?>
-
+<div class="panel panel-default">
+  <div class="panel-heading">Designaciones</div>
+  <div class="panel-body">
 <?=$this->render('_viewdesignado.php', [
     'model' => $model
 ]); ?>
-
+</div>
+</div>
 </div>

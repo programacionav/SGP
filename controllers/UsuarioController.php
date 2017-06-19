@@ -74,6 +74,13 @@ class UsuarioController extends Controller
         ]);
     }
 
+    public function actionCambiarASecretario($idUsuario){
+        $model=$this->findModel($idUsuario);
+        $model->idRol=3;
+        $model->save();
+        return $this->redirect(['index']);
+    }
+
     public function actionActivarUsuario($id){
         $model=$this->findModel($id);
         $model->estado=1;

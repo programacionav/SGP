@@ -55,10 +55,12 @@ class Docente extends \yii\db\ActiveRecord
             [['cuil', 'nombre', 'apellido', 'mail'], 'required'],
 			      [['idDedicacion'], 'required', 'message'=>'Ingrese la dedicacion'],
             [['idDedicacion'], 'integer'],
-            [['cuil'], 'string', 'max' => 20],
+            [['cuil'], 'number'],
             [['nombre', 'apellido'], 'string', 'max' => 50],
             [['mail'], 'string', 'max' => 100],
+			['mail','email'],
             [['idDedicacion'], 'exist', 'skipOnError' => true, 'targetClass' => Dedicacion::className(), 'targetAttribute' => ['idDedicacion' => 'idDedicacion']],
+			
         ];
     }
 
