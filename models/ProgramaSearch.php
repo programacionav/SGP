@@ -41,54 +41,7 @@ class ProgramaSearch extends Programa
         return Model::scenarios();
     }
 
-    /**
-     * Creates data provider instance with search query applied
-     *
-     * @param array $params
-     *
-     * @return ActiveDataProvider
-     */
-    /*public function search($params)
-    {
-        $query = Programa::find();
 
-        // add conditions that should always apply here
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-
-        $this->load($params);
-
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
-            return $dataProvider;
-        }
-
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'programa.idPrograma' => $this->idPrograma,
-            'programa.idCursado' => $this->idCursado,
-            'programa.anioActual' => $this->anioActual,
-            'materia.codigo' => $this->idMateria,
-            'cambioestado.idEstadoP' => $this->idEstadoP,
-            'carrera.idCarrera' => $this->idCarrera,
-            'departamento.idDepartamento' => $this->idDepartamento,
-            'plan.idPlan' => $this->idPlan,
-        ]);
-
-        $query->andFilterWhere(['like', 'orientacion', $this->orientacion])
-            ->andFilterWhere(['like', 'programaAnalitico', $this->programaAnalitico])
-            ->andFilterWhere(['like', 'propuestaMetodologica', $this->propuestaMetodologica])
-            ->andFilterWhere(['like', 'condicionesAcredEvalu', $this->condicionesAcredEvalu])
-            ->andFilterWhere(['like', 'horariosConsulta', $this->horariosConsulta])
-            ->andFilterWhere(['like', 'bibliografia', $this->bibliografia])
-            ->andFilterWhere(['like', 'bibliografia', $this->bibliografia])
-            ->andFilterWhere(['like', 'cursado.cuatrimestre', $this->cuatrimestre]);
-
-        return $dataProvider;
-    }*/
 
     public function searchDocente($params)
     {
@@ -231,26 +184,45 @@ class ProgramaSearch extends Programa
 
     public function searchSecAcademico($params)
     {
-        /*Si es sec academico filtro los programas publicados ordenados por año, carrera, materia, cuatrimestre (descripcion) y crusado. (Este no puede ver otros programas que no esten publicados, pero si ve aquellos que esten pendientes de publicar por el.)*/
         $query = Programa::find();
-
-        // add conditions that should always apply here
-        //$query->joinWith(['cambioestados']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
+        
+
         $this->load($params);
+
+        if(Designado::find()->where(['idDocente'=>Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente])->count()>0)
+        {
+            $query->joinWith(['idCursado0.idMateria0']);
+            //
+            $query->andWhere('( 
+                materia.idDepartamento IN (SELECT idDepartamento FROM departamentodocentecargo WHERE idDocente = '.Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente.')
+                AND (
+                        (SELECT idEstadoP FROM cambioestado 
+                        WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)
+                        ) IN (1,4)
+                    )
+                AND (
+                        (SELECT idUsuario FROM cambioestado 
+                        WHERE idCambioEstado = (SELECT min(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)
+                        ) IN ('.Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente.')
+                    )
+                ) ');  
+
+        }
 
         if(isset($this->idEstadoP))
         {
-            $query->andWhere('(SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado)) ='.$this->idEstadoP);
+            /*$query->andWhere('(SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)) ='.$this->idEstadoP);*/
         }else{
-            $query->andWhere('(SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado)) IN (2,3)');
 
-            //$query->andFilterWhere(['cambioestado.idEstadoP' =>3]);
+            $query->orWhere('(SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)) IN (2,3)');
         }
+
+        
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails

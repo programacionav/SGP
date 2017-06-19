@@ -65,21 +65,18 @@ return Programa::valDesignado($valid_roles);
     {
         $searchModel = new ProgramaSearch();
 
-        if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
-          $dataProvider = $searchModel->searchDocente(Yii::$app->request->queryParams);
-        }
-        if(Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
-            $dataProvider = $searchModel->searchJefe(Yii::$app->request->queryParams);
-        }
-
         if(Rol::findOne(Yii::$app->user->identity->idRol)->esSecAcademico()){
             $dataProvider = $searchModel->searchSecAcademico(Yii::$app->request->queryParams);
         }
-        /*NOTA todos los roles pueden ver los programas publicados de todas las materias. 
-        Ademas todos los roles pueden filtrar por carrera, materia, año, cuatrimestre y cursado para ver programas de cualquier materia y cualquier carrera.*/        
-        //$query->joinWith(['cambioestados','idCursado0.idMateria0.idDepartamento0', 'idCursado0.idMateria0.idPlan0.idCarrera0']);
-
-        
+        else{
+          if(Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
+              $dataProvider = $searchModel->searchJefe(Yii::$app->request->queryParams);
+          }else{
+            if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
+              $dataProvider = $searchModel->searchDocente(Yii::$app->request->queryParams);
+            } 
+          }
+        }
 
         return $this->render('index', [
             'searchModel' => $searchModel,
