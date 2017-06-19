@@ -54,12 +54,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'clave',
 
             ['class' => 'yii\grid\ActionColumn',
-		     'template' => '{view} {update} {delete} {activarUsuario}',
+		     'template' => '{view} {update} {desactivarUsuario} {activarUsuario}',
 			 'buttons' => [
-				 'delete'=> function ($url, $model) {//los datos del docente solo los puede modificar el secretario
+				 'desactivarUsuario'=> function ($url, $model) {//los datos del docente solo los puede modificar el secretario
                  $idRolActual=Yii::$app->user->identity->idRol;
                  if($idRolActual === 3){
-                          return Html::a('<span class="glyphicon glyphicon-remove"></span>', $url, [
+                          return Html::a('<span class="glyphicon glyphicon-remove"></span>', 
+						  ['usuario/desactivar-usuario','id'=>$model->idUsuario], [
                             'title' => Yii::t('app', 'Desactivar cuenta'),
                 ]);
               }
@@ -68,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					 $idRolActual=Yii::$app->user->identity->idRol;
 					 if ($idRolActual === 3) {
 						  return Html::a('<span class="glyphicon glyphicon-ok"></span>',
-                                      ['usuario/activarUsuario','idDocente'=>$model->idUsuario],
+                                      ['usuario/activar-usuario','id'=>$model->idUsuario],
 									   ['title' => Yii::t('app', 'Activar cuenta'),]);
 					 }
 					 
