@@ -71,8 +71,11 @@ class CorrelativaController extends Controller
      */
     public function actionView($idPlan, $idMateria1)
     {$unPlan=Plan::findOne(['idPlan' => $idPlan]);
+    
+    $correlativas= Correlativa::find()->where(['idMateria1'=>$idMateria])->all();
         return $this->render('_view', [
-            'model' => $this->findModel($idPlan, $idMateria1),
+        		
+            'model' => $model,'unPlan' =>$unPlan, 'correlativas'=> $correlativas
         ]);
     }
 
@@ -97,6 +100,7 @@ class CorrelativaController extends Controller
         	
         $model->idMateria1=$idMateria;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        	
         	$correlativas= Correlativa::find()->where(['idMateria1'=>$idMateria])->all();
             return $this->render('create', [
             		
