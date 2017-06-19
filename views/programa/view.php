@@ -7,6 +7,8 @@ use yii\helpers\Url;
 use yii\bootstrap\Modal;
 use app\models\Usuario;
 use app\models\Rol;
+use app\models\Materia;
+
 
 
 
@@ -26,6 +28,19 @@ $this->params['breadcrumbs'][] = $model->getTitulo();
 
 
 <?php
+if($model->enRevision()){
+  echo $mostrarEstado = "En revision";
+}
+elseif($model->abierto()){
+  echo  $mostrarEstado = "Abierto";
+}
+elseif($model->aprobado()){
+  echo  $mostrarEstado = "Aprobado";
+}
+elseif($model->publicado()){
+  echo  $mostrarEstado = "Publicado";
+}
+
 echo $model->enRevision();
 //determina el idEstado segun el rol logueado.
 $estado = null;
@@ -59,10 +74,10 @@ foreach ( $model->observacions as $recorre) {
       foreach ( Yii::$app->user->identity->idDocente0->designados as $recorre2) {
         if ($recorre2->idCursado == $model->idCursado && $recorre2->esACargo() == true){
           if($model->abierto() && Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
-          echo Html::a('<span class="glyphicon glyphicon-pencil"></span>&nbsp;Actualizar', ['update', 'id' => $model->idPrograma], ['class' => 'btn btn-default']);
-          
+          echo Html::a('<span class="glyphicon glyphicon-pencil"></span>&nbsp;Actualizar', ['update', 'id' => $model->idPrograma,'idCursado' => $model->idCursado], ['class' => 'btn btn-default']);
+
            if ($model->abierto() ){
-          echo Html::a('<span class="glyphicon glyphicon-trash"></span>&nbsp;Borrar', ['delete', 'id' => $model->idPrograma], [
+          echo Html::a('<span class="glyphicon glyphicon-trash"></span>&nbsp;Borrar', ['delete', 'id' => $model->idPrograma,'idCursado' => $model->idCursado], [
             'class' => 'btn btn-default',
             'data' => [
               'confirm' => '¿Esta seguro que desea eliminar el programa?',
@@ -134,8 +149,9 @@ foreach ( $model->observacions as $recorre) {
                   'data' => [
                     'confirm' => 'Esta seguro que desea aprobar este programa?'],
                   ]);}
-                  } 
+                  }
                     }
+
             ?>
                 <?= Html::a('<span class="glyphicon glyphicon-export"></span>&nbsp;Crear pdf',Url::toRoute(['programa/report','id' => $model->idPrograma]), ['class' => 'btn btn-default pull-right','target'=>'_blank']) ?>
               </div>
@@ -168,7 +184,8 @@ foreach ( $model->observacions as $recorre) {
 
 
             }$alert.="</div>"; echo $alert;?>
-
+             <?php
+             echo "<p style='text-align:right;'> El estado del programa es:<strong> ".$mostrarEstado."</strong></p>"?>
             <table class="table table-bordered">
               <tbody>
                 <tr>
@@ -193,7 +210,35 @@ foreach ( $model->observacions as $recorre) {
                 <tr>
                   <td colspan="3"><strong>CORRELATIVAS:</strong><br>
                     <strong>Cursadas:</strong><br>
-                    <strong>Aprobadas:</strong>
+                     <?php
+                    foreach($model->idCursado0->idMateria0->correlativas as $recorre3){
+                          if($recorre3->tipo == "Cursado"){
+                             $cantidad2 = Materia::find()
+                    ->where(['idMateria' => $recorre3->idMateria2])->one();
+                      echo   $cantidad2['nombre'];
+                      echo "<br>";
+}
+                          }
+
+
+
+                    ?>
+
+                    <br>
+                    <strong>Aprobadas:</strong><br>
+                    <?php
+                    foreach($model->idCursado0->idMateria0->correlativas as $recorre3){
+                          if($recorre3->tipo == "Aprobado"){
+                             $cantidad2 = Materia::find()
+                    ->where(['idMateria' => $recorre3->idMateria2])->one();
+                      echo   $cantidad2['nombre'];
+                      echo "<br>";
+}
+                          }
+
+
+
+                    ?>
                   </td>
                 </tr>
                 <tr>

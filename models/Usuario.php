@@ -78,8 +78,8 @@ public static function roleInArray($arr_role){
     public function rules()
     {
         return [
-            [['idDocente', 'idRol', 'usuario', 'clave'], 'required'],
-            [['idDocente', 'idRol'], 'integer'],
+            [['idDocente', 'idRol', 'usuario', 'clave','estado'], 'required'],
+            [['idDocente', 'idRol','estado'], 'integer'],
             [['usuario'], 'string', 'max' => 50],
             [['clave'], 'string', 'max' => 100],
             [['idDocente'], 'exist', 'skipOnError' => true, 'targetClass' => Docente::className(), 'targetAttribute' => ['idDocente' => 'idDocente']],
@@ -98,6 +98,7 @@ public static function roleInArray($arr_role){
             'idRol' => 'Rol',
             'usuario' => 'Usuario',
             'clave' => 'Clave',
+            'estado' => 'Estado'
         ];
     }
 

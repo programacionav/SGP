@@ -165,12 +165,13 @@ class Programa extends \yii\db\ActiveRecord
     }
 
     //lo hice aca para no tocar archivos que no son de nuestro grupo, me parece que deberia ir en el modelo designado,igualmente funciona.
-     public static function roleInArray($arr_role){
-        foreach ( Yii::$app->user->identity->idDocente0->designados as $recorre2) {
-
-  return in_array($recorre2->funcion , $arr_role);
-}
-}
+     public static function valDesignado($valid_roles){
+  $a= Designado::find()->where(['idDocente'=>Yii::$app->user->identity->idDocente,'idCursado'=> $_GET['idCursado']])->one();
+if($a['funcion'] == $valid_roles){
+    return true;
+}else{
+    return false;
+}}
 
 public function existeObservacionRevison(){
   $observaciones = $this->observacions;
@@ -187,27 +188,27 @@ public function existeObservacionRevison(){
 public function enRevision()
 {   $revision = $this->GetLastStatus();
     return $revision['idEstadoP'] == self::REVISION;
-    
+
 }
 public function abierto()
 {$abierto = $this->GetLastStatus();
     return $abierto['idEstadoP'] == self::ABIERTO;
-    
+
 }
 public function publicado()
 {$publicado = $this->GetLastStatus();
     return $publicado['idEstadoP'] == self::PUBLICADO;
-    
+
 }
 public function aprobado()
 {$aprobado = $this->GetLastStatus();
     return $aprobado['idEstadoP'] == self::APROBADO;
-    
+
 }
 
 public function GetLastStatus()
 {
-    return Cambioestado::find()->select('idEstadoP')->where(['idPrograma'=>$this->idPrograma])->orderBy(['fecha'=>SORT_DESC])->limit(1)->one();
+    return Cambioestado::find()->select('idEstadoP')->where(['idPrograma'=>$this->idPrograma])->orderBy(['idCambioEstado'=>SORT_DESC])->limit(1)->one();
 }
 
 }

@@ -5,9 +5,11 @@ namespace app\controllers;
 use Yii;
 use app\models\Cargo;
 use app\models\CargoSearch;
+use app\models\Usuario;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * CargoController implements the CRUD actions for Cargo model.
@@ -26,6 +28,25 @@ class CargoController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+          'access' => [
+			'class' => AccessControl::className(),
+			'only' => ['create','update','delete','index','view'],
+			'rules' => [
+				[
+				'actions' => ['create','update','delete','index','view'],
+				'allow' => true,
+				'roles' => ['@'],
+				'matchCallback' => function ($rule, $action) {
+					$valid_roles = [Usuario::ROLE_SECRETARIO_ACADEMICO];
+					return Usuario::roleInArray($valid_roles);
+					}  	
+				],
+					  
+			],
+				'denyCallback' => function ($rule, $action){
+					return $this->redirect(['usuario/cuenta']);
+				}  
+			],
         ];
     }
 

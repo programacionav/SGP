@@ -16,11 +16,10 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="usuario-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); 
+	//Html::a('Nuevo usuario', ['create'], ['class' => 'btn btn-success'])?>
 
-    <p>
-        <?= Html::a('Nuevo usuario', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -54,7 +53,29 @@ $this->params['breadcrumbs'][] = $this->title;
             'usuario',
             'clave',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',
+		     'template' => '{view} {update} {desactivarUsuario} {activarUsuario}',
+			 'buttons' => [
+				 'desactivarUsuario'=> function ($url, $model) {//los datos del docente solo los puede modificar el secretario
+                 $idRolActual=Yii::$app->user->identity->idRol;
+                 if($idRolActual === 3){
+                          return Html::a('<span class="glyphicon glyphicon-remove"></span>', 
+						  ['usuario/desactivar-usuario','id'=>$model->idUsuario], [
+                            'title' => Yii::t('app', 'Desactivar cuenta'),
+                ]);
+              }
+            },
+				 'activarUsuario'=> function($url,$model){
+					 $idRolActual=Yii::$app->user->identity->idRol;
+					 if ($idRolActual === 3) {
+						  return Html::a('<span class="glyphicon glyphicon-ok"></span>',
+                                      ['usuario/activar-usuario','id'=>$model->idUsuario],
+									   ['title' => Yii::t('app', 'Activar cuenta'),]);
+					 }
+					 
+				 }
+			 ],
         ],
+	  ]
     ]); ?>
 </div>
