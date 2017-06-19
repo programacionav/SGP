@@ -19,21 +19,19 @@ use app\models\Cursado;
     <?php $model->idCursado = $id_cursado; ?>
     <?php echo '<h3>Cursado N°'.$model->idCursado.'</h3>'; ?>
     <?php $cursado = Cursado::find()->where(['idCursado' => $model->idCursado])->one();
-    
+
 
     ?>
 	  <?php
+        $itemUno = [ '0' => 'Seleccione'];
 
-        $itemDptos = Departamento::find() //obtengo un arreglo asociativo[index->titulo]
+        $itemDos = Departamento::find() //obtengo un arreglo asociativo[index->titulo]
         ->select(['nombre'])  //de noticias donde: lo que esta dentro del option es el titulo
         ->indexBy('idDepartamento')       // y el value de los option es el id
         ->column();
+        $itemDptos = array_merge($itemUno,$itemDos);
 
-
-        $item = Docente::find() //obtengo un arreglo asociativo[index->titulo]
-        ->select(['nombre'])  //de noticias donde: lo que esta dentro del option es el titulo
-        ->indexBy('idDocente')       // y el value de los option es el id
-        ->column();
+        print_r($itemDptos);
 
      $usuario=yii::$app->user->identity;//usuario;
      //$docente= $usuario->idDocente0;
@@ -50,14 +48,14 @@ use app\models\Cursado;
     'options'=>['id'=>'idDocente'],
     'pluginOptions'=>[
         'depends'=>['idDepartamento'],
-        'placeholder'=>'Select...',
+        'placeholder'=>'Seleccione...',
         'url'=>Url::to(['subcat'])
     ]
     ]);
 
      ?>
      <?php
-    
+
       $desigACargo = $cursado->designadoACargo;
       if(count($desigACargo)==0){
         $funciones = ['acargo' => 'A Cargo','ayudante' => 'Ayudante'];

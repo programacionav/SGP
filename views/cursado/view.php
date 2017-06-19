@@ -13,10 +13,10 @@ $mesActual = date("m"); // Mes actual
 if(isset(yii::$app->user->identity)){
     $usuario=yii::$app->user->identity;
 $mat=Materia::find()->where(['idMateria'=>$model->idMateria])->one();
+$this->title = 'Cursado N°'.$model->idCursado;
 
 
-
-$this->params['breadcrumbs'][] = ['label' => 'Cursados', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Cursados', 'url' => ['index','CursadoSearch[idMateria]'=>$mat->idMateria]];
 $this->params['breadcrumbs'][] = $this->title;
 
 
@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php
 echo $this->render('../materia/_view', [
 	'model'=>$mat,
-               
+
             ]);
   echo "<table class='table'>";
   echo "<tr>";

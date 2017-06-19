@@ -162,18 +162,22 @@ class DesignadoController extends Controller
       foreach ($itemDptos as $indice => $dpto) {
         $arreglo[]= [$indice =>$dpto];
       }*/
-      $dpto = Departamento::find()
-      ->where(['idDepartamento' => $idDepartamento])
-      ->one();
-      //$idsDocentes = $dpto->getidDocentes();
-      //$algo = get_class($idsDocentes);
-      //print_r($dpto);
+      $arreglo = false;
       $arreglo= array();
-      $iterativo = $dpto->departamentodocentecargos;
-      foreach ($iterativo as $depdocar) {
-        array_push($arreglo,['id'=>$depdocar->idDocente0->idDocente,'name'=>$depdocar->idDocente0->apellido.', '.$depdocar->idDocente0->nombre]);
-      }
-      return $arreglo;
-
+      if($idDepartamento == '0'){
+        $arreglo = false; 
+      }else{
+          $dpto = Departamento::find()
+          ->where(['idDepartamento' => $idDepartamento])
+          ->one();
+          //$idsDocentes = $dpto->getidDocentes();
+          //$algo = get_class($idsDocentes);
+          //print_r($dpto);
+          $iterativo = $dpto->departamentodocentecargos;
+          foreach ($iterativo as $depdocar) {
+          array_push($arreglo,['id'=>$depdocar->idDocente0->idDocente,'name'=>$depdocar->idDocente0->apellido.', '.$depdocar->idDocente0->nombre]);
+          }
+    }
+    return $arreglo;
     }
 }
