@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Usuario;
 
 class SiteController extends Controller
 {
@@ -78,12 +79,24 @@ class SiteController extends Controller
         }
 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            //return $this->goBack();
-            return  $this->redirect(['programa/index']);
+        if ($model->load(Yii::$app->request->post())) {
+            $usuario=Usuario::find()->where(['usuario'=> $model->username,'contrasenia'=>$model->password])->one();//nombre usuario tiene que ser unico
+            if(isset($usuario) && $usuario->estado===1){
+                if ( $model->login()) {
+                    return  $this->redirect(['programa/index']);
+                }
+            }            
+            else {
+               return $this->render('login', [
+               'model' => $model,
+               'mensaje' => '<span style="color:red">Esta cuenta se encuentra desactivada/Datos ingresados incorrectamente</span><br><br>'
+        ]);
+            }
+            
         }
         return $this->render('login', [
             'model' => $model,
+            'mensaje' => ''
         ]);
     }
 
