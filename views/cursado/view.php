@@ -59,7 +59,7 @@ echo $this->render('../materia/_view', [
   //echo " ".$mat->nombre."<br>";
   //echo "</td>";
   echo "<td>";
-  echo " ".(($model->cuatrimestre == '1')?"Primero":"Segundo")."<br>";
+  echo " ".$model->cuatrimestre ."<br>";
   echo "</td>";
   echo "<td>";
   echo " ".$model->fechaInicio."<br>";

@@ -27,7 +27,9 @@ $anioActual=date("Y");//Año actual
 $anioCursado=date("Y", strtotime($model->fechaFin));//Año de cursado
 $mesCursado=date("m", strtotime($model->fechaFin));
 $mesActual = date("m"); // Mes actual
-Programa::find(['idCursado'=>$model->idCursado])->one();
+$programaCursado=Programa::find(['idCursado'=>$model->idCursado])->one();//obtiene el programa que tenga como idCursado;
+
+//Programa::find(['idCursado'=>$model->idCursado])->one();
 //$modelMateria=Materia::find(['idMateria'=>(Yii::$app->request->get('id'))])->one();
 $usuario=yii::$app->user->identity;//usuario;
 //$usuario=Yii::$app->user->getId();//usuario;
@@ -37,18 +39,17 @@ $usuario=yii::$app->user->identity;//usuario;
 //print_r($model);
 echo $this->render('../materia/_view', [
 	'model'=>$modelMateria,
-]);
+]);//vista detallada de materia
+
 
 
 if(isset($usuario)){
 	$rol=$usuario->idRol;
-
-
 	?>
 	<div class="cursado-index">
 
 		<?php
-		if($usuario->idRol==2){
+		if($usuario->idRol==2){//si director de departamento;
 			echo Html::a('Crear Cursado', ['create','idMateria'=>$modelMateria->idMateria], ['class' => 'btn btn-success']);
 		}?>
 		<?= GridView::widget([
@@ -57,24 +58,24 @@ if(isset($usuario)){
 
 			'columns' => [
 				['class' => 'yii\grid\SerialColumn'],
+//'idCursado',
+['attribute'=>'idCursado','contentOptions'=>['style'=>'width:15px;'],  'label' => 'N°',  ],
+				'fechaInicio',
+				'fechaFin',
 
-				'idCursado',['attribute'=>'anio',
-				'value'=>function ($model){
 
-					return
-					date("Y", strtotime($model->fechaInicio));
 
-				}
-			],
-			['attribute'=>'cuatrimestre',
-			'value'=>function ($model){
-				if($model->cuatrimestre=='1'){
-					return 'primero';
-				}else{
-					return 'segundo';
-				}
-			}
-		],
+				'cuatrimestre',
+
+				/*['attribute'=>'anio',
+				*'value'=>function ($model){
+
+				*	return
+				*	date("Y", strtotime($model->fechaInicio));
+
+			*	}
+			],*/
+
 
 
 
@@ -82,6 +83,7 @@ if(isset($usuario)){
 
 		['class' => 'yii\grid\ActionColumn'
 		,
+		'contentOptions'=>['style'=>'width:250px;height:80px;'],
 		'template' => '{ver}{view}{programa}',
 
 		'buttons' => [
@@ -92,23 +94,7 @@ if(isset($usuario)){
 				return Html::a('Ver Cursado',['view','id'=>$model->idCursado ],['class'=>'btn btn-primary']);
 			},
 
-			'view'=> function ($url, $model, $key) {
 
-
-				//echo $model->idCursado;
-				//select * from designado where idCursado= $model->idCursado AND funcion='funcion' => 'a cargo';
-				$docenteACargo = Designado::findOne([
-					'idCursado' => $model->idCursado,
-					'funcion' => 'acargo',
-				]);
-
-				print_r($docenteACargo);
-				$usuario=yii::$app->user->identity;
-				//si docente y funcion a cargo o es secretario academico muestr boton de ver cursado;
-				if($usuario->idRol==1||$usuario->idRol==3){
-					return Html::a('Ver Programa',['view','id'=>$model->idCursado ],['class'=>'btn btn-primary']);
-				}
-			},
 
 			'programa'=> function ($url, $model, $key) {
 
@@ -130,12 +116,14 @@ if(isset($usuario)){
 				}
 			},
 			'view'=> function ($url, $model, $key) {
+
 				$programaCursado=Programa::findOne(['idCursado'=>$model->idCursado]);
 				//echo count($programaCursado);
+
 				$usuario=yii::$app->user->identity;
 				if($usuario->idRol==1||$usuario->idRol==2||$usuario->idRol==3){
 					if(count($programaCursado)==1){
-						return Html::a('Ver Programa',['programa/view','id'=>$model->idCursado ],['class'=>'btn btn-primary']);
+						return Html::a('Ver Programa',['programa/view','id'=>$programaCursado->idPrograma ],['class'=>'btn btn-primary']);
 					}
 				}
 			},
@@ -149,4 +137,4 @@ if(isset($usuario)){
 
 ]);
 
-}else{echo "Debe loguearse";}?></div>
+}?></div>
