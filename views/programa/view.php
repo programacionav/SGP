@@ -29,16 +29,16 @@ $this->params['breadcrumbs'][] = $model->getTitulo();
 
 <?php
 if($model->enRevision()){
-  $mostrarEstado = "En revision";
+  echo $mostrarEstado = "En revision";
 }
 elseif($model->abierto()){
-   $mostrarEstado = "Abierto";
+  echo  $mostrarEstado = "Abierto";
 }
 elseif($model->aprobado()){
-   $mostrarEstado = "Aprobado";
+  echo  $mostrarEstado = "Aprobado";
 }
 elseif($model->publicado()){
-   $mostrarEstado = "Publicado";
+  echo  $mostrarEstado = "Publicado";
 }
 
 echo $model->enRevision();

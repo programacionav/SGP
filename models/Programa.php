@@ -208,7 +208,7 @@ public function aprobado()
 
 public function GetLastStatus()
 {
-    return Cambioestado::find()->select('idEstadoP')->where(['idPrograma'=>$this->idPrograma])->orderBy(['fecha'=>SORT_DESC])->limit(1)->one();
+    return Cambioestado::find()->select('idEstadoP')->where(['idPrograma'=>$this->idPrograma])->orderBy(['idCambioEstado'=>SORT_DESC])->limit(1)->one();
 }
 
 }
