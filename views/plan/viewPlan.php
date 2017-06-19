@@ -72,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
      		 $modificarMateria=Html::a('Modificar Materia ', ['materia/update','idMateria' => $unaMateria->idMateria,'idPlan' => $model->idPlan], ['class' => 'btn btn-primary']);
      	}
      	
-     	$verCorre=Html::a('Ver Correlativas', ['//correlativa/_view', 'idPlan' => $model->idPlan,'idMateria' => $unaMateria->idMateria], ['class' => 'btn btn-primary']);
+     	$verCorre=Html::a('Ver Correlativas', ['correlativa/view', 'idPlan' => $model->idPlan,'idMateria' => $unaMateria->idMateria], ['class' => 'btn btn-primary']);
        	$tabla .= "<tr>".
        	'<td>'.$unaMateria->codigo."</td>".
        	'<td>'.$unaMateria->nombre."</td>".

@@ -20,7 +20,7 @@ use yii\base\Object;
  
  
  <?php
-
+ 
 $tabla = "<table class='table table-hover'>"
 		. " <tr><th>Correlativas</th><th>Tipo</th>";
 foreach ($correlativas as $unaCorrelativa){

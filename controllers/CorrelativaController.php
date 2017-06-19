@@ -69,10 +69,10 @@ class CorrelativaController extends Controller
      * @param integer $idMateria2
      * @return mixed
      */
-    public function actionView($idMateria1, $idMateria2)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($idMateria1, $idMateria2),
+    public function actionView($idPlan, $idMateria1)
+    {$unPlan=Plan::findOne(['idPlan' => $idPlan]);
+        return $this->render('_view', [
+            'model' => $this->findModel($idPlan, $idMateria1),
         ]);
     }
 
