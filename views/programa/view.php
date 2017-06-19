@@ -25,7 +25,13 @@ $this->params['breadcrumbs'][] = $model->getTitulo();
 
 
 
+<style>
 
+.pdf{
+    position: relative;
+    left: 90%;
+}
+</style>
 
 <?php
 if($model->enRevision()){
@@ -49,9 +55,14 @@ if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
   $estado = 1;
   $nombreAccion = "Realizado";
 }elseif(Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
-  $estado = 2;
-  $nombreAccion = "Comprobado";
-
+  if($model->abierto()){
+    echo "ACAAAAAAAAAA";
+    $estado = 1;
+     $nombreAccion = "Realizado";
+  }else{
+$estado = 2;
+ $nombreAccion = "Comprobado";
+  }
 }
 //realiza la busqueda para saber si hay observaciones
 $cantidad = null;
@@ -73,7 +84,7 @@ foreach ( $model->observacions as $recorre) {
 
       foreach ( Yii::$app->user->identity->idDocente0->designados as $recorre2) {
         if ($recorre2->idCursado == $model->idCursado && $recorre2->esACargo() == true){
-          if($model->abierto() && Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
+          if($model->abierto()){
           echo Html::a('<span class="glyphicon glyphicon-pencil"></span>&nbsp;Actualizar', ['update', 'id' => $model->idPrograma,'idCursado' => $model->idCursado], ['class' => 'btn btn-default']);
 
            if ($model->abierto() ){
@@ -92,9 +103,9 @@ foreach ( $model->observacions as $recorre) {
 
       <?php
       //BOTON REVISION
-      if($cantidad == 0 & Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() ){
+      if($cantidad == 0){
         if($model->abierto()){
-        echo  Html::a('<span class="glyphicon glyphicon-ok"></span>&nbsp;Revision', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma]), [
+        echo  Html::a('<span class="glyphicon glyphicon-ok"></span>&nbsp;Revision', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma,'proxEstado'=>4]), [
           'class' => 'btn btn-success',
           'data' => [
             'confirm' => 'Esta seguro que desea poner en revision este programa?'],
@@ -128,7 +139,7 @@ foreach ( $model->observacions as $recorre) {
             <?php
               if(Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto() && $model->existeObservacionRevison())  {
                 if($model->enRevision()){
-                echo  Html::a('<span class="glyphicon glyphicon-refresh"></span>&nbsp;Reabrir', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma,'id' => 1]), [
+                echo  Html::a('<span class="glyphicon glyphicon-refresh"></span>&nbsp;Reabrir', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma,'id' => 1,'proxEstado'=>1]), [
                   'class' => 'btn btn-default',
                   'data' => [
                     'confirm' => '¿Esta seguro que desea reabrir este programa?'],
@@ -138,13 +149,13 @@ foreach ( $model->observacions as $recorre) {
               }
               if($cantidad == 0 && $model->existeObservacionRevison() == false){
                 if (Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto() && $model->enRevision()){
-                echo  Html::a('<span class="glyphicon glyphicon-ok"></span>&nbsp;Aprobar', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma]), [
+                echo  Html::a('<span class="glyphicon glyphicon-ok"></span>&nbsp;Aprobar', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma,'proxEstado'=>2]), [
                   'class' => 'btn btn-success',
                   'data' => [
                     'confirm' => 'Esta seguro que desea aprobar este programa?'],
                   ]);}
                   if (Rol::findOne(Yii::$app->user->identity->idRol)->esSecAcademico() && $model->aprobado()){
-                echo  Html::a('<span class="glyphicon glyphicon-ok"></span>&nbsp;Publicar', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma]), [
+                echo  Html::a('<span class="glyphicon glyphicon-ok"></span>&nbsp;Publicar', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma,'proxEstado'=>3]), [
                   'class' => 'btn btn-success',
                   'data' => [
                     'confirm' => 'Esta seguro que desea aprobar este programa?'],
