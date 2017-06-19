@@ -49,6 +49,7 @@ class Departamento extends \yii\db\ActiveRecord
             [['idFacultad'], 'required', 'message' => 'Ingrese la facultad'],
             [['idFacultad'], 'integer'],
             [['nombre'], 'string', 'max' => 50],
+            [['nombre'], 'unique', 'message' => 'Este Departamento ya esta creado'], 
             [['idFacultad'], 'exist', 'skipOnError' => true, 'targetClass' => Facultad::className(), 'targetAttribute' => ['idFacultad' => 'idFacultad']],
         ];
     }

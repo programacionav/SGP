@@ -77,8 +77,8 @@ class DocenteSearch extends Docente
         $deptoDelJefe = Departamento::find()
                         ->where(['idDocente'=>Yii::$app->user->identity->idDocente])
                         ->one()
-                        ->nombre;
-                        
+                        ->idDepartamento;
+
         $query->andFilterWhere(['idDocente'=>DepartamentoDocenteCargo::find()
                                             ->where(['idDepartamento'=>$deptoDelJefe])
                                             ->all()
