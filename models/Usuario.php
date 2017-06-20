@@ -42,7 +42,7 @@ public function getAuthKey(){
 }
 
 public function validateAuthKey($authKey){
-  return $this->clave === $authKey;
+  return $this->clave === md5($authKey);
 }
 
 /*agregar para funcionamiento*/
@@ -51,7 +51,7 @@ public static function findByUsername($username){
 }
 
 public function validatePassword($authKey){
-  return $this->clave === $authKey;
+  return $this->clave === md5($authKey);
 }
 
 public function getUsername(){

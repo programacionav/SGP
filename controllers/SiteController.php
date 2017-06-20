@@ -81,7 +81,10 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post())) {
-            $usuario=Usuario::find()->where(['usuario'=> $model->username,'clave'=>$model->password])->one();
+            //print_r(Yii::$app->getSecurity()->generatePasswordHash($model->password));exit();
+
+            $clave=md5($model->password);
+            $usuario=Usuario::find()->where(['usuario'=> $model->username,'clave'=> $clave])->one();
             if (isset($usuario)) {
                if ($usuario->estado===1) {
                    if ($model->login()) {
