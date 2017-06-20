@@ -51,7 +51,6 @@ $this->params['breadcrumbs'][] = $this->title;
 				},
 			],
             'usuario',
-            'clave',
         ],
     ]) ?>
 

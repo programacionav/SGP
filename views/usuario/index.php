@@ -51,7 +51,6 @@ $this->params['breadcrumbs'][] = $this->title;
 				},
 			],
             'usuario',
-            'clave',
 
             ['class' => 'yii\grid\ActionColumn',
 		     'template' => '{view} {update} {desactivarUsuario} {activarUsuario} {cambiarPermisos}',
