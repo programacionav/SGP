@@ -43,22 +43,28 @@ $this->params['breadcrumbs'][] = $this->title;
         $aEstado = Estadoprograma::find()->where('idEstadoP = 2 OR idEstadoP = 3')->asArray()->all();
     }
 
-    if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() || Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
-
-            $aDepto = Departamento::find()->where(['idDepartamento'=>DepartamentoDocenteCargo::find()->where(['idDocente'=>Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente])->one()->idDepartamento])->asArray()->all();
-    }
-    else{
-            $aDepto = Departamento::find()->asArray()->all();
-    }
+    $aDepto = Departamento::find()->asArray()->all();
 
     if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() || Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
 
+            if(DepartamentoDocenteCargo::find()->where(['idDocente'=>Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente])->count()>0)
+            {
+
+                $aDepto = Departamento::find()->where(['idDepartamento'=>DepartamentoDocenteCargo::find()->where(['idDocente'=>Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente])->one()->idDepartamento])->asArray()->all();
+            }
+    }
+    
+    $aMateria = Materia::find()->asArray()->all();
+
+    if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() || Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
+
+        if(DepartamentoDocenteCargo::find()->where(['idDocente'=>Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente])->count()>0)
+        {
             $aMateria = Materia::find()->where(['idDepartamento'=>DepartamentoDocenteCargo::find()->where(['idDocente'=>Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente])->one()->idDepartamento])->asArray()->all();
+        }            
 
     }
-    else{
-            $aMateria = Materia::find()->asArray()->all();
-    }
+
     ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -118,7 +124,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($data){
                     return Cambioestado::find()->where(['idCambioEstado'=> Cambioestado::find()->where(['idPrograma'=> $data->idPrograma])->max('idCambioEstado')])->one()->idEstadoP0->descripcion ;
                 },
-                'filter'=>ArrayHelper::map($aEstado, 'idEstadoP', 'descripcion'),
+                'filter'=>false,
+                //'filter'=>ArrayHelper::map($aEstado, 'idEstadoP', 'descripcion'),
             ],
 
             //'programaAnalitico:ntext',
