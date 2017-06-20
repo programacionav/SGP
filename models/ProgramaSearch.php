@@ -57,12 +57,9 @@ class ProgramaSearch extends Programa
 
         //Si es a cargo le muestro los abiertos y en revision que haya creado el como docente
         //Si es a cargo o no lo es le muestro ademas los publicados
-
-        if(Designado::find()->where(['idDocente'=>Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente])->count()>0)
-        {
-            
-            $query->joinWith(['idCursado0.idMateria0']);
-
+        $query->joinWith(['idCursado0.idMateria0']);
+        if(Designado::find()->where(['idDocente'=>Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente,'funcion'=>'acargo'])->count()>0)
+        {            
             $query->andWhere('( 
                 materia.idDepartamento IN (SELECT idDepartamento FROM departamentodocentecargo WHERE idDocente = '.Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente.')
                 AND (
@@ -70,15 +67,26 @@ class ProgramaSearch extends Programa
                         WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)
                         ) IN (1,4)
                     )
-                AND (
+                OR (
                         (SELECT idUsuario FROM cambioestado 
                         WHERE idCambioEstado = (SELECT min(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)
                         ) IN ('.Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente.')
                     )
-                ) ');
+                )
+                OR 
+                (
+                    (SELECT idEstadoP FROM cambioestado 
+                        WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)
+                        ) IN (3)
+                )
+                 ');
         }
         else{
-            $query->andWhere('(SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)) IN (3)');
+
+            $query->andWhere('
+                (SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)) IN (3)
+                AND 
+                materia.idDepartamento IN (SELECT idDepartamento FROM departamentodocentecargo WHERE idDocente = '.Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente.')');
         }        
 
         if (!$this->validate()) {
@@ -95,9 +103,19 @@ class ProgramaSearch extends Programa
             'materia.codigo' => $this->idMateria,
             'cambioestado.idEstadoP' => $this->idEstadoP,
             'carrera.idCarrera' => $this->idCarrera,
-            'departamento.idDepartamento' => $this->idDepartamento,
-            'plan.idPlan' => $this->idPlan,
+            'materia.idDepartamento' => $this->idDepartamento,
         ]);
+
+        if((isset($this->idCarrera) && is_numeric($this->idCarrera)) || isset($this->idPlan) && is_numeric($this->idPlan))
+        {
+            $query->joinWith(['idCursado0.idMateria0.idPlan0.idCarrera0']);
+
+            $query->andFilterWhere([            
+                'carrera.idCarrera' => $this->idCarrera,
+                'plan.idPlan' => $this->idPlan,     
+            ]);
+        }
+        
 
         $query->andFilterWhere(['like', 'orientacion', $this->orientacion])
             ->andFilterWhere(['like', 'programaAnalitico', $this->programaAnalitico])
@@ -126,9 +144,9 @@ class ProgramaSearch extends Programa
 
         $query->joinWith(['idCursado0.idMateria0']);
 
-        if(Designado::find()->where(['idDocente'=>Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente])->count()>0)
+        if(Designado::find()->where(['idDocente'=>Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente,'funcion'=>'acargo'])->count()>0)
         {
-            //
+            
             $query->andWhere('( 
                 materia.idDepartamento IN (SELECT idDepartamento FROM departamentodocentecargo WHERE idDocente = '.Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente.')
                 AND (
@@ -136,22 +154,28 @@ class ProgramaSearch extends Programa
                         WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)
                         ) IN (1,4)
                     )
-                AND (
+                OR (
                         (SELECT idUsuario FROM cambioestado 
                         WHERE idCambioEstado = (SELECT min(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)
                         ) IN ('.Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente.')
                     )
                 ) ');
 
-                $query->orWhere('(SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)) IN (2,3)');  
+                $query->orWhere('(SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)) IN (2,3)
+                    AND materia.idDepartamento IN (SELECT idDepartamento FROM departamento WHERE idDocente = '.Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente.')');  
 
         }
         else{
+            if(DepartamentoDocenteCargo::find()->where(['idDocente'=>Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente])->count()>0)
+            {
+                $query->andFilterWhere(['materia.idDepartamento'=>DepartamentoDocenteCargo::find()->where(['idDocente'=>Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente])->one()->idDepartamento]);    
+            }
             
-
-            $query->andFilterWhere(['materia.idDepartamento'=>DepartamentoDocenteCargo::find()->where(['idDocente'=>Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente])->one()->idDepartamento]);            
-
-            $query->andWhere('(SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado)) IN (2,3,4)');   
+            $query->orWhere('((SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)) IN (2,4)
+                    AND materia.idDepartamento IN (SELECT idDepartamento FROM departamento WHERE idDocente = '.Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente.'))
+                OR (
+                    (SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)) IN (3)
+                )');  
         }
 
 
@@ -162,16 +186,25 @@ class ProgramaSearch extends Programa
         }
         
 
-        // grid filtering conditions
         $query->andFilterWhere([
             'programa.idPrograma' => $this->idPrograma,
             'programa.idCursado' => $this->idCursado,
             'programa.anioActual' => $this->anioActual,
             'materia.codigo' => $this->idMateria,
+            'cambioestado.idEstadoP' => $this->idEstadoP,
             'carrera.idCarrera' => $this->idCarrera,
-            'departamento.idDepartamento' => $this->idDepartamento,
-            'plan.idPlan' => $this->idPlan,
+            'materia.idDepartamento' => $this->idDepartamento,
         ]);
+
+        if((isset($this->idCarrera) && is_numeric($this->idCarrera)) || isset($this->idPlan) && is_numeric($this->idPlan))
+        {
+            $query->joinWith(['idCursado0.idMateria0.idPlan0.idCarrera0']);
+
+            $query->andFilterWhere([            
+                'carrera.idCarrera' => $this->idCarrera,
+                'plan.idPlan' => $this->idPlan,     
+            ]);
+        }
 
         $query->andFilterWhere(['like', 'orientacion', $this->orientacion])
             ->andFilterWhere(['like', 'programaAnalitico', $this->programaAnalitico])
@@ -198,7 +231,7 @@ class ProgramaSearch extends Programa
 
         $this->load($params);
 
-        if(Designado::find()->where(['idDocente'=>Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente])->count()>0)
+        if(Designado::find()->where(['idDocente'=>Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente,'funcion'=>'acargo'])->count()>0)
         {
             $query->joinWith(['idCursado0.idMateria0']);
             //
@@ -234,12 +267,25 @@ class ProgramaSearch extends Programa
             'programa.idPrograma' => $this->idPrograma,
             'programa.idCursado' => $this->idCursado,
             'programa.anioActual' => $this->anioActual,
-            'materia.codigo' => $this->idMateria,
-            //'cambioestado.idEstadoP' => self::PUBLICADO,
+            
+            'cambioestado.idEstadoP' => $this->idEstadoP,
             'carrera.idCarrera' => $this->idCarrera,
-            'departamento.idDepartamento' => $this->idDepartamento,
-            'plan.idPlan' => $this->idPlan,
+            
         ]);
+
+        if((isset($this->idCarrera) && is_numeric($this->idCarrera)) || isset($this->idPlan) && is_numeric($this->idPlan) || isset($this->idDepartamento) && is_numeric($this->idDepartamento)  || isset($this->idMateria) && is_numeric($this->idMateria) || isset($this->cuatrimestre) && is_numeric($this->cuatrimestre))
+        {
+            $query->joinWith(['idCursado0.idMateria0.idPlan0.idCarrera0']);
+
+            $query->andFilterWhere([            
+                'carrera.idCarrera' => $this->idCarrera,
+                'plan.idPlan' => $this->idPlan, 
+                'materia.idDepartamento' => $this->idDepartamento,
+                'materia.codigo' => $this->idMateria,
+            ]);
+
+            $query->andFilterWhere(['like', 'cursado.cuatrimestre', $this->cuatrimestre]);
+        }
 
         $query->andFilterWhere(['like', 'orientacion', $this->orientacion])
             ->andFilterWhere(['like', 'programaAnalitico', $this->programaAnalitico])
@@ -247,8 +293,7 @@ class ProgramaSearch extends Programa
             ->andFilterWhere(['like', 'condicionesAcredEvalu', $this->condicionesAcredEvalu])
             ->andFilterWhere(['like', 'horariosConsulta', $this->horariosConsulta])
             ->andFilterWhere(['like', 'bibliografia', $this->bibliografia])
-            ->andFilterWhere(['like', 'bibliografia', $this->bibliografia])
-            ->andFilterWhere(['like', 'cursado.cuatrimestre', $this->cuatrimestre]);
+            ->andFilterWhere(['like', 'bibliografia', $this->bibliografia]);
 
         return $dataProvider;
     }
