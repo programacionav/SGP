@@ -219,13 +219,18 @@ public function actionReport($id) {
 }
 
 //ES UNA PRUEBA, PERDON SI ALGUIEN LO IBA A HACER, NO ME AGUANTE!
-    public function actionCambioestadoob($id){
+    public function actionCambioestadoob($id,$idPrograma){
+         $modelE = Programa::findOne($idPrograma);
         $estadoAAsignar = null;
 if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
   $estadoAAsignar = 2;
 }else{
-  $estadoAAsignar = 3;  
+     if($modelE->abierto()){
+   $estadoAAsignar = 2;
+  }else{
 
+  $estadoAAsignar = 3;  
+  }
 }
          $modelOb = Observacion::findOne($id);
          $modelOb->idEstadoO = $estadoAAsignar;//aca como abajo,tiene que cambiar el idEstado segun el Rol logueado.

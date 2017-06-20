@@ -169,10 +169,16 @@ foreach ( $model->observacions as $recorre) {
             </div>
 
             <?php
-
+                 $abiertoEsta = null;
+                if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
+                  $abiertoEsta = $model->abierto();
+                }
+                elseif(Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
+                  $abiertoEsta = $model->enRevision();
+                }
             $alert = null;
 
-            if ( $cantidad > 0 ){
+            if ( $cantidad > 0 && $abiertoEsta ){
               $alert = "<div class='alert alert-danger'>";
               $alert.= "<strong>observaciones</strong><br>";
 
@@ -181,7 +187,7 @@ foreach ( $model->observacions as $recorre) {
               foreach ( $model->observacions as $recorre) {
 
                 if($recorre->idEstadoO == $estado){//busca segun el estado de la observacion,TAMBIEN,deberia decetectar que rol esta logueado.
-                  $alert.="<strong>- </strong>".$recorre->observacion.Html::a($nombreAccion,Url::toRoute(['cambioestadoob','id' => $recorre->idObservacion]), ['class' => 'pull-right']) ."<br>";
+                  $alert.="<strong>- </strong>".$recorre->observacion.Html::a($nombreAccion,Url::toRoute(['cambioestadoob','id' => $recorre->idObservacion,'idPrograma' => $model->idPrograma]), ['class' => 'pull-right']) ."<br>";
 
                 }
 

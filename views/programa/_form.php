@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\models\Materia;
+
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Programa */
@@ -40,12 +42,40 @@ use yii\widgets\ActiveForm;
 </td>
       </tr>
       <tr>
-        <td colspan="3"><strong>CORRELATIVAS:</strong><br>
-        <strong>Cursadas:</strong><br>
-      <strong>Aprobadas:</strong>
-      </td>
-      </tr>
-      <tr>
+         <td colspan="3"><strong>CORRELATIVAS:</strong><br>
+                    <strong>Cursadas:</strong><br>
+                     <?php
+                    foreach($model->idCursado0->idMateria0->correlativas as $recorre3){
+                          if($recorre3->tipo == "Cursado"){
+                             $cantidad2 = Materia::find()
+                    ->where(['idMateria' => $recorre3->idMateria2])->one();
+                      echo   $cantidad2['nombre'];
+                      echo "<br>";
+}
+                          }
+
+
+
+                    ?>
+
+                    <br>
+                    <strong>Aprobadas:</strong><br>
+                    <?php
+                    foreach($model->idCursado0->idMateria0->correlativas as $recorre3){
+                          if($recorre3->tipo == "Aprobado"){
+                             $cantidad2 = Materia::find()
+                    ->where(['idMateria' => $recorre3->idMateria2])->one();
+                      echo   $cantidad2['nombre'];
+                      echo "<br>";
+}
+                          }
+
+
+
+                    ?>
+                  </td>
+                </tr>
+                <tr>
        <td colspan="3"><strong>EQUIPO DE CÁTEDRA:</strong><br>
           <strong>Listado de Docentes:</strong>
          <?php foreach($model->idCursado0->idDocentes as $recorre2){
