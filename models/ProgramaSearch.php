@@ -45,17 +45,10 @@ class ProgramaSearch extends Programa
 
     public function searchDocente($params)
     {
-        /*
-        Si es docente filtro por los programas que esten a su cargo y los que sean de su departamento siempre y cuando esten publicados. Ordenado por año materia cuatrimestre (descripcion) y cursado
-        */
         $query = Programa::find();
 
         // add conditions that should always apply here
-        $query->joinWith(['cambioestados','idCursado0.idMateria0']);
-        //.departamentodocentecargos
-
-        //PENDIENTE VALIDAR EL DEPARTAMENTO DEL DOCENTE Y LOS PROGRAMAS PUBLICADOS
-          //  $query->andFilterWhere(['materia.idDepartamento'=>DepartamentoDocenteCargo::find()->where(['idDocente'=>Yii::$app->user->identity->id])->one()->idDepartamento]);            
+        $query->joinWith(['idCursado0.idMateria0']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -63,29 +56,27 @@ class ProgramaSearch extends Programa
 
         $this->load($params);
 
-        if(isset($this->idEstadoP))
+        if(Designado::find()->where(['idDocente'=>Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente])->count()>0)
         {
-            $query->andWhere('(SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado)) ='.$this->idEstadoP);
-        }else{
-           /* WHERE DPTO DEL DOCENTE
-            SELECT * FROM departamentodocentecargo WHERE idDocente = logueadoDocente
-
-            SELECT * FROM programa INNER JOIN cursado ON cursado.idCursado = programa.idCursado 
-            INNER JOIN materia On materia.idCursado = cursado.idCursado WHERE materia.idDepartamento <> dptoDocente AND programa.idEstadoP = 3*/
-
+            $query->joinWith(['idCursado0.idMateria0']);
+            //
             $query->andWhere('( 
-                (materia.idDepartamento IN (SELECT idDepartamento FROM departamentodocentecargo WHERE idDocente = '.Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente.')
-                    AND ((SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado)) IN (1,3,4))
-                )
-                OR 
-                (
-                materia.idDepartamento NOT IN (SELECT idDepartamento FROM departamentodocentecargo WHERE idDocente = '.Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente.') 
-                    AND (
-                            (SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado)) = 3
-                        )
-                )
-            ) ');    
+                materia.idDepartamento IN (SELECT idDepartamento FROM departamentodocentecargo WHERE idDocente = '.Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente.')
+                AND (
+                        (SELECT idEstadoP FROM cambioestado 
+                        WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)
+                        ) IN (1,4)
+                    )
+                AND (
+                        (SELECT idUsuario FROM cambioestado 
+                        WHERE idCambioEstado = (SELECT min(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)
+                        ) IN ('.Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente.')
+                    )
+                ) ');
         }
+        else{
+            $query->andWhere('(SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)) IN (3)');
+        }        
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -119,36 +110,42 @@ class ProgramaSearch extends Programa
 
     public function searchJefe($params)
     {
-        /*Si es jefedpto filtro por su departameto y ordeno por año materia cuatrimestre y cursado, este no puede ver los programas de otros dptos. Ordenado por año materia cuatrimestre (descripcion) y cursado*/
         $query = Programa::find();
-
-        // add conditions that should always apply here
-        $query->joinWith(['cambioestados','idCursado0.idMateria0.idDepartamento0']);
-
-        //PENDIENTE VALIDAR EL DEPARTAMENTO DEL DOCENTE 
-
-        $query->andFilterWhere(['materia.idDepartamento'=>DepartamentoDocenteCargo::find()->where(['idDocente'=>Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente])->one()->idDepartamento]);            
-
-        //Busco ultimo estado del programa y verifico que este en revision
-        
-
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
-        
-
-
         $this->load($params);
 
-        if(isset($this->idEstadoP))
-        {
-            $query->andWhere('(SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado)) ='.$this->idEstadoP);
-        }else{
-            $query->andWhere('(SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado)) IN (2,3,4)');
+        $query->joinWith(['idCursado0.idMateria0']);
 
-            //$query->andFilterWhere(['cambioestado.idEstadoP' =>3]);
+        if(Designado::find()->where(['idDocente'=>Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente])->count()>0)
+        {
+            //
+            $query->andWhere('( 
+                materia.idDepartamento IN (SELECT idDepartamento FROM departamentodocentecargo WHERE idDocente = '.Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente.')
+                AND (
+                        (SELECT idEstadoP FROM cambioestado 
+                        WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)
+                        ) IN (1,4)
+                    )
+                AND (
+                        (SELECT idUsuario FROM cambioestado 
+                        WHERE idCambioEstado = (SELECT min(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)
+                        ) IN ('.Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente.')
+                    )
+                ) ');
+
+                $query->orWhere('(SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)) IN (2,3)');  
+
+        }
+        else{
+            
+
+            $query->andFilterWhere(['materia.idDepartamento'=>DepartamentoDocenteCargo::find()->where(['idDocente'=>Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente])->one()->idDepartamento]);            
+
+            $query->andWhere('(SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado)) IN (2,3,4)');   
         }
 
 
@@ -188,9 +185,7 @@ class ProgramaSearch extends Programa
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-        ]);
-
-        
+        ]);        
 
         $this->load($params);
 
@@ -210,19 +205,14 @@ class ProgramaSearch extends Programa
                         WHERE idCambioEstado = (SELECT min(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)
                         ) IN ('.Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente.')
                     )
-                ) ');  
+                ) ');
+
+                $query->orWhere('(SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)) IN (2,3)');  
 
         }
-
-        if(isset($this->idEstadoP))
-        {
-            /*$query->andWhere('(SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)) ='.$this->idEstadoP);*/
-        }else{
-
-            $query->orWhere('(SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)) IN (2,3)');
-        }
-
-        
+        else{
+            $query->andWhere('(SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)) IN (2,3)');
+        }        
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
