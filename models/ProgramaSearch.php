@@ -48,7 +48,6 @@ class ProgramaSearch extends Programa
         $query = Programa::find();
 
         // add conditions that should always apply here
-        $query->joinWith(['idCursado0.idMateria0']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -56,10 +55,14 @@ class ProgramaSearch extends Programa
 
         $this->load($params);
 
+        //Si es a cargo le muestro los abiertos y en revision que haya creado el como docente
+        //Si es a cargo o no lo es le muestro ademas los publicados
+
         if(Designado::find()->where(['idDocente'=>Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente])->count()>0)
         {
+            
             $query->joinWith(['idCursado0.idMateria0']);
-            //
+
             $query->andWhere('( 
                 materia.idDepartamento IN (SELECT idDepartamento FROM departamentodocentecargo WHERE idDocente = '.Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente.')
                 AND (
@@ -110,6 +113,9 @@ class ProgramaSearch extends Programa
 
     public function searchJefe($params)
     {
+        //Si es a cargo le muestro los abiertos y en revision que haya creado el como docente
+        //Si es a cargo o no lo es, le muestro ademas los que esten en revision y/o aprobado que sean de su dpto y los que 
+
         $query = Programa::find();
 
         $dataProvider = new ActiveDataProvider([
@@ -181,6 +187,9 @@ class ProgramaSearch extends Programa
 
     public function searchSecAcademico($params)
     {
+        //Si es a cargo le muestro los abiertos y en revision que haya creado el como docente
+        //Si es a cargo o no lo es le muestro ademas los publicos y los aprobados 
+
         $query = Programa::find();
 
         $dataProvider = new ActiveDataProvider([
