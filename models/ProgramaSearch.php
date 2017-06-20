@@ -61,18 +61,18 @@ class ProgramaSearch extends Programa
         if(Designado::find()->where(['idDocente'=>Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente,'funcion'=>'acargo'])->count()>0)
         {            
             $query->andWhere('( 
-                materia.idDepartamento IN (SELECT idDepartamento FROM departamentodocentecargo WHERE idDocente = '.Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente.')
-                AND (
-                        (SELECT idEstadoP FROM cambioestado 
-                        WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)
-                        ) IN (1,4)
+                    materia.idDepartamento IN (SELECT idDepartamento FROM departamentodocentecargo WHERE idDocente = '.Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente.')
+                    AND (
+                            (SELECT idEstadoP FROM cambioestado 
+                            WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)
+                            ) IN (1,4)
+                        )
+                    OR (
+                            (SELECT idUsuario FROM cambioestado 
+                            WHERE idCambioEstado = (SELECT min(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)
+                            ) IN ('.Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente.')
+                        )
                     )
-                OR (
-                        (SELECT idUsuario FROM cambioestado 
-                        WHERE idCambioEstado = (SELECT min(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)
-                        ) IN ('.Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente.')
-                    )
-                )
                 OR 
                 (
                     (SELECT idEstadoP FROM cambioestado 
@@ -161,8 +161,11 @@ class ProgramaSearch extends Programa
                     )
                 ) ');
 
-                $query->orWhere('(SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)) IN (2,3)
-                    AND materia.idDepartamento IN (SELECT idDepartamento FROM departamento WHERE idDocente = '.Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente.')');  
+                $query->orWhere('((SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)) IN (2,4)
+                    AND materia.idDepartamento IN (SELECT idDepartamento FROM departamento WHERE idDocente = '.Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente.'))
+                OR (
+                    (SELECT idEstadoP FROM cambioestado WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)) IN (3)
+                )');  
 
         }
         else{
