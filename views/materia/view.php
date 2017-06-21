@@ -15,9 +15,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p> <?php
-        $idRolActual=Yii::$app->user->identity->idRol;
-        if ($idRolActual === 3) {
-          echo Html::a('Salir', ['plan/view', 'id' => $model->idPlan0->idPlan], ['class' => 'btn btn-danger'])."&nbsp;&nbsp;";
+       
+          echo Html::a('Volver', ['plan/view', 'id' => $model->idPlan0->idPlan], ['class' => 'btn btn-danger'])."&nbsp;&nbsp;";
 /*   echo Html::a('Eliminar', ['delete', 'id' => $model->idMateria], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -25,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]);*/
-        }
+        
           ?>
        
     </p>

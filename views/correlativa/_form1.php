@@ -17,11 +17,11 @@ use yii\base\Object;
     <?php $form = ActiveForm::begin(); ?>
 
  
- 
+ <h3>
  <?php
  echo $model->idMateria10->nombre;
 
-?>
+?></h3>
  <br>
 <?php 
 /*

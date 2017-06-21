@@ -10,7 +10,7 @@ use yii\base\Object;
 
 
 ?>
-
+<br>
 <div class="correlativa-form">
 
     <?php $form = ActiveForm::begin(); ?>
@@ -26,17 +26,20 @@ echo $Materia->nombre;
   </div>
   <div class="panel-body">
     <p><?php $tabla = "<table class='table table-hover'>"
-		. " <tr><th>Correlativas</th><th>Tipo</th>";
- 
+		. " <tr><th>Correlativas</th><th>Tipo</th><th></th><th></th>";
+ $modificarCorre="";
+ $borrarCorre="";
 foreach ($correlativas as $unaCorrelativa){
-	$modificarCorre=Html::a('Modificar', ['correlativa/update','idMateria1' => $unaCorrelativa->idMateria1,'idMateria2' => $unaCorrelativa->idMateria2,'idPlan' => $Materia->idPlan], ['class' => 'btn btn-primary']);
-	$borrarCorre= Html::a('Desactivar', ['delete'], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]);
+	$idRolActual=Yii::$app->user->identity->idRol;
+	if ($idRolActual === 3) {
+		$modificarCorre=Html::a('Modificar', ['correlativa/update','idMateria1' => $unaCorrelativa->idMateria1,'idMateria2' => $unaCorrelativa->idMateria2,'idPlan' => $Materia->idPlan], ['class' => 'btn btn-primary']);
+		$borrarCorre= Html::a('Eliminar', ['delete','idMateria1' => $unaCorrelativa->idMateria1,'idMateria2' => $unaCorrelativa->idMateria2], [
+				'class' => 'btn btn-danger',
+				'data' => [
+						'confirm' => 'Esta seguro de eliminar este elemento?',
+						'method' => 'post',
+				],
+		]);}
 	$tabla .= "<tr>".
 			'<td>'.$unaCorrelativa->idMateria20->nombre.'</td>'.
 			'<td>'.$unaCorrelativa->tipo.'</td>'.'<td>'.$modificarCorre.'</td>'.'<br>'.'<td>'.$borrarCorre.'</td>'
@@ -47,9 +50,12 @@ foreach ($correlativas as $unaCorrelativa){
  
 $tabla .= "</table>";
 echo $tabla;
-?></p>
+
+?>
+
   </div>
  </div>
+ <?=Html::a('Volver', ['plan/view','id' => $Materia->idPlan], ['class' => 'btn btn-danger']);?>
  </div>
  
  

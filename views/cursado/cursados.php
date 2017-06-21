@@ -9,17 +9,22 @@ use app\models\Usuario;
 use app\models\Rol;
 use app\models\Designado;
 use app\models\Programa;
- 
+
 ?>
 
-
+<h2>Mis Cursados</h2>
 <?= GridView::widget([
 			'dataProvider' => $dataProvider,
 			'filterModel' => $searchModel,
 
 			'columns' => [
+<<<<<<< HEAD
 				
+				
+=======
+
 				//'idCursado',
+>>>>>>> 36b2bdefbd2e1194c53592c3026107add641e8b4
 				['attribute'=>'idCursado','contentOptions'=>['style'=>'width:15px;'],  'label' => 'N°',  ],
 				'fechaInicio',
 				'fechaFin',
@@ -27,11 +32,11 @@ use app\models\Programa;
 
 				['attribute'=>'Materia',
 				'value'=>function ($model){
-						
+
 					return $model->idMateria0->nombre;
-					
+
 				}
-				
+
 			],
 
 			['class' => 'yii\grid\ActionColumn'
@@ -84,4 +89,3 @@ use app\models\Programa;
 
 
 ]);?>
-

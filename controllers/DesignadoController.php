@@ -140,8 +140,7 @@ class DesignadoController extends Controller
       $parents = $_POST['depdrop_parents'];
       if ($parents != null) {
         $cat_id = empty($parents[0]) ? null : $parents[0];
-        $cat_id_cursado = empty($parents[1]) ? null : $parents[1];
-        $out = self::getSubCatList($cat_id,$cat_id_cursado);
+        $out = self::getSubCatList($cat_id);
         // the getSubCatList function will query the database based on the
         // cat_id and return an array like below:
         // [
@@ -155,7 +154,7 @@ class DesignadoController extends Controller
     }
     echo Json::encode(['output'=>'', 'selected'=>'']);
   }
-  private function getSubCatList($idDepartamento,$id_cursado){
+  private function getSubCatList($idDepartamento){
     /**$itemDptos = Docente::find() //obtengo un arreglo asociativo[index->titulo]
     ->select(['nombre'])  //de noticias donde: lo que esta dentro del option es el titulo
     ->indexBy('idDocente')       // y el value de los option es el id
@@ -166,8 +165,6 @@ class DesignadoController extends Controller
   }*/
   $arreglo = false;
   $arreglo= array();
-  $cursado = Cursado::find()
-  ->where(['idCursado' => $id_cursado])->one();
 
   $dpto = Departamento::find()
   ->where(['idDepartamento' => $idDepartamento])
@@ -178,7 +175,7 @@ class DesignadoController extends Controller
   /*$designado = $cursado->designados;*/
   $iterativo = $dpto->departamentodocentecargos;
   foreach ($iterativo as $depdocar) {
-    array_push($arreglo,['id'=>$depdocar->idDocente0->idDocente,'name'=>$depdocar->idDocente0->apellido.', '.$depdocar->idDocente0->nombre.', '.$id_cursado]);
+    array_push($arreglo,['id'=>$depdocar->idDocente0->idDocente,'name'=>$depdocar->idDocente0->apellido.', '.$depdocar->idDocente0->nombre]);
   }
 
   return $arreglo;

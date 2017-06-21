@@ -8,7 +8,7 @@ use app\models\Carrera;
 /* @var $searchModel app\models\CarreraSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Carreras';
+$this->title = 'Carreras de la Facultad de Informatica';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="carrera-index">
@@ -29,12 +29,17 @@ $this->params['breadcrumbs'][] = $this->title;
           ?></div>
         
    
+ <div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">
      <?php
      //$plan= Html::a(Html::encode($unPlan->numOrd), ['plan/update', 'id'=>$unPlan->idPlan]).'<br>';
      
      $tabla = "<table class='table table-hover'>"
 		. " <tr><th>Carreras</th>". " <th>Plan</th>";
-     foreach ($model as $unaCarrera){
+     ?>
+     </div><div class="panel-body">
+     <?php foreach ($model as $unaCarrera){
      	$tabla .= "<tr>".
      	'<td>'.$unaCarrera->nombre."</td>
 		<td>";foreach ($unaCarrera->plans as $unPlan){
@@ -49,5 +54,6 @@ $this->params['breadcrumbs'][] = $this->title;
      $tabla .= "</table>";
      echo $tabla;
      ?>
-   
-</div>
+   </div>
+   </div>
+

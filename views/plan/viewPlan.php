@@ -58,11 +58,19 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>  
     <?php
     $mostrar="";
+    $idRolActual=Yii::$app->user->identity->idRol;
     if ($idRolActual === 3) {
-    $mostrar.="<th>modificar</th>";}
+    $mostrar.="<th>Modificar</th>";}?>
+    <div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">
+
+    <?php
      $tabla = "<table class='table table-hover'>"
 		. " <tr><th>Codigo</th><th>Materia</th><th>Anio</th><th>Horas</th><th>Objetivos</th><th>Correlativas</th><th>Departamento</th><th>Area</th><th>Cursado</th>.$mostrar";
-     foreach ($model->materias as $unaMateria){?>
+     
+     ?>    </div><div class="panel-body"><p>
+    <?php  foreach ($model->materias as $unaMateria){?>
      	<?php //$this->render('//materia/_view', [
      			//'model' => $unaMateria,
      	  //  ]) ?>
@@ -85,7 +93,7 @@ $this->params['breadcrumbs'][] = $this->title;
      	'<td>'.$unaMateria->hora."</td>".
      	'<td>'.$unaMateria->objetivo."</td>".
      	
-     	'<td>'.$corre."<br>".$verCorre.
+     	'<td>'.$verCorre."<br>".$corre.
         
         '</td>'.
         
@@ -100,6 +108,7 @@ $this->params['breadcrumbs'][] = $this->title;
      
      $tabla .= "</table>";
      echo $tabla;
-     ?>
-     
+     ?></p>
+    </div>
+     </div>
 </div>
