@@ -45,7 +45,7 @@ class Departamento extends \yii\db\ActiveRecord
     {
         return [
 	        [['nombre'], 'required'],
-            [['idDocente'], 'required', 'message'=>'Ingrese el Director'],
+            //[['idDocente'], 'required', 'message'=>'Ingrese el Director'],
             [['idDocente'], 'integer'],
             [['idFacultad'], 'required', 'message' => 'Ingrese la facultad'],
             [['idFacultad'], 'integer'],
