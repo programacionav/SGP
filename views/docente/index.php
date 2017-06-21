@@ -74,7 +74,7 @@ $this->params['breadcrumbs'][] = $this->title;
             },
                 'create' => function($url,$model,$key){//HAY QUE MODIFICAR QUE ENVIO DEPENDIENDO SI ES SECRETARIO O JEFE DPTO
                     $idRolActual=Yii::$app->user->identity->idRol;
-                    if($idRolActual === 3 || $idRolActual ===2){//momentaneo,solo lo hago para que se muestre
+                    if($idRolActual === 3){//momentaneo,solo lo hago para que se muestre
                         return Html::a('<span class="glyphicon glyphicon-plus-sign"></span>',
                                     ['departamento-docente-cargo/create','idDocente'=>$model->idDocente] , [
                                     'title' => Yii::t('app', 'Anexar departamento y cargo'),]);
@@ -85,7 +85,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'indexDDC'=> function($url,$model,$key){ //HAY QUE MODIFICAR QUE ENVIO DEPENDIENDO SI ES SECRETARIO O JEFE DPTO
                     $idRolActual=Yii::$app->user->identity->idRol;
-                    if($idRolActual === 3 || $idRolActual ===2){//momentaneo
+                    if($idRolActual === 3){//momentaneo
                         return Html::a('<span class="glyphicon glyphicon-share-alt"></span>',
                          ['departamento-docente-cargo/index','idDocente'=>$model->idDocente] ,
                          ['title' => Yii::t('app','Modificar o eliminar departamento y cargo'),]);
