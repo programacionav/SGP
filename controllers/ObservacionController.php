@@ -144,7 +144,7 @@ class ObservacionController extends Controller
           if($model->save()){
             $exito = true;
           }else{
-            $errors[] = 'Ocurrio un error al crear la observación';
+            $errors = $model->getErrors();
           }
           break;
         case 'update':
