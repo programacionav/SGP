@@ -190,7 +190,7 @@ foreach ( $model->observacions as $recorre2) {
                 }
             $alert = null;
 
-            if ( $cantidad > 0 && $abiertoEsta ){
+            if ( $cantidad > 0  ){
               $alert = "<div class='alert alert-danger'>";
               $alert.= "<strong>observaciones</strong><br>";
 
