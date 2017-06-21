@@ -148,6 +148,7 @@ class DocenteController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
@@ -157,10 +158,8 @@ class DocenteController extends Controller
         $modelDepartamentoDocenteCargo = new DepartamentoDocenteCargo();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-        }if ($modelUsuario->load(Yii::$app->request->post()) && $modelUsuario->save()){
-            if ($modelDepartamentoDocenteCargo->load(Yii::$app->request->post()) && $modelDepartamentoDocenteCargo->save()){
             	return $this->redirect(['view', 'id' => $model->idDocente]);
-        }} else {
+        } else {
             return $this->render('update', [
                 'model' => $model,
                 'modelUsuario' => $modelUsuario,
