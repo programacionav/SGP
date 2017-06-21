@@ -57,7 +57,7 @@ if(isset($usuario)){
 			'filterModel' => $searchModel,
 
 			'columns' => [
-				['class' => 'yii\grid\SerialColumn'],
+				
 				//'idCursado',
 				['attribute'=>'idCursado','contentOptions'=>['style'=>'width:15px;'],  'label' => 'N°',  ],
 				'fechaInicio',
