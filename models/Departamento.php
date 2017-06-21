@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 
+
 /**
  * This is the model class for table "departamento".
  *
@@ -81,5 +82,9 @@ class Departamento extends \yii\db\ActiveRecord
     public function getDepartamentodocentecargos()
     {
         return $this->hasMany(DepartamentoDocenteCargo::className(), ['idDepartamento' => 'idDepartamento']);
+    }
+
+    public function getDirectorDepartamento(){
+        return $this->hasOne(Docente::className(),['idDocente' => 'idDocente']);
     }
 }
