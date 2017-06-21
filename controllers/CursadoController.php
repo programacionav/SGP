@@ -39,23 +39,19 @@ class CursadoController extends Controller
      {
        $model = new Cursado();
        $searchModel = new CursadoSearch();
-       $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-       //print_r($dataProvider);
-       //exit();
-       //print_r(Yii::$app->request->queryParams);
-       //exit();
-        $usuario=yii::$app->user->identity;
+    $usuario=yii::$app->user->identity;
         $docente = $usuario->idDocente0;
         $cursados = $docente->getIdCursados();
-        print_r($cursados);
-        exit();
-        /*$dataProvider = new ActiveDataProvider(
-            $cursados
-        );*/
+
+         $dataProvider = $searchModel->searchCursados($usuario);
+
+
+
          return $this->render('cursados', [
            'searchModel' => $searchModel,
            'dataProvider' => $dataProvider,
            'model' => $model,
+
            //'modelMateria'=>$modelMateria,
          ]);
 
@@ -65,23 +61,21 @@ class CursadoController extends Controller
 
     public function actionIndex()
     {
-        //$cursado = $_GET['CursadoSearch[]'];
-        //if(!isset($cursado)){
-        //  return $this->redirect(['programa/index']);
-        //}else{
-        /*Para  MArce
-          $usuario=yii::$app->user->identity;
-          $docente = $usuario->idDocente0;
-          $cursados = $docente->getIdCursados();
-          $dataProvider = new ActiveDataProvider(
-            $cursados
-          );
-          */
+<<<<<<< HEAD
+        
           $model = new Cursado();
           $searchModel = new CursadoSearch();
           $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-          //print_r(Yii::$app->request->queryParams);
-          //exit();
+          
+=======
+
+
+          $model = new Cursado();
+          $searchModel = new CursadoSearch();
+          $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        
+>>>>>>> 36b2bdefbd2e1194c53592c3026107add641e8b4
           if(isset(Yii::$app->request->queryParams['CursadoSearch']['idMateria'])){
             $modelMateria=Materia::findOne(Yii::$app->request->queryParams['CursadoSearch']['idMateria']);
             return $this->render('index', [

@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Cursado;
+use app\models\Designado;
 
 
 /**
@@ -44,23 +45,16 @@ class CursadoSearch extends Cursado
      */
     public function search($params)
     {
-    	
-    	
-    	
-   
-
-
-        $query = Cursado::find();
-        
-        
        
-        
+        $query = Cursado::find();
+          
         
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+        
 
         $this->load($params);
 
@@ -81,6 +75,25 @@ class CursadoSearch extends Cursado
             'cuatrimestre' => $this->cuatrimestre,
         ]);
        
+
+        return $dataProvider;
+    }
+
+    public function searchCursados($params)
+    { 
+        
+        $usuario=yii::$app->user->identity;
+     
+         
+    
+        $docente = $usuario->idDocente0;
+       
+       
+
+        $query = $docente->getIdCursados();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
 
         return $dataProvider;
     }

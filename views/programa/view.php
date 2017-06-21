@@ -135,7 +135,7 @@ foreach ( $model->observacions as $recorre2) {
             $form = ActiveForm::begin();
             echo '<div class="form-group">';
             echo '<label>Observación</label>';
-            echo HTML::textArea('observacion',null,['id' => 'texto-observacion','class' => 'form-control']);
+            echo HTML::textArea('observacion',null,['id' => 'texto-observacion','class' => 'form-control','style' => 'resize:none;']);
             echo '</div>';
             echo '<div class="form-group">';
             echo '<button type="button" onclick="ctrl.observacion.nueva()"><span class="glyphicon glyphicon-plus"></span>&nbsp;Agregar</button>';

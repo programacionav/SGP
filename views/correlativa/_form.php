@@ -16,8 +16,13 @@ use yii\base\Object;
 <div class="correlativa-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
  
+ <div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">
+  </div>
+   <div class="panel-body">
+    <p>
  
  <?php
  
@@ -34,7 +39,7 @@ foreach ($correlativas as $unaCorrelativa){
  
 $tabla .= "</table>";
 echo $tabla;
-?>
+?></p></div></div>
  <br>
 <?php 
 /*
@@ -45,6 +50,12 @@ foreach ($unPlan->materias as $unaMateria)
 	}
 	
 }*/?><br>
+ <div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading"> Nueva Correlativa
+  </div>
+<div class="panel-body">
+    <p>
 
  <?= $form->field($model, 'idMateria2')->dropDownList(
        ArrayHelper::map($unPlan->materias,'idMateria','nombre')) ?>
@@ -58,7 +69,7 @@ foreach ($unPlan->materias as $unaMateria)
      
     
 
-
+</p></div></div>
 
 
 

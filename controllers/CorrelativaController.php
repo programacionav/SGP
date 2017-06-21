@@ -10,6 +10,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\Materia;
 use app\models\Plan;
+use yii\filters\AccessControl;
+use app\models\Usuario;
 
 /**
  * CorrelativaController implements the CRUD actions for Correlativa model.
@@ -29,6 +31,19 @@ class CorrelativaController extends Controller
                 		
                 ],
             ],
+        		'access' => [
+        				'class' => AccessControl::className(),
+        				'only' => ['create','update','delete'],
+        				'rules' => [    [     'actions' => ['create','update','delete'],
+        						'allow' => true,
+        						'roles' => ['@'],
+        						'matchCallback' => function ($rule, $action) {
+        							$valid_roles = [Usuario::ROLE_SECRETARIO_ACADEMICO];
+        							return Usuario::roleInArray($valid_roles);
+        						}
+        				],
+        				],   ]
+        				
         ];
     }
 
@@ -152,8 +167,8 @@ class CorrelativaController extends Controller
     public function actionDelete($idMateria1, $idMateria2)
     {
         $this->findModel($idMateria1, $idMateria2)->delete();
-
-        return $this->redirect(['index']);
+       $idMateria=$idMateria1;
+        return $this->redirect(['view','idMateria'=>$idMateria1]);
     }
 
     /**

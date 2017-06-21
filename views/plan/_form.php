@@ -22,7 +22,7 @@ use yii\helpers\ArrayHelper;
 </div>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Crear Plan' : 'Modificar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary'])."&nbsp;&nbsp;"."&nbsp;&nbsp;" ?>
-         <?= Html::a('Salir', ['carrera/index'], ['class' => 'btn btn-danger']) ?>
+         <?= Html::a('Volver', ['plan/view','id'=>$model->idPlan], ['class' => 'btn btn-danger']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
