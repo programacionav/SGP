@@ -44,14 +44,14 @@ class CursadoController extends Controller
         $cursados = $docente->getIdCursados();
 
          $dataProvider = $searchModel->searchCursados($usuario);
-      
-    
+
+
 
          return $this->render('cursados', [
            'searchModel' => $searchModel,
            'dataProvider' => $dataProvider,
            'model' => $model,
-           
+
            //'modelMateria'=>$modelMateria,
          ]);
 
@@ -61,25 +61,13 @@ class CursadoController extends Controller
 
     public function actionIndex()
     {
-        //$cursado = $_GET['CursadoSearch[]'];
-        //if(!isset($cursado)){
-        //  return $this->redirect(['programa/index']);
-        //}else{
-        /*Para  MArce
-          $usuario=yii::$app->user->identity;
-          $docente = $usuario->idDocente0;
-          $cursados = $docente->getIdCursados();
-          $dataProvider = new ActiveDataProvider(
-            $cursados
-          );
-          */
-          print_r(yii::$app->user->identity);
+
+
           $model = new Cursado();
           $searchModel = new CursadoSearch();
           $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-          
-          //print_r($dataProvider);
-          //exit();
+
+        
           if(isset(Yii::$app->request->queryParams['CursadoSearch']['idMateria'])){
             $modelMateria=Materia::findOne(Yii::$app->request->queryParams['CursadoSearch']['idMateria']);
             return $this->render('index', [

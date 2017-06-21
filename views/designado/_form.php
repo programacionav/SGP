@@ -20,8 +20,6 @@ use app\models\Cursado;
   <?php $model->idCursado = $id_cursado; ?>
   <?php echo '<h3>Cursado N°'.$model->idCursado.'</h3>'; ?>
   <?php $cursado = Cursado::find()->where(['idCursado' => $model->idCursado])->one();
-
-
   ?>
   <?php
 
@@ -58,7 +56,7 @@ use app\models\Cursado;
   echo $form->field($model, 'idDocente')->widget(DepDrop::classname(), [
     'options'=>['id'=>'idDocente'],
     'pluginOptions'=>[
-      'depends'=>['idDepartamento','id_cursado'],
+      'depends'=>['idDepartamento'],
       'placeholder'=>'Seleccione...',
       'initialize' => true,
       'url'=>Url::to(['subcat'])
