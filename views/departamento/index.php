@@ -37,8 +37,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'label' => 'Director de Departamento',
             'filter' => Docente::listaDeNombres(),
             'value' => function($model, $index, $dataColumn) {
-                $nombreDocente = Docente::listaDeNombres();//Arreglo con todos los nombres de los Docentes
-                return $nombreDocente[$model->idDocente];//retorna el nombre segun idDocente
+                //$nombreDocente = Docente::listaDeNombres();//Arreglo con todos los nombres de los Docentes
+                $nombre="No hay un director asignado";
+
+                if (isset($model->directorDepartamento)) {
+                    $nombre=$model->directorDepartamento->nombre;
+                    $nombre.=" ".$model->directorDepartamento->apellido;
+                }
+                return $nombre;
+               // return $nombreDocente[$model->idDocente];//retorna el nombre segun idDocente
             },
         ],
         [

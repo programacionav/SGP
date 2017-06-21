@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Designado;
+use app\models\Cursado;
 use app\models\DesignadoSearch;
 use app\models\Departamento;
 use app\models\DepartamentoDocenteCargo;
@@ -138,9 +139,9 @@ class DesignadoController extends Controller
     if (isset($_POST['depdrop_parents'])) {
       $parents = $_POST['depdrop_parents'];
       if ($parents != null) {
-        $cat_id = $parents[0];
-        
-        $out = self::getSubCatList($cat_id);
+        $cat_id = empty($parents[0]) ? null : $parents[0];
+        $cat_id_cursado = empty($parents[1]) ? null : $parents[1];
+        $out = self::getSubCatList($cat_id,$cat_id_cursado);
         // the getSubCatList function will query the database based on the
         // cat_id and return an array like below:
         // [
@@ -154,7 +155,7 @@ class DesignadoController extends Controller
     }
     echo Json::encode(['output'=>'', 'selected'=>'']);
   }
-  private function getSubCatList($idDepartamento){
+  private function getSubCatList($idDepartamento,$id_cursado){
     /**$itemDptos = Docente::find() //obtengo un arreglo asociativo[index->titulo]
     ->select(['nombre'])  //de noticias donde: lo que esta dentro del option es el titulo
     ->indexBy('idDocente')       // y el value de los option es el id
@@ -165,6 +166,8 @@ class DesignadoController extends Controller
   }*/
   $arreglo = false;
   $arreglo= array();
+  $cursado = Cursado::find()
+  ->where(['idCursado' => $id_cursado])->one();
 
   $dpto = Departamento::find()
   ->where(['idDepartamento' => $idDepartamento])
@@ -172,9 +175,10 @@ class DesignadoController extends Controller
   //$idsDocentes = $dpto->getidDocentes();
   //$algo = get_class($idsDocentes);
   //print_r($dpto);
+  /*$designado = $cursado->designados;*/
   $iterativo = $dpto->departamentodocentecargos;
   foreach ($iterativo as $depdocar) {
-    array_push($arreglo,['id'=>$depdocar->idDocente0->idDocente,'name'=>$depdocar->idDocente0->apellido.', '.$depdocar->idDocente0->nombre]);
+    array_push($arreglo,['id'=>$depdocar->idDocente0->idDocente,'name'=>$depdocar->idDocente0->apellido.', '.$depdocar->idDocente0->nombre.', '.$id_cursado]);
   }
 
   return $arreglo;

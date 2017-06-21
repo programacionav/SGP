@@ -30,24 +30,30 @@ $this->params['breadcrumbs'][] = $model->getTitulo();
 .pdf{
     position: relative;
     left: 90%;
+    .well {
+    min-height: 85px !important;
+    }
+    .altura{
+      height: 28px !important;
+    }
 }
 </style>
 
 <?php
 if($model->enRevision()){
-  echo $mostrarEstado = "En revision";
+  $mostrarEstado = "En revision";
 }
 elseif($model->abierto()){
-  echo  $mostrarEstado = "Abierto";
+   $mostrarEstado = "Abierto";
 }
 elseif($model->aprobado()){
-  echo  $mostrarEstado = "Aprobado";
+  $mostrarEstado = "Aprobado";
 }
 elseif($model->publicado()){
-  echo  $mostrarEstado = "Publicado";
+  $mostrarEstado = "Publicado";
 }
 
-echo $model->enRevision();
+$model->enRevision();
 //determina el idEstado segun el rol logueado.
 $estado = null;
 $nombreAccion = null;
@@ -56,7 +62,6 @@ if(Rol::findOne(Yii::$app->user->identity->idRol)->esDocente()){
   $nombreAccion = "Realizado";
 }elseif(Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
   if($model->abierto()){
-    echo "ACAAAAAAAAAA";
     $estado = 1;
      $nombreAccion = "Realizado";
   }else{
@@ -72,6 +77,13 @@ foreach ( $model->observacions as $recorre) {
   ->andWhere(['idPrograma' => $model->idPrograma])
   ->count();
 }
+
+$obsTotal = null;
+foreach ( $model->observacions as $recorre2) {
+  $obsTotal = $recorre2->find()
+  ->where(['idPrograma' => $model->idPrograma])
+  ->count();
+}
 ?>
 
 <div class="programa-view container-fluid">
@@ -79,7 +91,7 @@ foreach ( $model->observacions as $recorre) {
     <h3 class="text-center"><?= $model->getTitulo() ?></h3>
   </div>
   <div class="row">
-    <div class="well well-lg">
+    <div style="height:28px !important;    min-height: 83px !important;" class="well well-lg altura">
       <?php
 
       foreach ( Yii::$app->user->identity->idDocente0->designados as $recorre2) {
@@ -87,7 +99,7 @@ foreach ( $model->observacions as $recorre) {
           if($model->abierto()){
           echo Html::a('<span class="glyphicon glyphicon-pencil"></span>&nbsp;Actualizar', ['update', 'id' => $model->idPrograma,'idCursado' => $model->idCursado], ['class' => 'btn btn-default']);
 
-           if ($model->abierto() ){
+           if ($model->abierto() && $obsTotal == 0 ){
           echo Html::a('<span class="glyphicon glyphicon-trash"></span>&nbsp;Borrar', ['delete', 'id' => $model->idPrograma,'idCursado' => $model->idCursado], [
             'class' => 'btn btn-default',
             'data' => [
@@ -178,7 +190,7 @@ foreach ( $model->observacions as $recorre) {
                 }
             $alert = null;
 
-            if ( $cantidad > 0 && $abiertoEsta ){
+            if ( $cantidad > 0  ){
               $alert = "<div class='alert alert-danger'>";
               $alert.= "<strong>observaciones</strong><br>";
 
@@ -212,13 +224,13 @@ foreach ( $model->observacions as $recorre) {
                   <td colspan="3"><strong>DEPARTAMENTO:</strong><?=$model->idCursado0->idMateria0->idDepartamento0->nombre?></td>
                 </tr>
                 <tr>
-                  <td colspan="1"><strong>AREA:</strong></td>
+                  <td colspan="1"><strong>AREA:</strong><?=$model->idCursado0->idMateria0->area?></td>
                   <td colspan="2"><strong>ORIENTACION:</strong><?=$model->orientacion;?></td>
                 </tr>
                 <tr>
                   <td><strong>CARRERA:</strong><?=$model->idCursado0->idMateria0->idPlan0->idCarrera0->nombre?></td>
                   <td><strong>PLAN:</strong><?=$model->idCursado0->idMateria0->idPlan0->numOrd?></td>
-                  <td><strong>AÑO:</strong></td>
+                  <td><strong>AÑO:</strong><?=$model->idCursado0->idMateria0->anio?></td>
                 </tr>
                 <tr>
                   <td colspan="1"><strong>CUATRIMESTRE:</strong><?=$model->idCursado0->cuatrimestre;?></td>

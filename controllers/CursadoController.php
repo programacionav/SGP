@@ -39,18 +39,14 @@ class CursadoController extends Controller
      {
        $model = new Cursado();
        $searchModel = new CursadoSearch();
-      // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-       //print_r(Yii::$app->request->queryParams);
-       //exit();
-        $usuario=yii::$app->user->identity;
+    $usuario=yii::$app->user->identity;
         $docente = $usuario->idDocente0;
         $cursados = $docente->getIdCursados();
+
          $dataProvider = $searchModel->searchCursados($usuario);
-       /* print_r($cursados);
-        $dataProvider = new ActiveDataProvider(
-          ['query'=>  $cursados]
-        );
-        */
+      
+    
+
          return $this->render('cursados', [
            'searchModel' => $searchModel,
            'dataProvider' => $dataProvider,
