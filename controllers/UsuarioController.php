@@ -113,8 +113,10 @@ class UsuarioController extends Controller
     public function actionContrasenia($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+     
+        if ($model->load(Yii::$app->request->post())) {
+            $model->clave=md5(Yii::$app->request->post()["Usuario"]["clave"]);
+            $model->save();
             return $this->redirect(['cuenta', 'id' => $model->idUsuario]);
         } else {
             return $this->render('contrasenia', [
@@ -150,7 +152,9 @@ class UsuarioController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->clave=md5(Yii::$app->request->post()["Usuario"]["clave"]);
+            $model->save();
             return $this->redirect(['view', 'id' => $model->idUsuario]);
         } else {
             return $this->render('update', [
