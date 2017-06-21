@@ -16,13 +16,13 @@ use app\models\Materia;
                   <td colspan="3"><strong>DEPARTAMENTO:</strong><?=$model->idCursado0->idMateria0->idDepartamento0->nombre?></td>
                 </tr>
                 <tr>
-                  <td colspan="1"><strong>AREA:</strong></td>
+                  <td colspan="1"><strong>AREA:</strong><?=$model->idCursado0->idMateria0->area?></td>
                   <td colspan="2"><strong>ORIENTACION:</strong><?=$model->orientacion;?></td>
                 </tr>
                 <tr>
                   <td><strong>CARRERA:</strong><?=$model->idCursado0->idMateria0->idPlan0->idCarrera0->nombre?></td>
                   <td><strong>PLAN:</strong><?=$model->idCursado0->idMateria0->idPlan0->numOrd?></td>
-                  <td><strong>AÑO:</strong></td>
+                  <td><strong>AÑO:</strong><?=$model->idCursado0->idMateria0->anio?></td>
                 </tr>
                 <tr>
                   <td colspan="1"><strong>CUATRIMESTRE:</strong><?=$model->idCursado0->cuatrimestre;?></td>
