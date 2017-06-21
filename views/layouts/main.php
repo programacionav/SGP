@@ -19,13 +19,14 @@ if(!Yii::$app->user->isGuest){
         $cuenta="Cuentas de usuario";
       }
     else {
-      $cuenta="Mi cuenta";     
+      $cuenta="Mi cuenta";
     }
             $menu = [
             ['label' => 'Docentes', 'url' => ['/docente/index']],
             ['label' => 'Departamentos', 'url' => ['/departamento/index']],
             ['label' => 'Carreras', 'url' => ['/carrera/index']],
             ['label' => 'Programas', 'url' => ['/programa/index']],
+            ['label' => 'Mis Cursados', 'url' => ['/cursado/cursados']],
             ['label' => $cuenta, 'url' => ['/usuario/index']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
@@ -39,7 +40,7 @@ if(!Yii::$app->user->isGuest){
                 . Html::endForm()
                 . '</li>'
             )];
-    
+
 
 }
 
@@ -76,13 +77,13 @@ if(!Yii::$app->user->isGuest){
     ?>
 
     <div class="container">
-        
+
         <?= Breadcrumbs::widget([
         'homeLink' => ['label' => 'Inicio',
         'url' => $pageIndex],
-        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [], 
+        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
     ]);?>
-       
+
         <?= $content ?>
     </div>
 </div>

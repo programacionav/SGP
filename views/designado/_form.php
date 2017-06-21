@@ -58,7 +58,7 @@ use app\models\Cursado;
   echo $form->field($model, 'idDocente')->widget(DepDrop::classname(), [
     'options'=>['id'=>'idDocente'],
     'pluginOptions'=>[
-      'depends'=>['idDepartamento'],
+      'depends'=>['idDepartamento','id_cursado'],
       'placeholder'=>'Seleccione...',
       'initialize' => true,
       'url'=>Url::to(['subcat'])

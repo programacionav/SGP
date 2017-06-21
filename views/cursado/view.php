@@ -83,9 +83,12 @@ echo "<td>";
 ?>
 </div>
 </div>
-
+<?php
+echo $this->render('../materia/_view', [
+  'model'=>$mat,
+]);
+?>
  <?php
-
 if($usuario->idRol==2){
         if($anioActual==$anioCursado){
             if($mesActual<=$mesCursado){
@@ -98,11 +101,7 @@ if($usuario->idRol==2){
         echo Html::a('Nueva Designación',['designado/create','idCursado'=>$model->idCursado],['class' =>'btn btn-success']);
 }
 ?>
-<?php
-echo $this->render('../materia/_view', [
-  'model'=>$mat,
-]);
-?>
+
 
 <?php }}}?>
 <?="<br>"?>
