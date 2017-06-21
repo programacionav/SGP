@@ -59,8 +59,8 @@ class Programa extends \yii\db\ActiveRecord
             [['idCursado', 'orientacion', 'anioActual', 'programaAnalitico', 'propuestaMetodologica', 'condicionesAcredEvalu', 'horariosConsulta', 'bibliografia'], 'required'],
             [['idCursado'], 'integer'],
             [['anioActual'], 'safe'],
-            [['programaAnalitico'], 'string'],
-            [['orientacion', 'propuestaMetodologica', 'condicionesAcredEvalu', 'horariosConsulta', 'bibliografia'], 'string', 'max' => 200],
+            [['programaAnalitico', 'propuestaMetodologica', 'condicionesAcredEvalu', 'bibliografia'], 'string'],
+           [['orientacion', 'horariosConsulta'], 'string', 'max' => 200],
             [['idCursado'], 'exist', 'skipOnError' => true, 'targetClass' => Cursado::className(), 'targetAttribute' => ['idCursado' => 'idCursado']],
         ];
     }
