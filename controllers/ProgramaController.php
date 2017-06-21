@@ -30,7 +30,7 @@ class ProgramaController extends Controller
         return [
             'access' => [
  'class' => AccessControl::className(),
- 'only' => ['create','update','delete','index'],
+ 'only' => ['create','update','delete','index','view'],
  'rules' => [
  [
  'actions' => ['create','update','delete'],
@@ -42,7 +42,7 @@ return Programa::valDesignado($valid_roles);
  }
  ],
  [
- 'actions' => ['index'],
+ 'actions' => ['index','view'],
  'allow' => true,
 'roles' => ['@'],
  ],
@@ -134,11 +134,7 @@ return Programa::valDesignado($valid_roles);
     {
         $destino = null;
         $model = $this->findModel($id);
-        if(Yii::$app->user->identity->idRol == 1){
-            $destino = 'update';
-        }else{
-            $destino = 'view';
-        }
+        $destino = 'update';
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idPrograma]);
