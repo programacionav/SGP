@@ -41,6 +41,7 @@ use app\models\Cursado;
   $departamentoDeDocente = Departamento::findOne([
     'idDocente' =>$docenteDeUsuario->idDocente
   ]);
+  print_r($departamentoDeDocente);
   //print_r($departamentoDeDocente);
   //echo "el idDepartamento del docente es: ".$departamentoDeDocente->idDepartamento;
   $model_dpto->idDepartamento= $departamentoDeDocente->idDepartamento;
