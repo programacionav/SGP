@@ -33,7 +33,7 @@ class Designado extends \yii\db\ActiveRecord
           //[['nombre'],'unique',"message"=>'El nombre de la carrera ya existe'],
             [['funcion', 'idCursado', 'idDocente'], 'required'],
             [['idCursado', 'idDocente'], 'integer'],
-            [['idCursado','idDocente'],'unique',"message"=>'El docente ya fue asignado al cursado'],
+            [['idDocente'],'unique','targetAttribute'=>['idCursado','idDocente'],"message"=>'El docente ya fue asignado al cursado'],
             [['funcion'], 'string', 'max' => 100],
             [['idCursado'], 'exist', 'skipOnError' => true, 'targetClass' => Cursado::className(), 'targetAttribute' => ['idCursado' => 'idCursado']],
             [['idDocente'], 'exist', 'skipOnError' => true, 'targetClass' => Docente::className(), 'targetAttribute' => ['idDocente' => 'idDocente']],

@@ -43,7 +43,7 @@ use app\models\Cursado;
   ]);
   //print_r($departamentoDeDocente);
   //echo "el idDepartamento del docente es: ".$departamentoDeDocente->idDepartamento;
-  $model_dpto->idDepartamento =$departamentoDeDocente->idDepartamento;
+  $model_dpto->idDepartamento= $departamentoDeDocente->idDepartamento;
   echo $form->field($model_dpto,'idDepartamento')->dropdownList(
   $itemDptos,
   [ 'prompt' => 'Seleccione el departamento',
