@@ -61,21 +61,13 @@ class CursadoController extends Controller
 
     public function actionIndex()
     {
-<<<<<<< HEAD
-        
-          $model = new Cursado();
-          $searchModel = new CursadoSearch();
-          $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-          
-=======
-
 
           $model = new Cursado();
           $searchModel = new CursadoSearch();
           $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         
->>>>>>> 36b2bdefbd2e1194c53592c3026107add641e8b4
+
           if(isset(Yii::$app->request->queryParams['CursadoSearch']['idMateria'])){
             $modelMateria=Materia::findOne(Yii::$app->request->queryParams['CursadoSearch']['idMateria']);
             return $this->render('index', [
