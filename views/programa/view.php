@@ -170,7 +170,7 @@ foreach ( $model->observacions as $recorre2) {
                 echo  Html::a('<span class="glyphicon glyphicon-ok"></span>&nbsp;Publicar', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma,'proxEstado'=>3]), [
                   'class' => 'btn btn-success',
                   'data' => [
-                    'confirm' => 'Esta seguro que desea aprobar este programa?'],
+                    'confirm' => 'Esta seguro que desea publicar este programa?'],
                   ]);}
                   }
                     }
@@ -190,7 +190,7 @@ foreach ( $model->observacions as $recorre2) {
                 }
             $alert = null;
 
-            if ( $cantidad > 0  ){
+            if (($cantidad > 0 && Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() && $model->abierto()) || ($cantidad > 0 && Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto() && $model->enRevision())  ) {
               $alert = "<div class='alert alert-danger'>";
               $alert.= "<strong>observaciones</strong><br>";
 
