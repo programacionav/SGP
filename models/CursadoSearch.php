@@ -54,7 +54,7 @@ class CursadoSearch extends Cursado
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-         print_r($dataProvider);
+        
 
         $this->load($params);
 
@@ -75,7 +75,7 @@ class CursadoSearch extends Cursado
             'cuatrimestre' => $this->cuatrimestre,
         ]);
        
-print_r($dataProvider);
+
         return $dataProvider;
     }
 
@@ -83,69 +83,17 @@ print_r($dataProvider);
     { 
         
         $usuario=yii::$app->user->identity;
-        //print_r($usuario);
-        //print_r($usuario);
-         //select('cursado.*, designado.funcion')
-        //->joinWith([''])=>Yii::$app->user->identity->idDocente]);
-    
+     
          
-      
-        //---- 
-      
+    
         $docente = $usuario->idDocente0;
-       //$cursados = $docente->getIdCursados();
+       
        
 
-        $query = $docente->getIdCursados();//Designado::find()->where(['idDocente'=>$docente['idDocente']]);
-        /*$query = Designado::find()
-        ->select('docente.idDocente,cursado.*')
-        ->join('INNER JOIN','docente','designado.idDocente=docente.idDocente')
-        ->join('INNER JOIN','cursado','cursado.idCursado=designado.idCursado')
-        ->where('designado.idDocente='.$docente['idDocente']);
-        */
+        $query = $docente->getIdCursados();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-
-
-/*-----------------------------------------aca--------------
-
-        $cadena="";
-$m=$dataProvider->getModels();
-foreach($m as $cursado){
-  $cadena.=$cursado['idCursado'].",";
-
-//echo "idCursado: ".($cursado['idCursado']);
-	//echo "idDocente: ".($cursado['idDocente']);
-	}
-
-    $queryCursado=Cursado::findAll([$cadena]);
-    $resultadoCursado= new ActiveDataProvider([
-            'query' => $queryCursado,
-        ]);
-   print_r($resultadoCursado);
-   print_r($resultadoCursado);print_r($resultadoCursado);
-    
-   
-            //$dataProviderC=Cursado::find()->where()
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
-          
-            return $dataProvider;
-        }/*----aca-------
-      
-        // grid filtering conditions
-        
-        $query->andFilterWhere([
-           'idCursado' => $this->idCursado,
-            'fechaInicio' => $this->fechaInicio,
-            'fechaFin' => $this->fechaFin,
-        	'idMateria'=>$this->idMateria,
-             'idCursado'=>4
-            'cuatrimestre' => $this->cuatrimestre,
-        ]);*/
-       
 
         return $dataProvider;
     }

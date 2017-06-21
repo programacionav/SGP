@@ -19,7 +19,7 @@ use app\models\Programa;
 
 			'columns' => [
 				
-				//'idCursado',
+				
 				['attribute'=>'idCursado','contentOptions'=>['style'=>'width:15px;'],  'label' => 'N°',  ],
 				'fechaInicio',
 				'fechaFin',
