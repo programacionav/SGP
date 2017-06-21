@@ -19,26 +19,18 @@ $this->title = 'Cursado N°'.$model->idCursado;
 $this->params['breadcrumbs'][] = ['label' => 'Cursados', 'url' => ['index','CursadoSearch[idMateria]'=>$mat->idMateria]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cursado-view">
-  <div class="panel panel-default">
-    <div class="panel-heading"><?php echo $this->title; ?></div>
-    <div class="panel-body">
-   <?php
-   echo $this->render('../materia/_view', [
-     'model'=>$mat,
-   ]);
-   ?>
- </div>
- </div>
+
+
+
 <div class="panel panel-default">
-  <div class="panel-heading"><?php echo $this->title; ?></div>
+  <div class="panel-heading"><h3><?php echo $this->title; ?></h3></div>
   <div class="panel-body">
 
 
 <?php
   echo "<table class='table'>";
   echo "<tr>";
-  echo "<th>Materia</th><th>Cuatrimestre</th><th>Año Inicio</th><th>Año Fin</th>";
+  echo "<th>Cuatrimestre</th><th>Año Inicio</th><th>Año Fin</th>";
   if($usuario->idRol==2)
   {
       if($anioActual==$anioCursado){
@@ -58,12 +50,6 @@ $this->params['breadcrumbs'][] = $this->title;
   //echo "<td>";
   //echo " ".$mat->nombre."<br>";
   //echo "</td>";
-  echo "<td>";
-  echo " ".$mat->nombre ."<br>";
-  ?>
-
-  <?php
-  echo "</td>";
   echo "<td>";
   echo " ".$model->cuatrimestre ."<br>";
   echo "</td>";
@@ -112,7 +98,11 @@ if($usuario->idRol==2){
         echo Html::a('Nueva Designación',['designado/create','idCursado'=>$model->idCursado],['class' =>'btn btn-success']);
 }
 ?>
-
+<?php
+echo $this->render('../materia/_view', [
+  'model'=>$mat,
+]);
+?>
 
 <?php }}}?>
 <?="<br>"?>

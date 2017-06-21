@@ -55,16 +55,13 @@ if(isset($usuario)){
 		<?= GridView::widget([
 			'dataProvider' => $dataProvider,
 			'filterModel' => $searchModel,
-			
+
 			'columns' => [
 				['class' => 'yii\grid\SerialColumn'],
 				//'idCursado',
 				['attribute'=>'idCursado','contentOptions'=>['style'=>'width:15px;'],  'label' => 'N°',  ],
 				'fechaInicio',
 				'fechaFin',
-
-
-
 				'cuatrimestre',
 
 				/*['attribute'=>'anio',
@@ -76,25 +73,15 @@ if(isset($usuario)){
 				*	}
 			],*/
 
-
-
-
-
-
 			['class' => 'yii\grid\ActionColumn'
 			,
 			'contentOptions'=>['style'=>'width:250px;height:80px;'],
 			'template' => '{ver}{view}{programa}',
 
 			'buttons' => [
-
 				'ver'=> function ($url, $model, $key) {
-
-
 					return Html::a('Ver Cursado',['view','id'=>$model->idCursado ],['class'=>'btn btn-primary']);
 				},
-
-
 
 				'programa'=> function ($url, $model, $key) {
 
@@ -106,9 +93,9 @@ if(isset($usuario)){
 					//si docente y funcion a cargo muestra boton de crear programa;
 					//echo $usuario->idDocente0->idDocente;
 					$programaCursado=Programa::findOne(['idCursado'=>$model->idCursado]);
-					echo $docenteACargo['idDocente'];
-					echo $usuario->idDocente0->idDocente;
-					echo "-";
+					// echo $docenteACargo['idDocente'];
+					// echo $usuario->idDocente0->idDocente;
+					// echo "-";
 					$fFin=date("Y",strtotime($model->fechaFin));
 					$anioActual=date("Y");
 					if($docenteACargo['idDocente'] == $usuario->idDocente0->idDocente && count($programaCursado)!=1/*&& ($fFin >=$anioActual)*/  ){
