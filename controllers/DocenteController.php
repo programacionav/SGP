@@ -153,9 +153,6 @@ class DocenteController extends Controller
     {
         $model = $this->findModel($id);
         $modelUsuario = new Usuario();
-        $modelCargo = new Cargo();
-        $modelDepartamento = new Departamento();
-        $modelDepartamentoDocenteCargo = new DepartamentoDocenteCargo();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             	return $this->redirect(['view', 'id' => $model->idDocente]);
@@ -163,9 +160,6 @@ class DocenteController extends Controller
             return $this->render('update', [
                 'model' => $model,
                 'modelUsuario' => $modelUsuario,
-                'modelCargo' => $modelCargo,
-                'modelDepartamento' => $modelDepartamento,
-                'modelDepartamentoDocenteCargo' => $modelDepartamentoDocenteCargo,
             ]);
         }
     }
