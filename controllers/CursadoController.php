@@ -9,7 +9,9 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\Materia;
+use yii\data\ActiveDataProvider;
 /**
+
  * CursadoController implements the CRUD actions for Cursado model.
  */
 class CursadoController extends Controller
@@ -33,6 +35,30 @@ class CursadoController extends Controller
      * Lists all Cursado models.
      * @return mixed
      */
+     public function actionCursados()
+     {
+       $model = new Cursado();
+       $searchModel = new CursadoSearch();
+       $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+       //print_r(Yii::$app->request->queryParams);
+       //exit();
+        $usuario=yii::$app->user->identity;
+        $docente = $usuario->idDocente0;
+        $cursados = $docente->getIdCursados();
+        /*$dataProvider = new ActiveDataProvider(
+            $cursados
+        );*/
+         return $this->render('cursados', [
+           'searchModel' => $searchModel,
+           'dataProvider' => $dataProvider,
+           'model' => $model,
+           //'modelMateria'=>$modelMateria,
+         ]);
+
+         $this->redirect(['programa/index']);
+
+     }
+
     public function actionIndex()
     {
         //$cursado = $_GET['CursadoSearch[]'];
