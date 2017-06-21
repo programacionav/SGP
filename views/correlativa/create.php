@@ -13,9 +13,12 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="correlativa-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    
-    <h3><?php 
-
+    <div class="panel panel-default">
+   
+     
+  <!-- Default panel contents -->
+  <div class="panel-heading"> <h3><?php 
+  
 foreach ($unPlan->materias as $unaMateria)
 {
 	if($unaMateria->idMateria == $model->idMateria1){
@@ -23,9 +26,12 @@ foreach ($unPlan->materias as $unaMateria)
 	}
 	
 }?></h3>
+</div></div>
+ 
 
     <?= $this->render('_form', [
         'model' => $model,'unPlan' =>$unPlan,'correlativas'=>$correlativas
     ]) ?>
 
 </div>
+
