@@ -18,13 +18,9 @@ use app\models\Programa;
 			'filterModel' => $searchModel,
 
 			'columns' => [
-<<<<<<< HEAD
-				
-				
-=======
 
-				//'idCursado',
->>>>>>> 36b2bdefbd2e1194c53592c3026107add641e8b4
+
+				'idCursado',
 				['attribute'=>'idCursado','contentOptions'=>['style'=>'width:15px;'],  'label' => 'N°',  ],
 				'fechaInicio',
 				'fechaFin',
