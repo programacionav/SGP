@@ -1,14 +1,21 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
+use app\models\Docente;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\DepartamentoDocenteCargo */
-
-$this->title = 'Update Departamento Docente Cargo: ' . $model->idDocente;
-$this->params['breadcrumbs'][] = ['label' => 'Departamento Docente Cargos', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->idDocente, 'url' => ['view', 'idDocente' => $model->idDocente, 'idDepartamento' => $model->idDepartamento, 'idCargo' => $model->idCargo]];
-$this->params['breadcrumbs'][] = 'Update';
+$itemDocente = ArrayHelper::map(Docente::find()->all(),
+'idDocente',
+function($model) {
+    return $model['nombre'].' '.$model['apellido'];
+}
+);
+$this->title = 'Modificar Departamento y Cargo: ' . $itemDocente[$model->idDocente];
+$this->params['breadcrumbs'][] = ['label' => 'Administrar departamento y cargo', 'url' => ['index', 'idDocente' => $model->idDocente]];
+$this->params['breadcrumbs'][] = ['label' => $itemDocente[$model->idDocente], 'url' => ['view', 'idDocente' => $model->idDocente, 'idDepartamento' => $model->idDepartamento, 'idCargo' => $model->idCargo]];
+$this->params['breadcrumbs'][] = 'Modificar';
 ?>
 <div class="departamento-docente-cargo-update">
 
