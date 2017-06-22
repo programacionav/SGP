@@ -127,7 +127,7 @@ class Programa extends \yii\db\ActiveRecord
 
             $cambioEstado = new Cambioestado;
 
-            $aData['Cambioestado']['idUsuario'] = 1;//Cambiar por usuario logueado
+            $aData['Cambioestado']['idUsuario'] = Yii::$app->user->identity->id;
             $aData['Cambioestado']['fecha'] = date('Y-m-d');
             $aData['Cambioestado']['idEstadoP'] = self::ABIERTO;
             $aData['Cambioestado']['idPrograma'] = $this->idPrograma;

@@ -70,7 +70,7 @@ class ProgramaSearch extends Programa
                     OR (
                             (SELECT idUsuario FROM cambioestado 
                             WHERE idCambioEstado = (SELECT min(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)
-                            ) IN ('.Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente.')
+                            ) IN ('.Yii::$app->user->identity->id.')
                         )
                     )
                 OR 
@@ -157,7 +157,7 @@ class ProgramaSearch extends Programa
                 OR (
                         (SELECT idUsuario FROM cambioestado 
                         WHERE idCambioEstado = (SELECT min(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)
-                        ) IN ('.Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente.')
+                        ) IN ('.Yii::$app->user->identity->id.')
                     )
                 ) ');
 
@@ -248,7 +248,7 @@ class ProgramaSearch extends Programa
                 AND (
                         (SELECT idUsuario FROM cambioestado 
                         WHERE idCambioEstado = (SELECT min(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)
-                        ) IN ('.Usuario::find()->where(['idUsuario'=>Yii::$app->user->identity->id])->one()->idDocente.')
+                        ) IN ('.Yii::$app->user->identity->id.')
                     )
                 ) ');
 
