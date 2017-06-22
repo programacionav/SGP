@@ -69,6 +69,15 @@ $estado = 2;
  $nombreAccion = "Comprobado";
   }
 }
+elseif(Rol::findOne(Yii::$app->user->identity->idRol)->esSecAcademico()){
+  if($model->abierto()){
+    $estado = 1;
+     $nombreAccion = "Realizado";
+  }else{
+$estado = 2;
+ $nombreAccion = "Comprobado";
+  }
+}
 //realiza la busqueda para saber si hay observaciones
 $cantidad = null;
 foreach ( $model->observacions as $recorre) {
@@ -123,7 +132,7 @@ foreach ( $model->observacions as $recorre2) {
             'confirm' => 'Esta seguro que desea poner en revision este programa?'],
           ]);}
       }
-          if((Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto() == true || Rol::findOne(Yii::$app->user->identity->idRol)->esSecAcademico() ) ){
+          if((Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto() == true ) ){
               if($model->enRevision() == true){
             Modal::begin([
               'header' => 'Nueva observación',
@@ -159,6 +168,7 @@ foreach ( $model->observacions as $recorre2) {
                 echo '&nbsp;';
                 }
               }
+          }
               if($cantidad == 0 && $model->existeObservacionRevison() == false){
                 if (Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto() && $model->enRevision()){
                 echo  Html::a('<span class="glyphicon glyphicon-ok"></span>&nbsp;Aprobar', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma,'proxEstado'=>2]), [
@@ -173,7 +183,7 @@ foreach ( $model->observacions as $recorre2) {
                     'confirm' => 'Esta seguro que desea publicar este programa?'],
                   ]);}
                   }
-                    }
+                    
 
             ?>
                 <?= Html::a('<span class="glyphicon glyphicon-export"></span>&nbsp;Crear pdf',Url::toRoute(['programa/report','id' => $model->idPrograma]), ['class' => 'btn btn-default pull-right','target'=>'_blank']) ?>
@@ -190,7 +200,7 @@ foreach ( $model->observacions as $recorre2) {
                 }
             $alert = null;
 
-            if (($cantidad > 0 && Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() && $model->abierto()) || ($cantidad > 0 && Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto() && $model->enRevision())  ) {
+            if (($cantidad > 0 && Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() && $model->abierto()) || ($cantidad > 0 && Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto() && $model->enRevision()) || ($cantidad > 0 && Rol::findOne(Yii::$app->user->identity->idRol)->esSecAcademico() && $model->abierto())  ) {
               $alert = "<div class='alert alert-danger'>";
               $alert.= "<strong>observaciones</strong><br>";
 
