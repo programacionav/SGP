@@ -67,7 +67,7 @@ class ProgramaSearch extends Programa
                             WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)
                             ) IN (1,4)
                         )
-                    OR (
+                    AND (
                             (SELECT idUsuario FROM cambioestado 
                             WHERE idCambioEstado = (SELECT min(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)
                             ) IN ('.Yii::$app->user->identity->id.')
@@ -154,7 +154,7 @@ class ProgramaSearch extends Programa
                         WHERE idCambioEstado = (SELECT max(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)
                         ) IN (1,4)
                     )
-                OR (
+                AND (
                         (SELECT idUsuario FROM cambioestado 
                         WHERE idCambioEstado = (SELECT min(idCambioEstado) FROM cambioestado WHERE cambioestado.idPrograma = programa.idPrograma)
                         ) IN ('.Yii::$app->user->identity->id.')
