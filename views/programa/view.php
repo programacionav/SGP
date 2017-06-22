@@ -200,7 +200,7 @@ foreach ( $model->observacions as $recorre2) {
                 }
             $alert = null;
 
-            if (($cantidad > 0 && Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() && $model->abierto()) || ($cantidad > 0 && Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto() && $model->enRevision()) || ($cantidad > 0 && Rol::findOne(Yii::$app->user->identity->idRol)->esSecAcademico() && $model->abierto())  ) {
+            if (($cantidad > 0 && Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() && $model->abierto()) || ($cantidad > 0 && Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto() && ($model->enRevision() ||  $model->abierto()) ) || ($cantidad > 0 && Rol::findOne(Yii::$app->user->identity->idRol)->esSecAcademico() && $model->abierto())  ) {
               $alert = "<div class='alert alert-danger'>";
               $alert.= "<strong>observaciones</strong><br>";
 
