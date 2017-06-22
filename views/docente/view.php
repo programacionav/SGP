@@ -26,14 +26,6 @@ $this->params['breadcrumbs'][] = $this->title;
     $idRolActual=Yii::$app->user->identity->idRol;
     if ($idRolActual === 3) {
 		echo Html::a('Modificar', ['update', 'id' => $model->idDocente], ['class' => 'btn btn-primary']);
-		echo "	";
-        echo Html::a('Borrar', ['delete', 'id' => $model->idDocente], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Esta seguro de eliminar al Docente?',
-                'method' => 'post',
-            ],
-        ]); 
 	}?>
     </p>
 
@@ -60,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
         ],
     ])?>
-	 
+
 	<div class="col-md-6 ">
     <table id="w0" class="table table-striped table-bordered detail-view">
 	<tr><td><h1>Departamentos asignados</h1></td></tr>
@@ -73,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	}?>
 	</table>
 	</div>
-	
+
 	<div class="col-md-6 ">
 	<table id="w0" class="table table-striped table-bordered detail-view">
 	<tr><td colspan="2"><h1>Cargos asignados</h1></td></tr>

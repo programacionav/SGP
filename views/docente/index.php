@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php
         $idRolActual=Yii::$app->user->identity->idRol;
         if ($idRolActual === 3) {
-          echo Html::a('Nuevo docente', ['create'], ['class' => 'btn btn-success']);   
+          echo Html::a('Nuevo docente', ['create'], ['class' => 'btn btn-success']);
         }
         if(Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
             $nombreDepartamento = Departamento::find()
@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'idDedicacion',
 
             ['class' => 'yii\grid\ActionColumn',
-            'template' => '{view} {update} {delete} {create} {indexDDC}',
+            'template' => '{view} {update} {create} {indexDDC}',
             'buttons' => [
                   'update' => function ($url, $model) {//los datos del docente solo los puede modificar el secretario
                       $idRolActual=Yii::$app->user->identity->idRol;
@@ -62,15 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>',
                                       $url, ['title' => Yii::t('app', 'lead-update'),]);
                                  }
-                               
-            },
-             'delete' => function ($url, $model) {//los datos del docente solo los puede modificar el secretario
-                 $idRolActual=Yii::$app->user->identity->idRol;
-                 if($idRolActual === 3){
-                          return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
-                            'title' => Yii::t('app', 'lead-delete'),
-                ]);
-              }
+
             },
                 'create' => function($url,$model,$key){//HAY QUE MODIFICAR QUE ENVIO DEPENDIENDO SI ES SECRETARIO O JEFE DPTO
                     $idRolActual=Yii::$app->user->identity->idRol;
@@ -81,7 +73,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                     if($idRolActual===2){
                       //derrollar esto en una tarea distinta
-                    }               
+                    }
                 },
                 'indexDDC'=> function($url,$model,$key){ //HAY QUE MODIFICAR QUE ENVIO DEPENDIENDO SI ES SECRETARIO O JEFE DPTO
                     $idRolActual=Yii::$app->user->identity->idRol;
@@ -89,15 +81,15 @@ $this->params['breadcrumbs'][] = $this->title;
                         return Html::a('<span class="glyphicon glyphicon-share-alt"></span>',
                          ['departamento-docente-cargo/index','idDocente'=>$model->idDocente] ,
                          ['title' => Yii::t('app','Modificar o eliminar departamento y cargo'),]);
-                    }    
+                    }
                     if ($idRolActual===2) {
                          //derrollar esto en una tarea distinta
                     }
                 }
             ]
           ]
-        ],       
-    ]); 
-    
+        ],
+    ]);
+
     ?>
 </div>
