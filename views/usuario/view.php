@@ -19,13 +19,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Modificar', ['update', 'id' => $model->idUsuario], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Borrar', ['delete', 'id' => $model->idUsuario], [
+        <?php /*Html::a('Borrar', ['delete', 'id' => $model->idUsuario], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Esta seguro de borrar este Usuario?',
                 'method' => 'post',
             ],
-        ]) ?>
+        ]) */?>
     </p>
 
     <?= DetailView::widget([
