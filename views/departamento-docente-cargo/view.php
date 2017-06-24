@@ -75,7 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
 								return $model['descripcion'];
 							}
 							);
-							return $itemCargo[$model->idDepartamento];
+							return $itemCargo[$model->idCargo];
                       },
                ],
         ],
