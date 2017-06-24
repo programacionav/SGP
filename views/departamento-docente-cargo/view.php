@@ -5,6 +5,7 @@ use yii\widgets\DetailView;
 use yii\helpers\ArrayHelper;
 use app\models\Docente;
 use app\models\Departamento;
+use app\models\Cargo;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\DepartamentoDocenteCargo */
@@ -16,7 +17,8 @@ function($model) {
 );
 
 $this->title = $itemDocente[$model->idDocente];
-$this->params['breadcrumbs'][] = ['label' => 'Departamento Docente Cargos', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Docentes', 'url' => ['docente/index']];
+$this->params['breadcrumbs'][] = ['label' => 'Administrar departamento y cargo', 'url' => ['index', 'idDocente' => $model->idDocente]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="departamento-docente-cargo-view">
@@ -50,7 +52,6 @@ $this->params['breadcrumbs'][] = $this->title;
 							return $itemDocente[$model->idDocente];
                       },
                ],
-            'idDepartamento',
 			[
                'attribute' => 'idDepartamento',
                'label' => 'Departamento',
@@ -64,7 +65,19 @@ $this->params['breadcrumbs'][] = $this->title;
 							return $itemDepartamento[$model->idDepartamento];
                       },
                ],
-            'idCargo',
+			[
+               'attribute' => 'idCargo',
+               'label' => 'Cargo',
+               'value' => function ($model) {
+						$itemCargo = ArrayHelper::map(Cargo::find()->all(),
+							'idCargo',
+							function($model) {
+								return $model['descripcion'];
+							}
+							);
+							return $itemCargo[$model->idDepartamento];
+                      },
+               ],
         ],
     ]) ?>
 

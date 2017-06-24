@@ -11,6 +11,7 @@ use app\models\Cargo;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Administrar departamento y cargo';
+$this->params['breadcrumbs'][] = ['label' => 'Docentes', 'url' => ['docente/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="departamento-docente-cargo-index">
