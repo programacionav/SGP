@@ -114,7 +114,7 @@ class DepartamentoController extends Controller
         $directorAnterior=Usuario::find()->where(['idDocente'=>$model->idDocente ])->one();
             if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $usuarioDirector=Usuario::find()->where(['idDocente'=>$model->idDocente ])->one(); //buscar el director nuevo
-             if($usuarioDirector->idRol===2 || $usuarioDirector->idRol===3){
+             if(!($directorAnterior->idDocente===$usuarioDirector->idDocente) && ($usuarioDirector->idRol===2 || $usuarioDirector->idRol===3) ){
                 return $this->render('update', ['model' => $model,'mensaje' => 'El director elegido no es valido']);//recargar el formulario e indicar que el director elegido no es valido
             }else{
                 $usuarioDirector->idRol=2;
