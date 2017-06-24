@@ -36,11 +36,11 @@ use app\models\Rol;
         return $model['descripcion'];
     }
 	);
-    $idRolActual=Yii::$app->user->identity->idRol;
+    /*$idRolActual=Yii::$app->user->identity->idRol;
     if ($idRolActual === 3) {
 		echo $form->field($model, 'idRol')->dropdownList(
         $item,['prompt'=>'Seleccione...'])->label('Rol');   
-    }
+    }*/
      ?>
 
 	<?php
