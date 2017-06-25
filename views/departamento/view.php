@@ -23,13 +23,13 @@ $this->params['breadcrumbs'][] = $this->title;
     if ($idRolActual === 3) {
 		echo Html::a('Modificar', ['update', 'id' => $model->idDepartamento], ['class' => 'btn btn-primary']);
 		echo "	";
-        echo Html::a('Borrar', ['delete', 'id' => $model->idDepartamento], [
+        /*echo Html::a('Borrar', ['delete', 'id' => $model->idDepartamento], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Esta seguro de borrar este Departamento?',
                 'method' => 'post',
             ],
-        ]);
+        ]);*/
 	} ?>
     </p>
 

@@ -46,6 +46,9 @@ class DocenteController extends Controller
                     }
                 ],
                 ],
+					'denyCallback' => function ($rule, $action){
+						return $this->redirect(['usuario/cuenta']);
+					}
             ],[
                 'class' => AccessControl::className(),
                 'only' => ['docdepto'],
@@ -60,6 +63,9 @@ class DocenteController extends Controller
                     }
                 ],
                 ],
+					'denyCallback' => function ($rule, $action){
+						return $this->redirect(['usuario/cuenta']);
+					}
             ],
         ];
     }
