@@ -16,7 +16,7 @@ use app\models\Materia;
 /* @var $model app\models\Programa */
 
 
-
+echo Html::a('Volver', ['index'], ['class' => 'btn btn-danger']);
 $this->title = $model->idPrograma;
 $this->params['breadcrumbs'][] = ['label' => 'Programas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->getTitulo();
@@ -110,7 +110,7 @@ foreach ( $model->observacions as $recorre2) {
 
            if ($model->abierto() && $obsTotal == 0 ){
           echo Html::a('<span class="glyphicon glyphicon-trash"></span>&nbsp;Borrar', ['delete', 'id' => $model->idPrograma,'idCursado' => $model->idCursado], [
-            'class' => 'btn btn-default',
+            'class' => 'btn btn-danger',
             'data' => [
               'confirm' => '¿Esta seguro que desea eliminar el programa?',
               'method' => 'post',
@@ -124,7 +124,9 @@ foreach ( $model->observacions as $recorre2) {
 
       <?php
       //BOTON REVISION
-      if($cantidad == 0){
+      foreach ( Yii::$app->user->identity->idDocente0->designados as $recorre2) {
+        if ($recorre2->idCursado == $model->idCursado && $recorre2->esACargo() == true && $cantidad == 0){
+     
         if($model->abierto()){
         echo  Html::a('<span class="glyphicon glyphicon-ok"></span>&nbsp;Revision', Url::toRoute(['cambiarestado','idPrograma' => $model->idPrograma,'proxEstado'=>4]), [
           'class' => 'btn btn-success',
@@ -132,12 +134,13 @@ foreach ( $model->observacions as $recorre2) {
             'confirm' => 'Esta seguro que desea poner en revision este programa?'],
           ]);}
       }
+      }
           if((Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto() == true ) ){
               if($model->enRevision() == true){
             Modal::begin([
               'header' => 'Nueva observación',
               'headerOptions' => ['class' => 'text-center'],
-              'toggleButton' => ['label' => '<span class="glyphicon glyphicon-plus"></span>&nbsp;Observación','class'=>'btn btn-default'],
+              'toggleButton' => ['label' => '<span class="glyphicon glyphicon-plus"></span>&nbsp;Observación','class'=>'btn btn-success'],
             ]);
             echo '<div class="row">';
             echo '<div class="col-xs-12">';
@@ -147,7 +150,7 @@ foreach ( $model->observacions as $recorre2) {
             echo HTML::textArea('observacion',null,['id' => 'texto-observacion','class' => 'form-control','style' => 'resize:none;']);
             echo '</div>';
             echo '<div class="form-group">';
-            echo '<button type="button" onclick="ctrl.observacion.nueva()"><span class="glyphicon glyphicon-plus"></span>&nbsp;Agregar</button>';
+            echo '<button type="button" onclick="ctrl.observacion.nueva()"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;Agregar</button>';
             echo '</div>';
             ActiveForm::end();
             echo '</div>';
@@ -198,11 +201,46 @@ foreach ( $model->observacions as $recorre2) {
                 elseif(Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto()){
                   $abiertoEsta = $model->enRevision();
                 }
+  ///ver observaciones sec;
+$cantidadObDirector = null;
+             foreach ( $model->observacions as $recorre) {
+  $cantidadObDirector = $recorre->find()
+  ->where(['idEstadoO' => 1])
+  ->andWhere(['idPrograma' => $model->idPrograma])
+  ->count();
+}
+             $alert2 = null;
+
+            if (Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto() && $model->enRevision()) {
+              $alert2 = "<div class='alert alert-info'>";
+              $alert2.= "<strong>Observaciones Recientes</strong><br>";
+
+
+
+              foreach ( $model->observacions as $recorre) {
+
+                if($recorre->idEstadoO == 1){//busca segun el estado de la observacion,TAMBIEN,deberia decetectar que rol esta logueado.
+                  $alert2.="<p >- ".$recorre->observacion."</p>";
+
+                }
+
+              }
+
+
+
+
+
+
+
+
+            }$alert2.="</div>";if($cantidadObDirector > 0){ echo $alert2;};
+
+                //////////////
             $alert = null;
 
             if (($cantidad > 0 && Rol::findOne(Yii::$app->user->identity->idRol)->esDocente() && $model->abierto()) || ($cantidad > 0 && Rol::findOne(Yii::$app->user->identity->idRol)->esJefeDpto() && ($model->enRevision() ||  $model->abierto()) ) || ($cantidad > 0 && Rol::findOne(Yii::$app->user->identity->idRol)->esSecAcademico() && $model->abierto())  ) {
               $alert = "<div class='alert alert-danger'>";
-              $alert.= "<strong>observaciones</strong><br>";
+              $alert.= "<strong>Observaciones a comprobar</strong><br>";
 
 
 
@@ -222,7 +260,11 @@ foreach ( $model->observacions as $recorre2) {
 
 
 
-            }$alert.="</div>"; echo $alert;?>
+            }$alert.="</div>"; echo $alert;
+             
+           
+            
+            ?>
              <?php
              echo "<p style='text-align:right;'> El estado del programa es:<strong> ".$mostrarEstado."</strong></p>"?>
             <table class="table table-bordered">
