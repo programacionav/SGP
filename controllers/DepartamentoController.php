@@ -80,12 +80,12 @@ class DepartamentoController extends Controller
      * @return mixed
      */
     public function actionCreate()
-    {  
-       
+    {
+
         $model = new Departamento();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if(!$usuarioDirector=Usuario::find()->where(['idDocente'=> $model->idDocente])->one()){//buscar el usuario asociado al director
-                return $this->render('update', [
+                return $this->render('create', [
                 'model' => $model,'mensaje'=>'Advertencia: El docente no tiene Usuario Registrado. Ve a Modificar Docente'
                 ]);} //Control de error en Caso de que docente anterior no tenga Usuario
             if($usuarioDirector->idRol===2 || $usuarioDirector->idRol===3){ //verificar que el director elegido ya no sea director de otro departamento
@@ -111,10 +111,10 @@ class DepartamentoController extends Controller
      * @return mixed
      */
     public function actionUpdate($id)
-    {   
-        
+    {
+
         $model = $this->findModel($id);
-        if(!$directorAnterior=Usuario::find()->where(['idDocente'=>$model->idDocente ])->one()){            
+        if(!$directorAnterior=Usuario::find()->where(['idDocente'=>$model->idDocente ])->one()){
                  return $this->render('update', [
                 'model' => $model,'mensaje'=>'Advertencia: El director actual no tiene Usuario Registrado. Ve a Modificar Docente'
                 ]);} //Control de error en Caso de que docente anterior no tenga Usuario
