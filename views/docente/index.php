@@ -60,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
                       $idRolActual=Yii::$app->user->identity->idRol;
                                  if($idRolActual === 3){
                                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>',
-                                      $url, ['title' => Yii::t('app', 'lead-update'),]);
+                                      $url, ['title' => Yii::t('app', 'Modificar'),]);
                                  }
 
             },
