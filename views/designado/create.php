@@ -8,7 +8,7 @@ use yii\helpers\Html;
 $usuario=yii::$app->user->identity;//usuario;
 if(isset($usuario) && $usuario->idRol==2){
 $this->title = 'Nuevo Designado';
-$this->params['breadcrumbs'][] = ['label' => 'Designados', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Cursado N°'.$id_cursado, 'url' => ['cursado/view','id'=>$id_cursado]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="designado-create">
