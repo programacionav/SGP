@@ -36,7 +36,7 @@ use app\models\Rol;
     ['prompt'=>'Seleccione...']
     )->label('Dedicacion'); ?>
 
-    <?= 'Rol por defecto: Rol docente';/* $form->field($modelUsuario, 'idRol')->dropdownList(
+    <?= 'Rol por defecto: Docente';/* $form->field($modelUsuario, 'idRol')->dropdownList(
         $item,
     ['prompt'=>'Seleccione...']
     )->label('Rol'); */?>

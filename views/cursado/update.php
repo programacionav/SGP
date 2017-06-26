@@ -9,8 +9,8 @@ $mat=Materia::find()->where(['idMateria'=>$model->idMateria])->one();
 
 $this->title = 'Modificar Cursado: ' . $model->idCursado;
 $this->params['breadcrumbs'][] = ['label' => 'Cursados', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->idCursado, 'url' => ['view', 'id' => $model->idCursado]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = ['label' => 'Cursado N°'.$model->idCursado, 'url' => ['view', 'id' => $model->idCursado]];
+$this->params['breadcrumbs'][] = 'Actualizar';
 
 echo $this->render('../materia/_view', [
 	'model'=>$mat,

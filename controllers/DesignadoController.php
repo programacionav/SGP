@@ -39,13 +39,7 @@ class DesignadoController extends Controller
   */
   public function actionIndex()
   {
-    $searchModel = new DesignadoSearch();
-    $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-    return $this->render('index', [
-      'searchModel' => $searchModel,
-      'dataProvider' => $dataProvider,
-    ]);
+      return $this->redirect(['cursado/cursados']);
   }
 
   /**
@@ -56,9 +50,7 @@ class DesignadoController extends Controller
   */
   public function actionView($idCursado, $idDocente)
   {
-    return $this->render('view', [
-      'model' => $this->findModel($idCursado, $idDocente),
-    ]);
+    return $this->redirect(['programa/index']);
   }
 
   /**
