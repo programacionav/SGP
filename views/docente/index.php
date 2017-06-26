@@ -56,11 +56,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn',
             'template' => '{view} {update} {create} {indexDDC}',
             'buttons' => [
-                  
+                  'view' => function($url,$model){
+                             return Html::a('<span class="glyphicon glyphicon-eye-open text-info"></span>',
+                              $url, ['title' => Yii::t('app', 'Ver'),]);
+                  },
                   'update' => function ($url, $model) {//los datos del docente solo los puede modificar el secretario
                       $idRolActual=Yii::$app->user->identity->idRol;
                                  if($idRolActual === 3){
-                                       return Html::a('<span class="glyphicon glyphicon-pencil"></span>',
+                                       return Html::a('<span class="glyphicon glyphicon-pencil text-primary"></span>',
                                       $url, ['title' => Yii::t('app', 'Modificar'),]);
                                  }
 
