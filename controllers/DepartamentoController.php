@@ -115,7 +115,18 @@ class DepartamentoController extends Controller
             if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $usuarioDirector=Usuario::find()->where(['idDocente'=>$model->idDocente ])->one(); //buscar el director nuevo
              if(!($directorAnterior->idDocente===$usuarioDirector->idDocente) && ($usuarioDirector->idRol===2 || $usuarioDirector->idRol===3) ){
-                return $this->render('update', ['model' => $model,'mensaje' => 'El director elegido no es valido']);//recargar el formulario e indicar que el director elegido no es valido
+                if($usuarioDirector->idRol===2){
+                $directorInvalido = Docente::find()
+                    ->where(['idDocente'=>$usuarioDirector->idDocente])
+                    ->one();
+                $nombreDeptoDirectorInvalido = Departamento::find()
+                    ->where(['idDocente'=>$usuarioDirector->idDocente])
+                    ->one()
+                    ->nombre;// Obtengo el nombre de Departamento
+                return $this->render('update', ['model' => $model,'mensaje' => $directorInvalido->nombre." ".$directorInvalido->apellido. ' ya es Director del Departamento de '.$nombreDeptoDirectorInvalido]);//recargar el formulario e indicar que el director elegido no es valido
+                }else if($usuarioDirector->idRol===3){
+                    return $this->render('update', ['model' => $model, 'mensaje' =>'El docente tiene Rol de Secretario Academico']);
+                }
             }else{
                 $usuarioDirector->idRol=2;
                 $directorAnterior->idRol=1;
