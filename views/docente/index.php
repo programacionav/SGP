@@ -56,6 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn',
             'template' => '{view} {update} {create} {indexDDC}',
             'buttons' => [
+                  
                   'update' => function ($url, $model) {//los datos del docente solo los puede modificar el secretario
                       $idRolActual=Yii::$app->user->identity->idRol;
                                  if($idRolActual === 3){
@@ -67,7 +68,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'create' => function($url,$model,$key){//HAY QUE MODIFICAR QUE ENVIO DEPENDIENDO SI ES SECRETARIO O JEFE DPTO
                     $idRolActual=Yii::$app->user->identity->idRol;
                     if($idRolActual === 3){//momentaneo,solo lo hago para que se muestre
-                        return Html::a('<span class="glyphicon glyphicon-plus-sign"></span>',
+                        return Html::a('<span class="glyphicon glyphicon-plus-sign text-success"></span>',
                                     ['departamento-docente-cargo/create','idDocente'=>$model->idDocente] , [
                                     'title' => Yii::t('app', 'Anexar departamento y cargo'),]);
                     }
