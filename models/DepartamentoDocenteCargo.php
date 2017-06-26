@@ -33,9 +33,9 @@ class DepartamentoDocenteCargo extends \yii\db\ActiveRecord
         return [
             [['idDocente', 'idDepartamento', 'idCargo'], 'required'],
             //https://stackoverflow.com/questions/27565465/how-to-set-uniqueness-for-multiple-fields-in-activerecord-yii2
-            [['idDepartamento'], 'unique', 'targetAttribute' => ['idDocente', 'idDepartamento'], 'message' => 'El docente ya tiene otro cargo en este Departamento'],
-            [['idDepartamento'], 'unique', 'targetAttribute' => ['idDocente', 'idDepartamento', 'idCargo'], 'message' => 'nada'],
-            [['idCargo'], 'unique', 'targetAttribute' => ['idDocente', 'idDepartamento', 'idCargo'], 'message' => 'El docente ya esta asignado a este departamento con este Cargo'],           
+           // [['idDepartamento'], 'unique', 'targetAttribute' => ['idDocente', 'idDepartamento'], 'message' => 'El docente ya tiene otro cargo en este Departamento'],
+            //[['idDepartamento'], 'unique', 'targetAttribute' => ['idDocente', 'idDepartamento', 'idCargo'], 'message' => 'nada'],
+            //[['idCargo'], 'unique', 'targetAttribute' => ['idDocente', 'idDepartamento', 'idCargo'], 'message' => 'El docente ya esta asignado a este departamento con este Cargo'],           
             [['idDocente', 'idDepartamento', 'idCargo'], 'integer'],
             [['idDocente'], 'exist', 'skipOnError' => true, 'targetClass' => Docente::className(), 'targetAttribute' => ['idDocente' => 'idDocente']],
             [['idDepartamento'], 'exist', 'skipOnError' => true, 'targetClass' => Departamento::className(), 'targetAttribute' => ['idDepartamento' => 'idDepartamento']],
