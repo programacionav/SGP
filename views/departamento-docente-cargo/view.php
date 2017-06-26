@@ -57,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
                'label' => 'Departamento',
                'value' => function ($model) {
 						$itemDepartamento = ArrayHelper::map(Departamento::find()->all(),
-							'idDocente',
+							'idDepartamento',
 							function($model) {
 								return $model['nombre'];
 							}

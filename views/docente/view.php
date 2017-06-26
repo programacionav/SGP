@@ -27,6 +27,15 @@ $this->params['breadcrumbs'][] = $this->title;
     if ($idRolActual === 3) {
 		echo Html::a('Modificar', ['update', 'id' => $model->idDocente], ['class' => 'btn btn-primary']);
 	}?>
+	<?php
+    if ($idRolActual === 3) {
+		//$conteo = count($model->departamentodocentecargos);
+		//echo $conteo;
+		if (count($model->departamentodocentecargos)>0) {
+			echo Html::a('Administrar departamento y cargo', ['departamento-docente-cargo/index','idDocente'=>$model->idDocente], ['class' => 'btn btn-primary']);
+		}
+	}?>
+		
     </p>
 
 
