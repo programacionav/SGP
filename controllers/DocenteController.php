@@ -125,14 +125,27 @@ class DocenteController extends Controller
         $model = new Docente();
         $modelUsuario = new Usuario();
        
-        if ($model->load(Yii::$app->request->post()) &&  $model->save()) { //Compruebo si cargué por post y si se pudo guardar el docente
-            $modelUsuario->idDocente = $model->idDocente;
-            $modelUsuario->idRol=1;//rol docente por defecto
-            $modelUsuario->usuario = $model->cuil;
-            $modelUsuario->clave = md5($model->cuil);
-            $modelUsuario->estado=0;
-            $modelUsuario->save();
-            return $this->redirect(['view', 'id' => $model->idDocente]);
+        if ($model->load(Yii::$app->request->post())  &&  $model->validate()) { //Compruebo si cargué por post y si se pudo guardar el docente
+            $busquedaDocente=Docente::find()->where(['cuil'=>$model->cuil])->all();
+            if(count($busquedaDocente)===0){
+                $model->save();
+                $modelUsuario->idDocente = $model->idDocente;
+                $modelUsuario->idRol=1;//rol docente por defecto
+                $modelUsuario->usuario = $model->cuil;
+                $modelUsuario->clave = md5($model->cuil);
+                $modelUsuario->estado=0;
+               $modelUsuario->save();
+               
+                return $this->redirect(['view', 'id' => $model->idDocente]);
+                 
+            }else{
+                  return $this->render('create', [
+                'model' => $model,
+                'modelUsuario' => $modelUsuario,
+                'mensaje'=>'Este cuil ya se encuentra registrado' 
+                ]);
+             }
+            
         }
         
         /**if ($modelUsuario->load(Yii::$app->request->post()) && $modelUsuario->save())
@@ -144,6 +157,7 @@ class DocenteController extends Controller
             return $this->render('create', [
                 'model' => $model,
                 'modelUsuario' => $modelUsuario,
+                'mensaje' => ''
             ]);
         }
     }

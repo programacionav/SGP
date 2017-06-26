@@ -15,7 +15,7 @@ use app\models\Rol;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'cuil')->textInput(['maxlength' => 11]) ?>
+    <?= $form->field($model, 'cuil')->textInput(['maxlength' => 11]);echo "<p style='color:red'>".$mensaje."</p>" ?>
 
     <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
 
