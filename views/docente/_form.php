@@ -36,14 +36,6 @@ use app\models\Rol;
     ['prompt'=>'Seleccione...']
     )->label('Dedicacion'); ?>
 
-    <?php //Este select envia los datos al modelo Usuario creado en DocenteController
-	$item = ArrayHelper::map(Rol::find()->all(),
-    'idRol',
-    function($modelUsuario) {
-        return $modelUsuario['descripcion'];
-    }
-	);
-     ?>
     <?= 'Rol por defecto: Rol docente';/* $form->field($modelUsuario, 'idRol')->dropdownList(
         $item,
     ['prompt'=>'Seleccione...']

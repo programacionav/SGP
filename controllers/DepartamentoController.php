@@ -113,12 +113,12 @@ class DepartamentoController extends Controller
         $model = $this->findModel($id);
         if(!$directorAnterior=Usuario::find()->where(['idDocente'=>$model->idDocente ])->one()){            
                  return $this->render('update', [
-                'model' => $model,'mensaje'=>'Advertencia: El director actual no tiene Usuario Registrado'
+                'model' => $model,'mensaje'=>'Advertencia: El director actual no tiene Usuario Registrado. Ve a Modificar Docente'
                 ]);} //Control de error en Caso de que docente anterior no tenga Usuario
             if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if(!$usuarioDirector=Usuario::find()->where(['idDocente'=>$model->idDocente ])->one()){
                  return $this->render('update', [
-                'model' => $model,'mensaje'=>'Advertencia: El docente no tiene Usuario Registrado'
+                'model' => $model,'mensaje'=>'Advertencia: El docente no tiene Usuario Registrado. Ve a Modificar Docente'
                 ]);} //Compruebo, en el caso excepcional de que el Docente no tenga Usuario. Sino hago uso de la variable
              if(!($directorAnterior->idDocente===$usuarioDirector->idDocente) && ($usuarioDirector->idRol===2 || $usuarioDirector->idRol===3) ){
                 if($usuarioDirector->idRol===2){

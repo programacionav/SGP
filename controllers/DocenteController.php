@@ -158,14 +158,30 @@ class DocenteController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+
         $modelUsuario = new Usuario();
+        //Error de Usuario, en caso de que no exista
+        if(!Usuario::find()->where(['idDocente'=>$id])->one()){
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                    $modelUsuario->idDocente = $model->idDocente;
+                    $modelUsuario->idRol=1;//rol docente por defecto
+                    $modelUsuario->usuario = $model->cuil;
+                    $modelUsuario->clave = md5($model->cuil);
+                    $modelUsuario->estado=0;
+                    $modelUsuario->save();
+                return $this->redirect(['view', 'id' => $model->idDocente]);
+            } else {
+                return $this->render('update', [
+                    'model' => $model,'mensaje'=>'Advertencia: El docente no tiene usuario registrado<br>Será creado uno por defecto automaticamente al modificar el formulario'
+                ]);
+            }        
+        }//Fin error de Usuario 
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             	return $this->redirect(['view', 'id' => $model->idDocente]);
         } else {
             return $this->render('update', [
-                'model' => $model,
-                'modelUsuario' => $modelUsuario,
+                'model' => $model, 'mensaje' => ""                
             ]);
         }
     }
