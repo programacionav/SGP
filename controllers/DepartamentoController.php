@@ -84,7 +84,10 @@ class DepartamentoController extends Controller
        
         $model = new Departamento();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            $usuarioDirector=Usuario::find()->where(['idDocente'=> $model->idDocente])->one();//buscar el usuario asociado al director
+            if(!$usuarioDirector=Usuario::find()->where(['idDocente'=> $model->idDocente])->one()){//buscar el usuario asociado al director
+                return $this->render('update', [
+                'model' => $model,'mensaje'=>'Advertencia: El docente no tiene Usuario Registrado. Ve a Modificar Docente'
+                ]);} //Control de error en Caso de que docente anterior no tenga Usuario
             if($usuarioDirector->idRol===2 || $usuarioDirector->idRol===3){ //verificar que el director elegido ya no sea director de otro departamento
                 //Estoy en la parte de excepcion por ser director de otro departamento o de ser secretario academico
                 return $this->render('create', ['model' => $model,'mensaje'=>'El director elegido no es válido']);//recargar el formulario e indicar que el director elegido no es valido
@@ -111,11 +114,28 @@ class DepartamentoController extends Controller
     {   
         
         $model = $this->findModel($id);
-        $directorAnterior=Usuario::find()->where(['idDocente'=>$model->idDocente ])->one();
+        if(!$directorAnterior=Usuario::find()->where(['idDocente'=>$model->idDocente ])->one()){            
+                 return $this->render('update', [
+                'model' => $model,'mensaje'=>'Advertencia: El director actual no tiene Usuario Registrado. Ve a Modificar Docente'
+                ]);} //Control de error en Caso de que docente anterior no tenga Usuario
             if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            $usuarioDirector=Usuario::find()->where(['idDocente'=>$model->idDocente ])->one(); //buscar el director nuevo
+            if(!$usuarioDirector=Usuario::find()->where(['idDocente'=>$model->idDocente ])->one()){
+                 return $this->render('update', [
+                'model' => $model,'mensaje'=>'Advertencia: El docente no tiene Usuario Registrado. Ve a Modificar Docente'
+                ]);} //Compruebo, en el caso excepcional de que el Docente no tenga Usuario. Sino hago uso de la variable
              if(!($directorAnterior->idDocente===$usuarioDirector->idDocente) && ($usuarioDirector->idRol===2 || $usuarioDirector->idRol===3) ){
-                return $this->render('update', ['model' => $model,'mensaje' => 'El director elegido no es valido']);//recargar el formulario e indicar que el director elegido no es valido
+                if($usuarioDirector->idRol===2){
+                $directorInvalido = Docente::find()
+                    ->where(['idDocente'=>$usuarioDirector->idDocente])
+                    ->one();
+                $nombreDeptoDirectorInvalido = Departamento::find()
+                    ->where(['idDocente'=>$usuarioDirector->idDocente])
+                    ->one()
+                    ->nombre;// Obtengo el nombre de Departamento
+                return $this->render('update', ['model' => $model,'mensaje' => $directorInvalido->nombre." ".$directorInvalido->apellido. ' ya es Director del Departamento de '.$nombreDeptoDirectorInvalido]);//recargar el formulario e indicar que el director elegido no es valido
+                }else if($usuarioDirector->idRol===3){
+                    return $this->render('update', ['model' => $model, 'mensaje' =>'El docente tiene Rol de Secretario Academico']);
+                }
             }else{
                 $usuarioDirector->idRol=2;
                 $directorAnterior->idRol=1;

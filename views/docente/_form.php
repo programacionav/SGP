@@ -15,7 +15,7 @@ use app\models\Rol;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'cuil')->textInput(['maxlength' => 11]) ?>
+    <?= $form->field($model, 'cuil')->textInput(['maxlength' => 11]);echo "<p style='color:red'>".$mensaje."</p>" ?>
 
     <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
 
@@ -36,15 +36,7 @@ use app\models\Rol;
     ['prompt'=>'Seleccione...']
     )->label('Dedicacion'); ?>
 
-    <?php //Este select envia los datos al modelo Usuario creado en DocenteController
-	$item = ArrayHelper::map(Rol::find()->all(),
-    'idRol',
-    function($modelUsuario) {
-        return $modelUsuario['descripcion'];
-    }
-	);
-     ?>
-    <?= 'Rol por defecto: Rol docente';/* $form->field($modelUsuario, 'idRol')->dropdownList(
+    <?= 'Rol por defecto: Docente';/* $form->field($modelUsuario, 'idRol')->dropdownList(
         $item,
     ['prompt'=>'Seleccione...']
     )->label('Rol'); */?>
