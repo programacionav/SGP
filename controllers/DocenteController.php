@@ -124,7 +124,7 @@ class DocenteController extends Controller
     {
         $model = new Docente();
         $modelUsuario = new Usuario();
-       
+
         if ($model->load(Yii::$app->request->post())  &&  $model->validate()) { //Compruebo si cargué por post y si se pudo guardar el docente
             $busquedaDocente=Docente::find()->where(['cuil'=>$model->cuil])->all();
             if(count($busquedaDocente)===0){
@@ -135,19 +135,19 @@ class DocenteController extends Controller
                 $modelUsuario->clave = md5($model->cuil);
                 $modelUsuario->estado=0;
                $modelUsuario->save();
-               
+
                 return $this->redirect(['view', 'id' => $model->idDocente]);
-                 
+
             }else{
                   return $this->render('create', [
                 'model' => $model,
                 'modelUsuario' => $modelUsuario,
-                'mensaje'=>'Este cuil ya se encuentra registrado' 
+                'mensaje'=>'Este cuil ya se encuentra registrado'
                 ]);
              }
-            
+
         }
-        
+
         /**if ($modelUsuario->load(Yii::$app->request->post()) && $modelUsuario->save())
         { //Compruebo si se pudo cargar por post y guardar el usuario del Docente
 				    return $this->redirect(['view', 'id' => $model->idDocente]);
@@ -186,16 +186,16 @@ class DocenteController extends Controller
                 return $this->redirect(['view', 'id' => $model->idDocente]);
             } else {
                 return $this->render('update', [
-                    'model' => $model,'mensaje'=>'Advertencia: El docente no tiene usuario registrado<br>Será creado uno por defecto automaticamente al modificar el formulario'
+                    'model' => $model,'mensaje' => "", 'mensajeUsuario'=>'Advertencia: El docente no tiene usuario registrado<br>Será creado uno por defecto automaticamente al modificar el formulario'
                 ]);
-            }        
-        }//Fin error de Usuario 
+            }
+        }//Fin error de Usuario
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             	return $this->redirect(['view', 'id' => $model->idDocente]);
         } else {
             return $this->render('update', [
-                'model' => $model, 'mensaje' => ""                
+                'model' => $model,'mensaje' => "", 'mensajeUsuario' => ""
             ]);
         }
     }
