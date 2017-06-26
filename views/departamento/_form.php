@@ -20,12 +20,19 @@ use app\models\Departamento;
 
 
 	<?php
+
 	$item = ArrayHelper::map(Docente::find()->all(), //Verficar si funciona
     'idDocente',
     function($model) {
-     	return $model['nombre'].' '.$model['apellido']; 
+		foreach ($model->departamentos as $valor) {
+			if($valor->idDocente==$model->idDocente){
+				return $model['nombre'].' '.$model['apellido']."------------------------Director de ".$valor->nombre;
+			}
+		}
+     	return $model['nombre'].' '.$model['apellido'];
     }
 	);
+	
 
     $itemFacultad = ArrayHelper::map(Facultad::find()->all(),
     'idFacultad',
@@ -57,6 +64,7 @@ use app\models\Departamento;
         $itemFacultad,
     ['prompt'=>'Seleccione la facultad']
     )->label('Facultad'); ?>
+
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Modificar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
