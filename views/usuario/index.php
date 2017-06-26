@@ -27,6 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			[
              'attribute' => 'idDocente',
              'label' => 'Docente',
+            'filter' => Docente::listaDeNombres(),
              'value'=> function ($model) {
 						$itemDocente = ArrayHelper::map(Docente::find()->all(),
 							'idDocente',
@@ -40,6 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			[
              'attribute' => 'idRol',
              'label' => 'Rol',
+            'filter' => Rol::listaDeNombres(),
              'value'=> function ($model) {
 						$itemRol = ArrayHelper::map(Rol::find()->all(),
 							'idRol',

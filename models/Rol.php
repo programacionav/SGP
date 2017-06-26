@@ -22,6 +22,13 @@ class Rol extends \yii\db\ActiveRecord
         return 'rol';
     }
 
+    public static function listaDeNombres() {
+        $modelos = static::find()->all();
+        foreach ($modelos as $modelo) {
+            $listaDeNombres[$modelo->idRol] = $modelo->descripcion;
+        }
+        return $listaDeNombres; //Devuelve un arreglo con los nombre de cada facultad y su indice corresponde con el idFacultad
+    }
     /**
      * @inheritdoc
      */

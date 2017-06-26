@@ -39,7 +39,7 @@ class Docente extends \yii\db\ActiveRecord
     public static function listaDeNombres() {
         $modelos = static::find()->all();
         foreach ($modelos as $modelo) {
-            $listaDeNombres[$modelo->idDocente] = $modelo->nombre;
+            $listaDeNombres[$modelo->idDocente] = $modelo->nombre." ".$modelo->apellido;
         }
         return $listaDeNombres; //Devuelve un arreglo con los nombre de cada facultad y su indice corresponde con el idFacultad
     }
