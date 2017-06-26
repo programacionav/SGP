@@ -4,12 +4,14 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Cursado;
+use app\models\Usuario;
 use app\models\CursadoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\Materia;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 /**
 
  * CursadoController implements the CRUD actions for Cursado model.
@@ -19,15 +21,31 @@ class CursadoController extends Controller
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
+     public function behaviors()
+     {
+       return [
+         'verbs' => [
+           'class' => VerbFilter::className(),
+           'actions' => [
+             'delete' => ['POST'],
+           ],
+         ],
+        /* 'access' => [
+           'class' => AccessControl::className(),
+           'only' => ['create','update','delete'],
+           'rules' => [
+             [
+               'actions' => ['create','update','delete'],
+               'allow' => true,
+               'roles' => ['@'],
+               'matchCallback' => function ($rule, $action) {
+                 $valid_roles = [Usuario::ROLE_JEFE_DEPARTAMENTO];
+                 print_r($valid_roles);
+                 return Usuarios::roleInArray($valid_roles);
+               }
+             ],
+           ],
+         ],*/
         ];
     }
 
@@ -66,7 +84,7 @@ class CursadoController extends Controller
           $searchModel = new CursadoSearch();
           $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        
+
 
           if(isset(Yii::$app->request->queryParams['CursadoSearch']['idMateria'])){
             $modelMateria=Materia::findOne(Yii::$app->request->queryParams['CursadoSearch']['idMateria']);
