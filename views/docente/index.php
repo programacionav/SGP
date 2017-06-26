@@ -80,7 +80,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     if($idRolActual === 3){//momentaneo
                         return Html::a('<span class="glyphicon glyphicon-share-alt"></span>',
                          ['departamento-docente-cargo/index','idDocente'=>$model->idDocente] ,
-                         ['title' => Yii::t('app','Modificar o eliminar departamento y cargo'),]);
+                         ['title' => Yii::t('app','Modificar Departamento/Cargo'),]);
                     }
                     if ($idRolActual===2) {
                          //derrollar esto en una tarea distinta
