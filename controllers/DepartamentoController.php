@@ -84,7 +84,10 @@ class DepartamentoController extends Controller
        
         $model = new Departamento();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            $usuarioDirector=Usuario::find()->where(['idDocente'=> $model->idDocente])->one();//buscar el usuario asociado al director
+            if(!$usuarioDirector=Usuario::find()->where(['idDocente'=> $model->idDocente])->one()){//buscar el usuario asociado al director
+                return $this->render('update', [
+                'model' => $model,'mensaje'=>'Advertencia: El docente no tiene Usuario Registrado. Ve a Modificar Docente'
+                ]);} //Control de error en Caso de que docente anterior no tenga Usuario
             if($usuarioDirector->idRol===2 || $usuarioDirector->idRol===3){ //verificar que el director elegido ya no sea director de otro departamento
                 //Estoy en la parte de excepcion por ser director de otro departamento o de ser secretario academico
                 return $this->render('create', ['model' => $model,'mensaje'=>'El director elegido no es válido']);//recargar el formulario e indicar que el director elegido no es valido
