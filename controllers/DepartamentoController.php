@@ -111,7 +111,10 @@ class DepartamentoController extends Controller
     {   
         
         $model = $this->findModel($id);
-        $directorAnterior=Usuario::find()->where(['idDocente'=>$model->idDocente ])->one();
+        if(!$directorAnterior=Usuario::find()->where(['idDocente'=>$model->idDocente ])->one()){            
+                 return $this->render('update', [
+                'model' => $model,'mensaje'=>'Advertencia: El director actual no tiene Usuario Registrado'
+                ]);} //Control de error en Caso de que docente anterior no tenga Usuario
             if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if(!$usuarioDirector=Usuario::find()->where(['idDocente'=>$model->idDocente ])->one()){
                  return $this->render('update', [

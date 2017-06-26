@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						$itemDocente = ArrayHelper::map(Docente::find()->all(),
 							'idDocente',
 							function($model) {
-								return $model['nombre'];
+								return $model['nombre'].' '.$model['apellido'];
 							}
 							);
 							return $itemDocente[$model->idDocente];
