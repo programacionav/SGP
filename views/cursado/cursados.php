@@ -38,11 +38,11 @@ use app\models\Programa;
 			['class' => 'yii\grid\ActionColumn'
 			,
 			'contentOptions'=>['style'=>'width:250px;height:80px;'],
-			'template' => '{ver}{view}{programa}',
+			'template' => '{ver} {view} {programa}',
 
 			'buttons' => [
 				'ver'=> function ($url, $model, $key) {
-					return Html::a('Ver Cursado',['view','id'=>$model->idCursado ],['class'=>'btn btn-primary']);
+					return Html::a('Ver Cursado',['view','id'=>$model->idCursado ],['class'=>'btn btn-info']);
 				},
 
 				'programa'=> function ($url, $model, $key) {
@@ -61,7 +61,7 @@ use app\models\Programa;
 					$fFin=date("Y",strtotime($model->fechaFin));
 					$anioActual=date("Y");
 					if($docenteACargo['idDocente'] == $usuario->idDocente0->idDocente && count($programaCursado)!=1/*&& ($fFin >=$anioActual)*/  ){
-						return Html::a('Crear Programa',['programa/create','idCursado'=>$model->idCursado ],['class'=>'btn btn-primary']);
+						return Html::a('Crear Programa',['programa/create','idCursado'=>$model->idCursado ],['class'=>'btn btn-success']);
 					}
 				},
 				'view'=> function ($url, $model, $key) {

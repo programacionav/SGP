@@ -33,16 +33,10 @@ use app\models\Cursado;
   //print_r($itemDptos);
 
   $usuario=yii::$app->user->identity;//usuario;
-  //$docente= $usuario->idDocente0;
-  //print_r($docente);Departamento::findOne();
   $docenteDeUsuario = $usuario->idDocente0;
-  //print_r($docenteDeUsuario);
-  //echo "el idDocente del Usuario es: ".$docenteDeUsuario->idDocente;
   $departamentoDeDocente = Departamento::findOne([
     'idDocente' =>$docenteDeUsuario->idDocente
   ]);
-  //print_r($departamentoDeDocente);
-  //echo "el idDepartamento del docente es: ".$departamentoDeDocente->idDepartamento;
   $model_dpto->idDepartamento= $departamentoDeDocente->idDepartamento;
   echo $form->field($model_dpto,'idDepartamento')->dropdownList(
   $itemDptos,
@@ -83,6 +77,7 @@ use app\models\Cursado;
 
   <div class="form-group">
     <?= Html::submitButton($model->isNewRecord ? 'Asignar Docente' : 'Actualizar Docente', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    <?= Html::a('Volver',['cursado/view','id'=>$model->idCursado ],['class'=>'btn btn-default']); ?>
   </div>
 
   <?php ActiveForm::end(); ?>

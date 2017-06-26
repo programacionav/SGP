@@ -19,7 +19,8 @@ if(count($designados) != 0){
     echo "<td>".$designacion->idDocente0->mail."</td>";
     echo "<td>".(($designacion->funcion == 'acargo')? "A cargo":"Ayudante")."</td>";
     echo "<td>";
-    echo Html::a('Ver',['docente/view','id'=>$designacion->idDocente0->idDocente],['class' =>'btn btn-primary']);
+    echo Html::a('Ver',['docente/view','id'=>$designacion->idDocente0->idDocente],['class' =>'btn btn-info']);
+    echo " ";
     if(isset($usuario) && $usuario->idRol==2){
     echo Html::a('Desasignar', ['designado/delete', 'idCursado' => $designacion->idCursado0->idCursado, 'idDocente' => $designacion->idDocente0->idDocente], [
         'class' => 'btn btn-danger',
