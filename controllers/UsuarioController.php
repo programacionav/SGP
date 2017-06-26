@@ -120,6 +120,7 @@ class UsuarioController extends Controller
             return $this->redirect(['cuenta', 'id' => $model->idUsuario]);
         } else {
             return $this->render('contrasenia', [
+                $model->clave = "",
                 'model' => $model,
             ]);
         }
