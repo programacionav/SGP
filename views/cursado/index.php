@@ -22,6 +22,10 @@ $this->params['breadcrumbs'][] = $this->title;
 $usuario=yii::$app->user->identity;//usuario;
 //$usuario=Yii::$app->user->getId();//usuario;
 
+echo Html::a(Html::encode('Volver'), ['plan/view', 'id'=>$modelMateria->idPlan], ['class' => 'btn btn-default']);
+echo "<br />";
+echo "<br />";
+
 
 
 echo $this->render('../materia/_view', [
@@ -100,7 +104,7 @@ if(isset($usuario)){
 							return Html::a('Ver Programa',['programa/view','id'=>$programaCursado->idPrograma ],['class'=>'btn btn-primary']);
 						}
 					}
-					
+
 				},
 
 			]
@@ -112,4 +116,7 @@ if(isset($usuario)){
 
 ]);
 
-}?></div>
+}
+
+?>
+</div>

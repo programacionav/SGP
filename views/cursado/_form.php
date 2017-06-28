@@ -59,7 +59,7 @@ print_r($get);
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Modificar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-         <?= Html::a('Volver',['cursado/view','id'=>$model->idCursado ],['class'=>'btn btn-default']); ?>
+         <?= Html::a(Html::encode('Volver'), ['cursado/index', 'CursadoSearch[idMateria]'=>$model->idMateria], ['class' => 'btn btn-default']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
