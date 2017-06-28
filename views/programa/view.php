@@ -17,7 +17,7 @@ use app\models\Materia;
 
 
 echo Html::a('Volver', ['index'], ['class' => 'btn btn-danger']);
-$this->title = $model->idPrograma;
+$this->title = $model->getTitulo();
 $this->params['breadcrumbs'][] = ['label' => 'Programas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->getTitulo();
 ?>
