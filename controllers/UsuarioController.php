@@ -38,7 +38,7 @@ class UsuarioController extends Controller
 	'roles' => ['@'],
 	'matchCallback' => function ($rule, $action) {
 		return $this->redirect(['cuenta']);
-		}  	
+		}
 	],
 	[
 	'actions' => ['update','delete','index','view'],
@@ -48,13 +48,13 @@ class UsuarioController extends Controller
 		$valid_roles = [Usuario::ROLE_SECRETARIO_ACADEMICO];
 		return Usuario::roleInArray($valid_roles);
 		//$this->redirect(['cuenta']);
-		}  	
+		}
 	],
-          
+
 ],
 	'denyCallback' => function ($rule, $action){
 		return $this->redirect(['cuenta']);
-	}  
+	}
 ],
         ];
     }
@@ -113,13 +113,14 @@ class UsuarioController extends Controller
     public function actionContrasenia($id)
     {
         $model = $this->findModel($id);
-     
+
         if ($model->load(Yii::$app->request->post())) {
             $model->clave=md5(Yii::$app->request->post()["Usuario"]["clave"]);
             $model->save();
             return $this->redirect(['cuenta', 'id' => $model->idUsuario]);
         } else {
             return $this->render('contrasenia', [
+                $model->clave = "",
                 'model' => $model,
             ]);
         }
@@ -158,6 +159,7 @@ class UsuarioController extends Controller
             return $this->redirect(['view', 'id' => $model->idUsuario]);
         } else {
             return $this->render('update', [
+                $model->clave ="",
                 'model' => $model,
             ]);
         }
@@ -172,7 +174,7 @@ class UsuarioController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-      
+
         return $this->redirect(['index']);
     }
     public function actionDesactivarUsuario($id){
