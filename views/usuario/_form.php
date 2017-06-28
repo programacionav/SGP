@@ -22,15 +22,15 @@ use app\models\Rol;
     }
 	);
 	
-    $idRolActual=Yii::$app->user->identity->idRol;
+    /*$idRolActual=Yii::$app->user->identity->idRol;
     if ($idRolActual === 3) {
 		echo $form->field($model, 'idDocente')->dropdownList(
         $item,['prompt'=>'Seleccione...'])->label('Docente');   
-    }
+    }*/
     ?>
 	
 	<?php
-	$item = ArrayHelper::map(Rol::find()->all(),
+	/*$item = ArrayHelper::map(Rol::find()->all(),
     'idRol',
     function($model) {
         return $model['descripcion'];
