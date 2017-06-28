@@ -137,11 +137,14 @@ class DepartamentoController extends Controller
                     return $this->render('update', ['model' => $model, 'mensaje' =>'El docente tiene Rol de Secretario Academico']);
                 }
             }else{
+                if($directorAnterior->idDocente!=$usuarioDirector->idDocente){
                 $usuarioDirector->idRol=2;
                 $directorAnterior->idRol=1;
+                }
                 $usuarioDirector->save(); //guardar en la base de datos
                 $directorAnterior->save();
                 $model->save();
+                
                 return $this->redirect(['view', 'id' => $model->idDepartamento]);
             }
         } else {
