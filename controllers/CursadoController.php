@@ -30,6 +30,24 @@ class CursadoController extends Controller
              'delete' => ['POST'],
            ],
          ],
+         'access' => [
+               'class' => AccessControl::className(),
+               'only' => ['create','update','delete'],
+               'rules' => [
+               [
+               'actions' => ['create','update','delete'],
+               'allow' => true,
+               'roles' => ['@'],
+               'matchCallback' => function ($rule, $action) {
+                   $valid_roles = [Usuario::ROLE_JEFE_DEPARTAMENTO];
+                   return Usuario::roleInArray($valid_roles);
+                   }
+               ],
+               ],
+         'denyCallback' => function ($rule, $action){
+           return $this->redirect(['programa/index']);
+         }
+        ]
         /* 'access' => [
            'class' => AccessControl::className(),
            'only' => ['create','update','delete'],

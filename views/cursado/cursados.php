@@ -71,7 +71,7 @@ use app\models\Programa;
 
 					$usuario=yii::$app->user->identity;
 					if($usuario->idRol==1||$usuario->idRol==2||$usuario->idRol==3){
-						if(count($programaCursado)==1){
+						if(count($programaCursado)==1 && ($programaCursado->publicado())){ //Docente común si esta publicado
 							return Html::a('Ver Programa',['programa/view','id'=>$programaCursado->idPrograma ],['class'=>'btn btn-primary']);
 						}
 					}

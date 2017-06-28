@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Designado;
 use app\models\Cursado;
+use app\models\Usuario;
 use app\models\DesignadoSearch;
 use app\models\Departamento;
 use app\models\DepartamentoDocenteCargo;
@@ -13,6 +14,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
+use yii\filters\AccessControl;
 /**
 * DesignadoController implements the CRUD actions for Designado model.
 */
@@ -30,6 +32,24 @@ class DesignadoController extends Controller
           'delete' => ['POST'],
         ],
       ],
+       'access' => [
+             'class' => AccessControl::className(),
+             'only' => ['create','update','delete'],
+             'rules' => [
+             [
+             'actions' => ['create','update','delete'],
+             'allow' => true,
+             'roles' => ['@'],
+             'matchCallback' => function ($rule, $action) {
+                 $valid_roles = [Usuario::ROLE_JEFE_DEPARTAMENTO];
+                 return Usuario::roleInArray($valid_roles);
+                 }
+             ],
+             ],
+       'denyCallback' => function ($rule, $action){
+         return $this->redirect(['programa/index']);
+       }
+      ]
     ];
   }
 
@@ -83,7 +103,7 @@ class DesignadoController extends Controller
   */
   public function actionUpdate($idCursado, $idDocente)
   {
-    $model = $this->findModel($idCursado, $idDocente);
+    /*$model = $this->findModel($idCursado, $idDocente);
 
     if ($model->load(Yii::$app->request->post()) && $model->save()) {
       return $this->redirect(['view', 'idCursado' => $model->idCursado, 'idDocente' => $model->idDocente]);
@@ -91,7 +111,8 @@ class DesignadoController extends Controller
       return $this->render('update', [
         'model' => $model,
       ]);
-    }
+    }*/
+    return $this->redirect(['programa/index']);
   }
 
   /**
